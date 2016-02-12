@@ -17,9 +17,9 @@ namespace cycle_analysis.Domain.Infrastructure
     {
         private bool isDisposed;
 
-        ~Disposable()
+        public Disposable()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()

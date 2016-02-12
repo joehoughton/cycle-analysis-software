@@ -31,12 +31,6 @@ namespace cycle_analysis.Web.Infrastructure.Core
             _unitOfWork = unitOfWork;
         }
 
-        public ApiControllerBase(IDataRepositoryFactory dataRepositoryFactory, IErrorRepository errorsRepository, IUnitOfWork unitOfWork)
-        {
-            _errorsRepository = errorsRepository;
-            _unitOfWork = unitOfWork;
-        }
-
         protected HttpResponseMessage CreateHttpResponse(HttpRequestMessage request, Func<HttpResponseMessage> function)
         {
             HttpResponseMessage response = null;

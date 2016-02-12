@@ -57,14 +57,11 @@
     <Compile Include="Error\IErrorRepository.cs" />
     <Compile Include="Error\Models\Error.cs" />
     <Compile Include="Error\Mapping\ErrorMap.cs" />
-    <Compile Include="Generic\IEntityBase.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Repositories\EntityBaseRepository.cs" />
-    <Compile Include="Repositories\IEntityBaseRepository.cs" />
     <Compile Include="Role\IRoleRepository.cs" />
     <Compile Include="Role\Mapping\RoleMap.cs" />
     <Compile Include="Role\RoleRepository.cs" />

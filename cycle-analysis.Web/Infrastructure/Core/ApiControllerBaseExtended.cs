@@ -24,13 +24,11 @@ namespace cycle_analysis.Web.Infrastructure.Core
     public class ApiControllerBaseExtended : ApiController
     {
         protected List<Type> _requiredRepositories;
-        protected readonly IDataRepositoryFactory _dataRepositoryFactory;
         protected IErrorRepository _errorsRepository;
         protected IUnitOfWork _unitOfWork;
 
-        public ApiControllerBaseExtended(IDataRepositoryFactory dataRepositoryFactory, IUnitOfWork unitOfWork)
+        public ApiControllerBaseExtended( IUnitOfWork unitOfWork)
         {
-            _dataRepositoryFactory = dataRepositoryFactory;
             _unitOfWork = unitOfWork;
         }
 

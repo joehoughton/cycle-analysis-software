@@ -20,7 +20,6 @@ namespace cycle_analysis.Web
     using cycle_analysis.Domain.Context;
     using cycle_analysis.Domain.Error;
     using cycle_analysis.Domain.Infrastructure;
-    using cycle_analysis.Domain.Repositories;
     using cycle_analysis.Domain.Role;
     using cycle_analysis.Domain.User;
     using cycle_analysis.Services;
@@ -51,7 +50,6 @@ namespace cycle_analysis.Web
             builder.RegisterType<CycleAnalysisContext>().As<DbContext>().InstancePerRequest();
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
-            builder.RegisterGeneric(typeof(EntityBaseRepository<>)).As(typeof(IEntityBaseRepository<>)).InstancePerRequest();
 
             // Repositories
             builder.RegisterType<ErrorRepository>().As<IErrorRepository>().InstancePerRequest();
