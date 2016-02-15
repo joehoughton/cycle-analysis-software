@@ -14,6 +14,7 @@ namespace cycle_analysis.Web
     using System.Configuration;
     using System.Data.Entity;
     using System.Reflection;
+    using System.Web;
     using System.Web.Http;
     using Autofac;
     using Autofac.Integration.WebApi;
@@ -25,6 +26,7 @@ namespace cycle_analysis.Web
     using cycle_analysis.Domain.User;
     using cycle_analysis.Services;
     using cycle_analysis.Services.Abstract;
+    using cycle_analysis.Web.Providers;
 
     public class AutofacWebapiConfig
     {
@@ -47,6 +49,10 @@ namespace cycle_analysis.Web
                           .As<CycleAnalysisContext>()
                           .WithParameter("connectionString", ConfigurationManager.ConnectionStrings["CycleAnalysis"].ConnectionString)
                           .InstancePerLifetimeScope();
+
+            builder.Register(c => new HttpContextWrapper(HttpContext.Current)).As<HttpContextBase>().InstancePerLifetimeScope();
+            builder.Register(ctx => HttpContext.Current).As<HttpContext>().InstancePerLifetimeScope();
+            builder.RegisterType<CurrentUserProvider>().As<ICurrentUserProvider>().InstancePerRequest();
 
             builder.RegisterType<CycleAnalysisContext>().As<DbContext>().InstancePerRequest();
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();

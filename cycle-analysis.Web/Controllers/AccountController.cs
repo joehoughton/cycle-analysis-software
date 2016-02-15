@@ -18,6 +18,7 @@ namespace cycle_analysis.Web.Controllers
     using System.Web.Http;
     using cycle_analysis.Domain.Error;
     using cycle_analysis.Domain.Infrastructure;
+    using cycle_analysis.Domain.User;
     using cycle_analysis.Domain.User.Models;
     using cycle_analysis.Services.Abstract;
     using cycle_analysis.Services.Utilities;
@@ -29,11 +30,13 @@ namespace cycle_analysis.Web.Controllers
     public class AccountController : ApiControllerBase
     {
         private readonly IMembershipService _membershipService;
+        private readonly ICurrentUserProvider _currentUserProvider;
 
-        public AccountController(IMembershipService membershipService, IErrorRepository _errorsRepository, IUnitOfWork _unitOfWork)
+        public AccountController(IMembershipService membershipService, IErrorRepository _errorsRepository, IUnitOfWork _unitOfWork, ICurrentUserProvider currentUserProvider)
         : base(_errorsRepository, _unitOfWork)
         {
             _membershipService = membershipService;
+            _currentUserProvider = currentUserProvider;
         }
 
         [AllowAnonymous]
@@ -55,6 +58,7 @@ namespace cycle_analysis.Web.Controllers
 
                     if (_userContext.User != null)
                     {
+                        var currentUser = _currentUserProvider.Get(); // value is set here, but not in SessionController
                         response = request.CreateResponse(HttpStatusCode.OK, new { success = true });
                     }
                     else

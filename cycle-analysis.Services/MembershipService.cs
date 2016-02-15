@@ -14,7 +14,9 @@ namespace cycle_analysis.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Security.Principal;
+    using System.Threading;
     using cycle_analysis.Domain.Infrastructure;
     using cycle_analysis.Domain.Role;
     using cycle_analysis.Domain.Role.Models;
@@ -22,6 +24,7 @@ namespace cycle_analysis.Services
     using cycle_analysis.Domain.User.Models;
     using cycle_analysis.Services.Abstract;
     using cycle_analysis.Services.Utilities;
+    using System.Web;
 
     public class MembershipService : IMembershipService
     {
@@ -42,7 +45,6 @@ namespace cycle_analysis.Services
         }
 
         #region IMembershipService Implementation
-
         public MembershipContext ValidateUser(string username, string password)
         {
             var membershipCtx = new MembershipContext();
@@ -54,9 +56,14 @@ namespace cycle_analysis.Services
                 membershipCtx.User = user;
                 
                 var identity = new GenericIdentity(user.Username);
+                identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString())); // add current user Id to GenericIdentity Claims
+
                 membershipCtx.Principal = new GenericPrincipal(
                     identity,
                     userRoles.Select(x => x.Name).ToArray());
+
+                Thread.CurrentPrincipal = membershipCtx.Principal;
+                HttpContext.Current.User = membershipCtx.Principal;
             }
 
             return membershipCtx;

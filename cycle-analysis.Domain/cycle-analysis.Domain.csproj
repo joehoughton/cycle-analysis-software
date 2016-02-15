@@ -68,11 +68,13 @@
     <Compile Include="Role\IRoleRepository.cs" />
     <Compile Include="Role\Mapping\RoleMap.cs" />
     <Compile Include="Role\RoleRepository.cs" />
+    <Compile Include="User\ICurrentUserProvider.cs" />
     <Compile Include="User\IUserRepository.cs" />
     <Compile Include="User\IUserRoleRepository.cs" />
     <Compile Include="User\Mapping\UserMap.cs" />
     <Compile Include="User\Mapping\UserRoleMap.cs" />
     <Compile Include="Role\Models\Role.cs" />
+    <Compile Include="User\Models\CurrentUserDetail.cs" />
     <Compile Include="User\Models\User.cs" />
     <Compile Include="User\Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
