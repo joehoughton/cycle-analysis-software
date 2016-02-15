@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('CycleAnalysis', ['common.core', 'common.ui'])
+    angular.module('cycleAnalysis', ['common.core', 'common.ui'])
         .config(config)
         .run(run);
 
@@ -19,6 +19,24 @@
         .when("/register", {
           templateUrl: "scripts/spa/account/register.html",
           controller: "registerCtrl"
+        })
+        .when("/athletes", {
+          templateUrl: "scripts/spa/athletes/athletes.html",
+          controller: "athletesCtrl"
+        })
+        .when("/athletes/add", {
+          templateUrl: "scripts/spa/athletes/add.html",
+          controller: "athleteAddCtrl",
+          resolve: { isAuthenticated: isAuthenticated }
+        })
+        .when("/athletes/:id", {
+          templateUrl: "scripts/spa/athletes/details.html",
+          controller: "athleteDetailsCtrl",
+          resolve: { isAuthenticated: isAuthenticated }
+        })
+        .when("/athletes/edit/:id", {
+          templateUrl: "scripts/spa/athletes/edit.html",
+          controller: "athleteEditCtrl"
         });
     }
 

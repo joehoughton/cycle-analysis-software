@@ -58,7 +58,11 @@ namespace cycle_analysis.Web
                 "~/Scripts/spa/account/loginCtrl.js",
                 "~/Scripts/spa/account/registerCtrl.js",
                 "~/Scripts/spa/home/rootCtrl.js",
-                "~/Scripts/spa/home/indexCtrl.js"));
+                "~/Scripts/spa/home/indexCtrl.js",
+                "~/Scripts/spa/athletes/athletesCtrl.js",
+                "~/Scripts/spa/athletes/athleteAddCtrl.js",
+                "~/Scripts/spa/athletes/athleteDetailsCtrl.js",
+                "~/Scripts/spa/athletes/athleteEditCtrl.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/content/css/site.css",

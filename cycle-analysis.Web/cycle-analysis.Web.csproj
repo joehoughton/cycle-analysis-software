@@ -155,11 +155,21 @@
     <Content Include="Content\css\toastr.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\athletes\hamish.jpg" />
+    <Content Include="Content\images\athletes\unknown.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\spa\account\registerCtrl.js" />
     <Content Include="Scripts\spa\account\register.html" />
     <Content Include="Scripts\spa\app.js" />
     <Content Include="Scripts\spa\account\loginCtrl.js" />
+    <Content Include="Scripts\spa\athletes\add.html" />
+    <Content Include="Scripts\spa\athletes\athleteAddCtrl.js" />
+    <Content Include="Scripts\spa\athletes\athleteDetailsCtrl.js" />
+    <Content Include="Scripts\spa\athletes\athleteEditCtrl.js" />
+    <Content Include="Scripts\spa\athletes\athletes.html" />
+    <Content Include="Scripts\spa\athletes\athletesCtrl.js" />
+    <Content Include="Scripts\spa\athletes\details.html" />
+    <Content Include="Scripts\spa\athletes\edit.html" />
     <Content Include="Scripts\spa\modules\common.ui.js" />
     <Content Include="Scripts\spa\home\indexCtrl.js" />
     <Content Include="Scripts\spa\home\rootCtrl.js" />
@@ -208,6 +218,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AthletesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -250,7 +261,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\images\" />
     <Folder Include="Scripts\db\" />
   </ItemGroup>
   <ItemGroup>

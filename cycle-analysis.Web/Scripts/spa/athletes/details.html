@@ -1,0 +1,91 @@
+﻿<hr/>
+
+<div class="row">
+    <div class="text-center col-xs-12">
+        <div class="btn-group">
+            <button type="button" ng-click="openSessionDialog();" class="btn btn-sm btn-primary">Add session<i class="fa fa-bicycle pull-right"></i></button>
+            <a href="#/athletes/edit/{{athlete.Id}}" class="btn btn-sm btn-warning">Edit athlete<i class="fa fa-pencil-square-o pull-right"></i></a>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>{{athlete.Title}}</h5>
+            </div>
+            <div class="panel-body" ng-if="!loadingAthlete">
+                <div class="media">
+                    <a class="pull-right" title="View {{athlete.Title}} details">
+                        <img class="media-object" height="120" ng-src="../../Content/images/athletes/{{athlete.Image}}" alt="" />
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{athlete.FirstName}} {{athlete.LastName}}</h4>
+                        Registered: <strong><i>{{athlete.RegistrationDate | date:'mediumDate'}}</i></strong>
+                        <br/>
+                        Weight: <strong>{{athlete.Weight}} kg</strong>
+                        <br />
+                        Lactate Threshold: <strong>{{athlete.LactateThreshold}} watts</strong>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="loadingAthlete">
+                <div class="col-xs-4"></div>
+                <div class="col-xs-4">
+                    <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Loading athlete data...</label>
+                </div>
+                <div class="col-xs-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="panel panel-default shortPanel">
+            <div class="panel-heading clearfix">
+                <h5 class="pull-left" style="padding-right: 10px">Sessions</h5>
+                <div class="input-group">
+                    <input id="inputSearchSessions" type="search" ng-model="filterSessions" class="form-control" placeholder="Filter...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" ng-click="clearSearch();"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" ng-if="!loadingSessions">
+                <table class="table table-bordered" id="session-table">
+                    <thead>
+                        <tr>
+                            <th># Commit Hash</th>
+                            <th>Comment</th>
+                            <th>Date Raised</th>
+                            <th colspan="2">Status</th>
+                            <th>Edit</th>
+                            <th>View </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="session in sessionHistory | filter:filterSessions">
+                            <td>{{session.CommitHash}}</td>
+                            <td>{{session.Comment}}</td>
+                            <td>{{session.DateRaised | date:'fullDate'}}</td>
+                            <td></td>
+                            <td><button type="button" class="btn btn-primary btn-xs" ng-click="changeStatus(session.Id)"><i class="fa fa-pencil"></i></button></td>
+                            <td><a href="#/athletes/{{athlete.Id}}/session/edit/{{session.Id}}" class="btn btn-warning btn-xs" type="button"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><i ng-click="viewSession(session.Id);" class="fa fa-chevron-right view-session-icon"></i></td>
+                        </tr>
+                        <tr ng-if="sessionHistory.length < 1">
+                            <td colspan="7" class="text-center">No session history</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if="loadingSessions">
+                <div class="col-xs-4"></div>
+                <div class="col-xs-4">
+                    <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Loading session history...</label>
+                </div>
+                <div class="col-xs-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

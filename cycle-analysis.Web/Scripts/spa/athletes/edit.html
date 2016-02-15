@@ -1,0 +1,88 @@
+﻿<div class="editWrapper">
+    <hr>
+
+    <div class="row" ng-if="!loadingAthlete">
+        <div class="visible-xs visible-sm alert alert-warning alert-dismissable">
+            <a class="panel-close close" data-dismiss="alert">×</a>
+            <i class="fa fa-user-plus"></i> Register Athlete. Make sure you fill all required fields.
+        </div>
+        <!-- left column -->
+        <div class="col-xs-12 col-sm-5  col-md-4">
+            <div class="text-center">
+                <img ng-src="../../Content/images/athletes/{{athlete.Image}}" class="avatar img-responsive" alt="avatar">
+                <h6>Change photo...</h6>
+
+                <input type="file" ng-file-select="prepareFiles($files)">
+            </div>
+        </div>
+
+        <!-- edit form column -->
+        <div class="col-xs-12 col-sm-4 col-md-7 personal-info">
+            <div class="row">
+                <div class="hidden-xs hidden-sm alert alert-warning alert-dismissable">
+                    <a class="panel-close close" data-dismiss="alert">×</a>
+                    <i class="fa fa-pencil-square-o"></i>
+                    Edit <strong>{{athlete.FirstName}} {{athlete.LastName}}</strong> athlete. Make sure you fill all required fields.
+                </div>
+            </div>
+
+            <br />
+
+            <form class="form-horizontal" role="form" novalidate angular-validator name="editAthleteForm" angular-validator-submit="UpdateAthlete()">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" ng-model="athlete.Email" id="email" name="email" placeholder="Email address"
+                                   validate-on="blur" required required-message="'Email address is required'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" ng-model="athlete.FirstName" name="firstName" id="firstName" placeholder="First Name"
+                                   validate-on="blur" required required-message="'First Name is required'">
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" ng-model="athlete.LastName" name="firstName" id="lastName" placeholder="Last Name"
+                                   validate-on="blur" required required-message="'Last Name is required'">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <label for="weight">Weight (kilos)</label>
+                            <input type="number" class="form-control" ng-model="athlete.Weight" id="weight" name="weight" placeholder="Weight (kilos)"
+                                   validate-on="blur" required required-message="'Weight is required'">
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <label for="lactate-threshold">Lactate Threshold (watts)</label>
+                            <input type="number" class="form-control" ng-model="athlete.LactateThreshold" id="lactate-threshold" name="lactate-threshold" placeholder="Lactate Threshold (watts)"
+                                   validate-on="blur" required required-message="'Lactate Threshold is required'">
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <label class="control-label"></label>
+                            <a class="btn btn-danger" ng-href="#/athletes/{{athlete.Id}}">Cancel</a>
+                            <span></span>
+                            <input type="submit" class="btn btn-success" value="Update" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+</div>

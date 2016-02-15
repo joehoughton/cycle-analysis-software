@@ -36,3 +36,7 @@
 /// <reference path="spa/directives/textarearesize.directive.js" />
 /// <reference path="vendors/shcore.js" />
 /// <reference path="vendors/shbrushcsharp.js" />
+/// <reference path="spa/athletes/athleteaddctrl.js" />
+/// <reference path="spa/athletes/athletedetailsctrl.js" />
+/// <reference path="spa/athletes/athleteeditctrl.js" />
+/// <reference path="spa/athletes/athletesctrl.js" />

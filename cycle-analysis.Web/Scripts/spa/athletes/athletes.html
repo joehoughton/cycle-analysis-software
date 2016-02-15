@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Registered Athletes</h4>
+            <div class="input-group">
+                <input id="inputSearchAthletes" type="search" ng-model="filterAthletes" class="form-control shortInputSearch" placeholder="Filter, search athletes...">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="search();"><i class="glyphicon glyphicon-search"></i></button>
+                    <button class="btn btn-primary" ng-click="clearSearch();"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="athlete in Athletes | filter:filterAthletes">
+                    <div class="media">
+                        <a class="pull-left" ng-href="#/athletes/{{athlete.Id}}" title="View {{athlete.FirstName}} {{athlete.LastName}}">
+                            <img class="media-object" height="120" ng-src="../../Content/images/athletes/{{athlete.Image}}" alt="" />
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{athlete.FirstName}} {{athlete.LastName}}</h4>
+                            <br/>
+                            <label class="label label-danger">{{athlete.UniqueKey}}</label>
+                            <br/>
+                            Registered: <strong><i>{{athlete.RegistrationDate | date:'mediumDate'}}</i></strong>
+                            <br/>
+                            Weight: <strong>{{athlete.Weight}} kg</strong>
+                            <br/>
+                            Lactate Threshold: <strong>{{athlete.LactateThreshold}} watts</strong>
+                            <br />
+                        </div>
+                    </div>
+                    <br/><br/>
+                </div>
+                <!-- No athletes found-->
+                <div ng-if="Athletes.length < 1">
+                    <h4 class="text-center">No Results Found</h4>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="text-center">
+                <custom-pager page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="search(page)"></custom-pager>
+            </div>
+        </div>
+    </div>
+</div>

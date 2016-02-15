@@ -13,4 +13,4 @@
       $timeout(function () { $scope.loadingDiagrams = false }, 1500); // load images after 1.5 second timeout
     }
     
-})(angular.module('CycleAnalysis'));
+})(angular.module('cycleAnalysis'));

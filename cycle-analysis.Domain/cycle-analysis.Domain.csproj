@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Athlete\AthleteRepository.cs" />
+    <Compile Include="Athlete\Dto\AthleteDto.cs" />
+    <Compile Include="Athlete\IAthleteRepository.cs" />
     <Compile Include="Context\CycleAnalysisContext.cs" />
     <Compile Include="Error\ErrorRepository.cs" />
     <Compile Include="Error\IErrorRepository.cs" />
@@ -63,6 +66,8 @@
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Athlete\Models\Athlete.cs" />
+    <Compile Include="Athlete\Mappings\AthleteMap.cs" />
     <Compile Include="Repositories\EntityBaseRepository.cs" />
     <Compile Include="Repositories\IEntityBaseRepository.cs" />
     <Compile Include="Role\IRoleRepository.cs" />
