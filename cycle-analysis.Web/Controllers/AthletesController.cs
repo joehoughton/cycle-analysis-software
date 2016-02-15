@@ -47,7 +47,6 @@ namespace cycle_analysis.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                var s = 3;
                 response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
             else

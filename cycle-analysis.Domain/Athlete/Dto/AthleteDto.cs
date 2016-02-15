@@ -37,8 +37,8 @@ namespace cycle_analysis.Domain.Athlete.Dto
         public string Email { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Image { get; set; }
-        public double? LactateThreshold { get; set; }
-        public double? Weight { get; set; }
+        public double LactateThreshold { get; set; }
+        public double Weight { get; set; }
         public Guid UniqueKey { get; set; }
     }
 }

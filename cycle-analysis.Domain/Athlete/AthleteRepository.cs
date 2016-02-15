@@ -13,7 +13,6 @@ namespace cycle_analysis.Domain.Athlete
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity.Validation;
     using System.Linq;
     using cycle_analysis.Domain.Athlete.Dto;
     using cycle_analysis.Domain.Athlete.Models;
@@ -32,15 +31,14 @@ namespace cycle_analysis.Domain.Athlete
         {
             var athlete = new Athlete()
             {
-                Id = athleteDto.Id,
                 Username = athleteDto.Username,
                 FirstName = athleteDto.FirstName,
                 LastName = athleteDto.LastName,
                 Email = athleteDto.Email,
                 RegistrationDate = DateTime.Now,
                 Image = athleteDto.Image ?? "unknown.jpg",
-                LactateThreshold = athleteDto.LactateThreshold,
-                Weight = athleteDto.Weight,
+                LactateThreshold = Math.Round(athleteDto.LactateThreshold, 2, MidpointRounding.AwayFromZero),
+                Weight = Math.Round(athleteDto.Weight, 2, MidpointRounding.AwayFromZero),
                 UniqueKey = Guid.NewGuid()
             };
 
@@ -50,6 +48,7 @@ namespace cycle_analysis.Domain.Athlete
     
             var newAthleteDto = new AthleteDto()
             {
+                Id = athlete.Id,
                 FirstName = athleteDto.FirstName,
                 LastName = athleteDto.LastName,
                 Email = athleteDto.Email,
@@ -90,8 +89,8 @@ namespace cycle_analysis.Domain.Athlete
             athlete.FirstName = athleteDto.FirstName;
             athlete.LastName = athleteDto.LastName;
             athlete.Image = athleteDto.Image ?? "unknown.jpg";
-            athlete.LactateThreshold = athleteDto.LactateThreshold;
-            athlete.Weight = athleteDto.Weight;
+            athlete.LactateThreshold = Math.Round(athleteDto.LactateThreshold, 2, MidpointRounding.AwayFromZero);
+            athlete.Weight = Math.Round(athleteDto.Weight, 2, MidpointRounding.AwayFromZero);
             athlete.Email = athleteDto.Email;
 
             _context.SaveChanges();

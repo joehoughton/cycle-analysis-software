@@ -1,3 +1,14 @@
+/****************************** Cycle Analysis ******************************\
+Description: Cycle Analysis Software
+Author: Joe Houghton - C3375905
+Assignment: Advanced Software Engineering B
+
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
 namespace cycle_analysis.Domain.Athlete.Models
 {
     using System;
@@ -11,8 +22,8 @@ namespace cycle_analysis.Domain.Athlete.Models
         public string Email { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Image { get; set; }
-        public double? LactateThreshold { get; set; }
-        public double? Weight { get; set; }
+        public double LactateThreshold { get; set; }
+        public double Weight { get; set; }
         public Guid UniqueKey { get; set; }
     }
 }
