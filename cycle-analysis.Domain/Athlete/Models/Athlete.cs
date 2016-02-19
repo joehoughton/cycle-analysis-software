@@ -12,6 +12,8 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 namespace cycle_analysis.Domain.Athlete.Models
 {
     using System;
+    using System.Collections.Generic;
+    using cycle_analysis.Domain.Session.Models;
 
     public class Athlete
     {
@@ -25,5 +27,6 @@ namespace cycle_analysis.Domain.Athlete.Models
         public double LactateThreshold { get; set; }
         public double Weight { get; set; }
         public Guid UniqueKey { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

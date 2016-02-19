@@ -42,6 +42,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentValidation.6.0.0.0\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -61,6 +62,8 @@
     <Compile Include="Error\Models\Error.cs" />
     <Compile Include="Error\Mapping\ErrorMap.cs" />
     <Compile Include="Generic\IEntityBase.cs" />
+    <Compile Include="Helper\DateFormat.cs" />
+    <Compile Include="Helper\StringReader.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
@@ -68,11 +71,18 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Athlete\Models\Athlete.cs" />
     <Compile Include="Athlete\Mappings\AthleteMap.cs" />
+    <Compile Include="Session\Dto\HRMFileDto.cs" />
+    <Compile Include="Session\Mapping\SessionMap.cs" />
+    <Compile Include="Session\Models\Sections.cs" />
+    <Compile Include="Session\Models\Session.cs" />
     <Compile Include="Repositories\EntityBaseRepository.cs" />
     <Compile Include="Repositories\IEntityBaseRepository.cs" />
     <Compile Include="Role\IRoleRepository.cs" />
     <Compile Include="Role\Mapping\RoleMap.cs" />
     <Compile Include="Role\RoleRepository.cs" />
+    <Compile Include="Session\ISessionRepository.cs" />
+    <Compile Include="Session\Dto\SessionDto.cs" />
+    <Compile Include="Session\SessionRepository.cs" />
     <Compile Include="User\IUserRepository.cs" />
     <Compile Include="User\IUserRoleRepository.cs" />
     <Compile Include="User\Mapping\UserMap.cs" />

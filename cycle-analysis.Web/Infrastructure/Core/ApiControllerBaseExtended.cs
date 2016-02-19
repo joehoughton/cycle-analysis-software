@@ -40,7 +40,6 @@ namespace cycle_analysis.Web.Infrastructure.Core
 
             try
             {
-                InitRepositories(repos);
                 response = function.Invoke();
             }
             catch (DbUpdateException ex)
@@ -57,11 +56,6 @@ namespace cycle_analysis.Web.Infrastructure.Core
             return response;
         }
         
-        private void InitRepositories(List<Type> entities)
-        {
-           // _errorsRepository = _dataRepositoryFactory.GetDataRepository<Error>(requestMessage);
-        }
-
         private void LogError(Exception ex)
         {
             try

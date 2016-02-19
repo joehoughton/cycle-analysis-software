@@ -17,14 +17,13 @@ namespace cycle_analysis.Web
     using System.Web.Http;
     using Autofac;
     using Autofac.Integration.WebApi;
-
     using cycle_analysis.Domain.Athlete;
-    using cycle_analysis.Domain.Athlete.Models;
     using cycle_analysis.Domain.Context;
     using cycle_analysis.Domain.Error;
     using cycle_analysis.Domain.Infrastructure;
     using cycle_analysis.Domain.Repositories;
     using cycle_analysis.Domain.Role;
+    using cycle_analysis.Domain.Session;
     using cycle_analysis.Domain.User;
     using cycle_analysis.Services;
     using cycle_analysis.Services.Abstract;
@@ -62,6 +61,7 @@ namespace cycle_analysis.Web
             builder.RegisterType<UserRoleRepository>().As<IUserRoleRepository>().InstancePerRequest();
             builder.RegisterType<RoleRepository>().As<IRoleRepository>().InstancePerRequest();
             builder.RegisterType<AthleteRepository>().As<IAthleteRepository>().InstancePerRequest();
+            builder.RegisterType<SessionRepository>().As<ISessionRepository>().InstancePerRequest();
 
             // Services
             builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerRequest();

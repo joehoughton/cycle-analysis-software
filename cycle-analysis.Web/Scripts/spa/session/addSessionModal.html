@@ -1,0 +1,21 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        Add Session
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label class="control-label">Polar HRM File Data</label>
+                    <textarea class="form-control" ng-model="session.HRMFile" ng-change="checkFormIsValid()" name=" sourcecode" rows="3" placeholder="Polar HRM File Data" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-right">
+            <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn btn-success" ng-click="addSession()" ng-disabled="!isEnabled">Add session</button>
+        </div>
+    </div>
+</div>

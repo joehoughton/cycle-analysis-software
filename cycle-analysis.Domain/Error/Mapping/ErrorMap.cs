@@ -19,12 +19,12 @@ namespace cycle_analysis.Domain.Error.Mapping
         public ErrorMap()
         {
             // Primary Key
-            HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
             // Table & Column Mappings
             ToTable("Error");
-            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.Id).HasColumnName("Id");
             Property(t => t.Message).HasColumnName("Message");
             Property(t => t.StackTrace).HasColumnName("StackTrace");
             Property(t => t.DateCreated).HasColumnName("DateCreated");

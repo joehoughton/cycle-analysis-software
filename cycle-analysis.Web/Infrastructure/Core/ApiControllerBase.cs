@@ -31,15 +31,9 @@ namespace cycle_analysis.Web.Infrastructure.Core
             _unitOfWork = unitOfWork;
         }
 
-        public ApiControllerBase(IDataRepositoryFactory dataRepositoryFactory, IErrorRepository errorsRepository, IUnitOfWork unitOfWork)
-        {
-            _errorsRepository = errorsRepository;
-            _unitOfWork = unitOfWork;
-        }
-
         protected HttpResponseMessage CreateHttpResponse(HttpRequestMessage request, Func<HttpResponseMessage> function)
         {
-            HttpResponseMessage response = null;
+            HttpResponseMessage response;
 
             try
             {
@@ -60,18 +54,14 @@ namespace cycle_analysis.Web.Infrastructure.Core
         }
         private void LogError(Exception ex)
         {
-            try
-            {
-                var _error = new Error {
-                    Message = ex.Message,
-                    StackTrace = ex.StackTrace,
-                    DateCreated = DateTime.Now
-                };
+            var _error = new Error {
+                Message = ex.Message,
+                StackTrace = ex.StackTrace,
+                DateCreated = DateTime.Now
+            };
 
-                _errorsRepository.Add(_error);
-                _unitOfWork.Commit();
-            }
-            catch { }
+            _errorsRepository.Add(_error);
+            _unitOfWork.Commit();
         }
     }
 }

@@ -37,6 +37,10 @@
         .when("/athletes/edit/:id", {
           templateUrl: "scripts/spa/athletes/edit.html",
           controller: "athleteEditCtrl"
+        })
+        .when("/athletes/:athleteId/athlete/edit/:sessionId", {
+          templateUrl: "scripts/spa/session/edit.html",
+          controller: "sessionEditCtrl"
         });
     }
 

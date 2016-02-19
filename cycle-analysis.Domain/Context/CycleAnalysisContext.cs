@@ -19,6 +19,8 @@ namespace cycle_analysis.Domain.Context
     using cycle_analysis.Domain.Error.Models;
     using cycle_analysis.Domain.Role.Mapping;
     using cycle_analysis.Domain.Role.Models;
+    using cycle_analysis.Domain.Session.Mapping;
+    using cycle_analysis.Domain.Session.Models;
     using cycle_analysis.Domain.User.Mapping;
     using cycle_analysis.Domain.User.Models;
 
@@ -45,6 +47,7 @@ namespace cycle_analysis.Domain.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Athlete> Athletes { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -55,6 +58,7 @@ namespace cycle_analysis.Domain.Context
             modelBuilder.Configurations.Add(new UserMap());
             modelBuilder.Configurations.Add(new UserRoleMap());
             modelBuilder.Configurations.Add(new AthleteMap());
+            modelBuilder.Configurations.Add(new SessionMap());
         }
     }
 }

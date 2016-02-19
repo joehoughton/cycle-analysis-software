@@ -170,6 +170,8 @@
     <Content Include="Scripts\spa\athletes\athletesCtrl.js" />
     <Content Include="Scripts\spa\athletes\details.html" />
     <Content Include="Scripts\spa\athletes\edit.html" />
+    <Content Include="Scripts\spa\session\addSessionCtrl.js" />
+    <Content Include="Scripts\spa\session\addSessionModal.html" />
     <Content Include="Scripts\spa\modules\common.ui.js" />
     <Content Include="Scripts\spa\home\indexCtrl.js" />
     <Content Include="Scripts\spa\home\rootCtrl.js" />
@@ -220,6 +222,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AthletesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
