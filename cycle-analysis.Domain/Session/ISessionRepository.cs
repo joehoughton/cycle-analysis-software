@@ -11,10 +11,13 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 namespace cycle_analysis.Domain.Session
 {
+    using System.Collections.Generic;
     using cycle_analysis.Domain.Session.Dto;
 
     public interface ISessionRepository
     {
         void Add(HRMFileDto hrmFileDto);
+        List<SessionDto> GetSessionHistory(int athleteId);
+        SessionDto GetSingle(int sessionId);
     }
 }

@@ -13,29 +13,33 @@
     <div class="col-md-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5>{{athlete.Title}}</h5>
+                <h5>{{athlete.FirstName}} {{athlete.LastName}}</h5>
             </div>
             <div class="panel-body" ng-if="!loadingAthlete">
                 <div class="media">
                     <a class="pull-right" title="View {{athlete.Title}} details">
-                        <img class="media-object" height="120" ng-src="../../Content/images/athletes/{{athlete.Image}}" alt="" />
+                        <img class="media-object" height="120" ng-src="../../Content/images/athletes/{{athlete.Image}}" alt=""/>
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">{{athlete.FirstName}} {{athlete.LastName}}</h4>
                         Registered: <strong><i>{{athlete.RegistrationDate | date:'mediumDate'}}</i></strong>
                         <br/>
                         Weight: <strong>{{athlete.Weight}} kg</strong>
-                        <br />
+                        <br/>
                         Lactate Threshold: <strong>{{athlete.LactateThreshold}} watts</strong>
                     </div>
                 </div>
             </div>
-            <div ng-if="loadingAthlete">
+            <div ng-if="loadingSessions" class="text-center">
                 <div class="col-xs-4"></div>
                 <div class="col-xs-4">
-                    <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Loading athlete data...</label>
+                    <div class="row">
+                        <i class="fa fa-refresh fa-5x fa-spin"></i>
+                    </div>
+                    <div class="row">
+                        <label class="label label-primary">Loading athlete data...</label>
+                    </div>
                 </div>
-                <div class="col-xs-4"></div>
             </div>
         </div>
     </div>
@@ -43,7 +47,7 @@
     <div class="col-md-8">
         <div class="panel panel-default shortPanel">
             <div class="panel-heading clearfix">
-                <h5 class="pull-left" style="padding-right: 10px">Sessions</h5>
+                <h5 class="pull-left">Sessions</h5>
                 <div class="input-group">
                     <input id="inputSearchSessions" type="search" ng-model="filterSessions" class="form-control" placeholder="Filter...">
                     <div class="input-group-btn">
@@ -55,22 +59,23 @@
                 <table class="table table-bordered" id="session-table">
                     <thead>
                         <tr>
-                            <th># Commit Hash</th>
-                            <th>Comment</th>
-                            <th>Date Raised</th>
-                            <th colspan="2">Status</th>
-                            <th>Edit</th>
-                            <th>View </th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>Duration</th>
+                            <th>Interval</th>
+                            <th>Monitor Version</th>
+                            <th>Software Version</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="session in sessionHistory | filter:filterSessions">
-                            <td>{{session.CommitHash}}</td>
-                            <td>{{session.Comment}}</td>
-                            <td>{{session.DateRaised | date:'fullDate'}}</td>
-                            <td></td>
-                            <td><button type="button" class="btn btn-primary btn-xs" ng-click="changeStatus(session.Id)"><i class="fa fa-pencil"></i></button></td>
-                            <td><a href="#/athletes/{{athlete.Id}}/session/edit/{{session.Id}}" class="btn btn-warning btn-xs" type="button"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td>{{session.Date | date:'fullDate'}}</td>
+                            <td>{{session.StartTime | date:'HH:mm:ss'}}</td>
+                            <td>{{session.Length | date:'HH:mm:ss:sss'}}</td>
+                            <td>{{session.Interval}}</td>
+                            <td>{{session.MonitorVersion}}</td>
+                            <td>{{session.SoftwareVersion}}</td>
                             <td><i ng-click="viewSession(session.Id);" class="fa fa-chevron-right view-session-icon"></i></td>
                         </tr>
                         <tr ng-if="sessionHistory.length < 1">
@@ -79,12 +84,16 @@
                     </tbody>
                 </table>
             </div>
-            <div ng-if="loadingSessions">
+            <div ng-if="loadingSessions" class="text-center">
                 <div class="col-xs-4"></div>
                 <div class="col-xs-4">
-                    <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Loading session history...</label>
+                    <div class="row">
+                        <i class="fa fa-refresh fa-5x fa-spin"></i>
+                    </div>
+                    <div class="row">
+                        <label class="label label-primary">Loading sessions...</label>
+                    </div>
                 </div>
-                <div class="col-xs-4"></div>
             </div>
         </div>
     </div>

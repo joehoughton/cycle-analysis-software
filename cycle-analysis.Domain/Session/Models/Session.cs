@@ -12,7 +12,9 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 namespace cycle_analysis.Domain.Session.Models
 {
     using System;
+    using System.Collections.Generic;
     using cycle_analysis.Domain.Athlete.Models;
+    using cycle_analysis.Domain.SessionData.Models;
 
     public class Session
     {
@@ -28,5 +30,6 @@ namespace cycle_analysis.Domain.Session.Models
         public int Lower1 { get; set; }
         public int AthleteId { get; set; }
         public virtual Athlete Athlete { get; set; }
+        public virtual ICollection<SessionData> SessionData { get; set; }
     }
 }

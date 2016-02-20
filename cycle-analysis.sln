@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cycle-analysis.Domain", "cy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cycle-analysis.Database", "cycle-analysis.Database\cycle-analysis.Database.csproj", "{A715AC9D-832F-4834-97A0-F4CDAC649683}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A602AB62-C1CB-46CC-BFE8-241BEF47EAD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cycle-analysis.Domain.Tests", "cycle-analysis.Domain.Tests\cycle-analysis.Domain.Tests.csproj", "{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,8 +44,15 @@ Global
 		{A715AC9D-832F-4834-97A0-F4CDAC649683}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A715AC9D-832F-4834-97A0-F4CDAC649683}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A715AC9D-832F-4834-97A0-F4CDAC649683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0A36E89-9F93-4FFB-A36A-2D5F1351D1A2} = {A602AB62-C1CB-46CC-BFE8-241BEF47EAD9}
 	EndGlobalSection
 EndGlobal

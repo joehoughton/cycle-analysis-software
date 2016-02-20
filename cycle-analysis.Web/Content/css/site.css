@@ -77,13 +77,9 @@ ul.pagination > li {
     width: 300px !important;
     float: right !important;
 }
-.jumbotron {
-    position: relative;
-    background: #000 url("../images/background.jpg") center center;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    overflow: hidden;
+
+.fa-refresh:before {
+    color: black;
 }
 
 /* Bootstrap */
@@ -232,4 +228,32 @@ i.fa.fa-pencil.pull-right {
 }
 textarea {
     resize: vertical;
+}
+/* Athlete Detail */
+input#inputSearchSessions {
+    margin-left: 10px;
+}
+
+#session-table td , th  {
+   text-align: center;
+}
+
+#session-table th  {
+   text-align: center;
+}
+
+.view-session-icon {
+    cursor: pointer;
+}
+/* Session Detail */
+#session-data-table {
+    color: black;
+}
+
+#session-data-table td , th  {
+   text-align: center;
+}
+
+#session-data-table th  {
+   text-align: center;
 }

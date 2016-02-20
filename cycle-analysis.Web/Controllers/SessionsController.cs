@@ -67,5 +67,32 @@ namespace cycle_analysis.Web.Controllers
                 return response;
             });
         }
+
+        [HttpGet]
+        [Route("{athleteId:int}/sessionhistory")]
+        public HttpResponseMessage AuditHistory(HttpRequestMessage request, int athleteId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var sessionList = _sessionRepository.GetSessionHistory(athleteId);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionList);
+
+                return response;
+            });
+        }
+
+        [Route("details/{sessionId:int}")]
+        public HttpResponseMessage Get(HttpRequestMessage request, int sessionId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var sessionDto = _sessionRepository.GetSingle(sessionId);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionDto);
+
+                return response;
+            });
+        }
     }
 }

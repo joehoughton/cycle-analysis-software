@@ -41,3 +41,4 @@
 /// <reference path="spa/athletes/athleteeditctrl.js" />
 /// <reference path="spa/athletes/athletesctrl.js" />
 /// <reference path="spa/session/addsessionctrl.js" />
+/// <reference path="spa/session/sessiondetailctrl.js" />

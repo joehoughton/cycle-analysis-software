@@ -63,7 +63,6 @@
     <Compile Include="Error\Mapping\ErrorMap.cs" />
     <Compile Include="Generic\IEntityBase.cs" />
     <Compile Include="Helper\DateFormat.cs" />
-    <Compile Include="Helper\StringReader.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
@@ -71,6 +70,9 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Athlete\Models\Athlete.cs" />
     <Compile Include="Athlete\Mappings\AthleteMap.cs" />
+    <Compile Include="SessionData\Dtos\SessionDataDto.cs" />
+    <Compile Include="SessionData\Mappings\SessionDataMap.cs" />
+    <Compile Include="SessionData\Models\SessionData.cs" />
     <Compile Include="Session\Dto\HRMFileDto.cs" />
     <Compile Include="Session\Mapping\SessionMap.cs" />
     <Compile Include="Session\Models\Sections.cs" />

@@ -34,5 +34,14 @@ namespace cycle_analysis.Domain.Helper
 
             return convertedStartTime;
         }
+
+        public static DateTime CalculateSessionDataRowDate(DateTime startDate, int interval, int row)
+        {
+            var seconds = interval * row - 1; // subtract 1 as rows start at 1
+            var calculatedDate = startDate.AddSeconds(seconds);
+
+            return calculatedDate;
+        }
     }
+
 }
