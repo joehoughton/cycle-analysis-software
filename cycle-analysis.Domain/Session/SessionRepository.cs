@@ -67,7 +67,6 @@ namespace cycle_analysis.Domain.Session
 
             // create timespan from StartTime
             var startTime = new TimeSpan(0, sections.Params.StartTime.Hour, sections.Params.StartTime.Minute, sections.Params.StartTime.Second, sections.Params.StartTime.Millisecond);
-            var xx = new TimeSpan();
             // add timespan to Date
             sections.Params.Date = sections.Params.Date.Date + startTime;
 
