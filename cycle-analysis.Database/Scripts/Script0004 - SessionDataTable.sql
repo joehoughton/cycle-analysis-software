@@ -5,11 +5,11 @@ GO
 CREATE TABLE [dbo].[SessionData](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Row] [int] NOT NULL,
-	[HeartRate] [int] NOT NULL,
-	[Speed] [int] NOT NULL,
-	[Cadence] [int] NOT NULL,
-	[Altitude] [int] NOT NULL,
-	[Power] [int] NOT NULL,
+	[HeartRate] [float] NOT NULL,
+	[Speed] [float] NOT NULL,
+	[Cadence] [float] NOT NULL,
+	[Altitude] [float] NOT NULL,
+	[Power] [float] NOT NULL,
 	[SessionId] [int] NOT NULL,
  CONSTRAINT [PK_SessionData] PRIMARY KEY CLUSTERED 
 (

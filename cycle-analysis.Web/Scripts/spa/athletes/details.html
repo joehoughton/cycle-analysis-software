@@ -63,8 +63,8 @@
                             <th>Start Time</th>
                             <th>Duration</th>
                             <th>Interval</th>
-                            <th>Monitor Version</th>
-                            <th>Software Version</th>
+                            <th>Monitor</th>
+                            <th>Summary</th>
                             <th>View</th>
                         </tr>
                     </thead>
@@ -74,12 +74,12 @@
                             <td>{{session.StartTime | date:'HH:mm:ss'}}</td>
                             <td>{{session.Length | date:'HH:mm:ss:sss'}}</td>
                             <td>{{session.Interval}}</td>
-                            <td>{{session.MonitorVersion}}</td>
-                            <td>{{session.SoftwareVersion}}</td>
+                            <td>{{session.MonitorVersion}} v{{session.SoftwareVersion}}</td>
+                            <td><a href="#/athletes/{{athlete.Id}}/session/summary/{{session.Id}}" class="btn btn-primary btn-xs" type="button"><i class="fa fa-bar-chart"></i></a></td>
                             <td><i ng-click="viewSession(session.Id);" class="fa fa-chevron-right view-session-icon"></i></td>
                         </tr>
                         <tr ng-if="sessionHistory.length < 1">
-                            <td colspan="7" class="text-center">No session history</td>
+                            <td colspan="8" class="text-center">No session history</td>
                         </tr>
                     </tbody>
                 </table>

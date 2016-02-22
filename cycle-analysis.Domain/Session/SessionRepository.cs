@@ -20,7 +20,6 @@ namespace cycle_analysis.Domain.Session
     using cycle_analysis.Domain.Session.Models;
     using cycle_analysis.Domain.SessionData.Dtos;
     using cycle_analysis.Domain.SessionData.Models;
-
     using StringReader = System.IO.StringReader;
 
     public class SessionRepository : ISessionRepository
@@ -54,11 +53,7 @@ namespace cycle_analysis.Domain.Session
                     if (line.Contains("SMode")) { sections.Params.SMode = int.Parse(line.Split('=')[1]); }
                     if (line.Contains("StartTime")) { sections.Params.StartTime = line.Split('=')[1].FormatTime(); }
                     if (line.Contains("Length")) { sections.Params.Length = line.Split('=')[1].FormatTime(); }
-                    if (line.Contains("Date"))
-                    {
-                        sections.Params.Date = line.Split('=')[1].FormatDate();
-                      
-                    }
+                    if (line.Contains("Date")) { sections.Params.Date = line.Split('=')[1].FormatDate(); }
                     if (line.Contains("Interval")) { sections.Params.Interval = int.Parse(line.Split('=')[1]); }
                     if (line.Contains("Upper1")) { sections.Params.Upper1 = int.Parse(line.Split('=')[1]); }
                     if (line.Contains("Lower1")) { sections.Params.Lower1 = int.Parse(line.Split('=')[1]); }
@@ -97,8 +92,8 @@ namespace cycle_analysis.Domain.Session
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line == ""){ continue; } // line is empty on first read - continue and don't attempt to parse
-                    
-                    string[] splitData = line.Split(null); // split line by whitespace
+
+                    string[] splitData = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries); // split line by whitespace and tabs
 
                     var sessionData = new SessionData
                     {
@@ -176,6 +171,59 @@ namespace cycle_analysis.Domain.Session
             };
 
             return sessionDto;
+        }
+
+        public SessionSummaryDto GetSummary(int sessionId)
+        {
+            var sessionData = _context.SessionData.Where(s => s.SessionId == sessionId).ToList();
+            var session = _context.Sessions.Single(s => s.Id == sessionId);
+
+            var totalCount = sessionData.Count();
+
+            // calculate speed - divided speed by 10 as speed is *10 in file
+            var totalSpeed = sessionData.Sum(s => s.Speed);
+            var averageSpeed =  Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumSpeed =  Math.Round(sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+            // calculate distance
+            var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+            var totalDistanceKilometres =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+            var totalDistanceMiles = totalDistanceKilometres.ConvertToMiles();
+
+            // calculate heart rate
+            var totalHeartRate = sessionData.Sum(s => s.HeartRate);
+            var averageHeartRate =  Math.Round(totalHeartRate / totalCount, 2, MidpointRounding.AwayFromZero);
+            var minimumHeartRate = sessionData.MinBy(s => s.HeartRate).HeartRate;
+            var maximumHeartRate = sessionData.MaxBy(s => s.HeartRate).HeartRate;
+
+            // calculate power
+            var totalPower = sessionData.Sum(s => s.Power);
+            var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumPower =  Math.Round(sessionData.MaxBy(s => s.Power).Power, 2, MidpointRounding.AwayFromZero);
+
+            // calculate altitiude
+            var totalAltitude = sessionData.Sum(s => s.Altitude);
+            var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+
+            var sessionSummaryDto = new SessionSummaryDto()
+            {
+                AverageAltitude = averageAltitude,
+                AverageHeartRate = averageHeartRate,
+                AveragePower = averagePower,
+                MaximumPower = maximumPower,
+                MaximumAltitude = maximumAltitude,
+                MaximumHeartRate = maximumHeartRate,
+                AverageSpeed = averageSpeed,
+                MaximumSpeed = maximumSpeed,
+                MinimumHeartRate = minimumHeartRate,
+                TotalDistanceKilometres = totalDistanceKilometres,
+                TotalDistanceMiles = totalDistanceMiles,
+                Date = session.Date,
+                SessionId = sessionId
+            };
+
+            return sessionSummaryDto;
         }
     }
 }

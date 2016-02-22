@@ -26,6 +26,9 @@ body {
 .panel-body h4 {
     color: #a55400;
 }
+.panel-body {
+    color: black;
+}
 .red {
     color: red;
 }
@@ -256,4 +259,9 @@ input#inputSearchSessions {
 
 #session-data-table th  {
    text-align: center;
+}
+
+.custom-table td, th{
+    text-align: center;
+    color: black;
 }
