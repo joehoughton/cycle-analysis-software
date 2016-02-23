@@ -41,7 +41,9 @@ namespace cycle_analysis.Web
                 "~/Scripts/Vendors/jquery.fancybox-media.js",
                 "~/Scripts/Vendors/loading-bar.js",
                 "~/Scripts/Vendors/shCore.js",
-                "~/Scripts/Vendors/shBrushCSharp.js"));
+                "~/Scripts/Vendors/shBrushCSharp.js",
+                "~/Scripts/Vendors/highcharts.js",
+                "~/Scripts/Vendors/highcharts-ng.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/spa").Include(
                 "~/Scripts/spa/modules/common.core.js",
@@ -79,7 +81,8 @@ namespace cycle_analysis.Web
                 "~/content/css/loading-bar.css",
                 "~/content/css/shCore.css",
                 "~/content/css/shCoreDefault.css",
-                "~/content/css/shThemeDefault.css"));
+                "~/content/css/shThemeDefault.css",
+                "~/content/css/normalize.css"));
 
             BundleTable.EnableOptimizations = false;
         }

@@ -265,3 +265,16 @@ input#inputSearchSessions {
     text-align: center;
     color: black;
 }
+
+/* Session Summary */
+.highcharts-container {
+    width: 100% !important;
+}
+
+.highcharts-loading span{
+    color: #707070;
+}
+
+#loading-graph.fa-refresh:before {
+    color: white;
+}

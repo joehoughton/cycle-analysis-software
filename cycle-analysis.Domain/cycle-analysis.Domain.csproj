@@ -74,6 +74,7 @@
     <Compile Include="Helper\MoreEnumerable.MaxBy.cs" />
     <Compile Include="Helper\MoreEnumerable.MinBy.cs" />
     <Compile Include="SessionData\Dtos\SessionDataDto.cs" />
+    <Compile Include="SessionData\Dtos\SessionDataGraphDto.cs" />
     <Compile Include="SessionData\Mappings\SessionDataMap.cs" />
     <Compile Include="SessionData\Models\SessionData.cs" />
     <Compile Include="Session\Dto\SessionSummaryDto.cs" />

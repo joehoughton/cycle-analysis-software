@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('cycleAnalysis', ['common.core', 'common.ui'])
+  angular.module('cycleAnalysis', ['common.core', 'common.ui', 'highcharts-ng'])
         .config(config)
         .run(run);
 

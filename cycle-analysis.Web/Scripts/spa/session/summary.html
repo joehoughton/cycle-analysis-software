@@ -32,30 +32,30 @@
                             <div class="row" ng-if="!loadingSummary">
                                 <div class="col-xs-12 col-sm-3">
                                     Average Speed: <strong>{{session.AverageSpeed}} mph</strong>
-                                    <br />
+                                    <br/>
                                     Maximum Speed: <strong>{{session.MaximumSpeed}} mph</strong>
-                                    <br />
+                                    <br/>
                                     Total Distance: <strong>{{distance.measurement}}</strong>
-                                    <br />
+                                    <br/>
                                     <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceKilometres}} km/h">km/h</label>
                                     <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceMiles}} mph">mph</label>
-                                    <br />
+                                    <br/>
                                 </div>
                                 <div class="col-xs-12 col-sm-3">
                                     Average Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
-                                    <br />
+                                    <br/>
                                     Minimum Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
-                                    <br />
+                                    <br/>
                                     Maximum Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
                                 </div>
                                 <div class="col-xs-12 col-sm-3">
                                     Average Power: <strong>{{session.AveragePower}} watts</strong>
-                                    <br />
+                                    <br/>
                                     Maximum Power: <strong>{{session.MaximumPower}} watts</strong>
                                 </div>
                                 <div class="col-xs-12 col-sm-3">
                                     Average Altitude: <strong>{{session.AverageAltitude}} feet</strong>
-                                    <br />
+                                    <br/>
                                     Maximum Altitude: <strong>{{session.MaximumAltitude}} feet</strong>
                                 </div>
                             </div>
@@ -67,6 +67,40 @@
 
         <br/>
 
+        <div ng-if="loadingGraph" class="text-center">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <i class="fa fa-refresh fa-5x fa-spin" id="loading-graph"></i>
+                </div>
+                <div class="row">
+                    <label class="label label-primary">Drawing graph...</label>
+                </div>
+            </div>
+        </div>
+        <div ng-app="cycleAnalysis" ng-if="!loadingGraph">
+            <div class=" col-xs-12">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-md-3">
+                            <label for="minimum-time">Minimum Time (seconds)</label>
+                            <input type="number" class="form-control" ng-model="chartConfig.xAxis.currentMin" id="minimum-time" placeholder="Minimum Time">
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <label for="maximum-time">Maximum Time (seconds)</label>
+                            <input type="number" class="form-control" ng-model="chartConfig.xAxis.currentMax" id="maximum-time" placeholder="Maximum Time">
+                        </div>
+                    </div>
+                </form>
+                <p>Select an area on the graph...</p>
+                <!-- Summary Chart -->
+                <highchart id="session-summary-chart" config="chartConfig"></highchart>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <br/>
         <div class="col-xs-12">
             <div class="pull-right">
                 <a class="btn btn-danger" ng-href="#/athletes/{{athleteId}}">Cancel</a>

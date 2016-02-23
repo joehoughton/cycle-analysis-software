@@ -147,6 +147,7 @@
     <Content Include="Content\css\fancybox_overlay.png" />
     <Content Include="Content\css\fancybox_sprite.png" />
     <Content Include="Content\css\loading-bar.css" />
+    <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\shCore.css" />
     <Content Include="Content\css\shCoreDefault.css" />
     <Content Include="Content\css\shThemeDefault.css" />
@@ -192,6 +193,8 @@
     <Content Include="Scripts\vendors\angular-cookies.js" />
     <Content Include="Scripts\vendors\angular-file-upload.js" />
     <Content Include="Scripts\vendors\angular-validator.js" />
+    <Content Include="Scripts\vendors\highcharts-ng.js" />
+    <Content Include="Scripts\vendors\highcharts.js" />
     <Content Include="Scripts\vendors\jquery.fancybox-media.js" />
     <Content Include="Scripts\vendors\jquery.fancybox.js" />
     <Content Include="Scripts\vendors\loading-bar.js" />

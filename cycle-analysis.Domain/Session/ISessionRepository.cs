@@ -13,6 +13,7 @@ namespace cycle_analysis.Domain.Session
 {
     using System.Collections.Generic;
     using cycle_analysis.Domain.Session.Dto;
+    using cycle_analysis.Domain.SessionData.Dtos;
 
     public interface ISessionRepository
     {
@@ -20,5 +21,6 @@ namespace cycle_analysis.Domain.Session
         List<SessionDto> GetSessionHistory(int athleteId);
         SessionDto GetSingle(int sessionId);
         SessionSummaryDto GetSummary(int sessionId);
+        SessionDataGraphDto GetSessionData(int sessionId);
     }
 }

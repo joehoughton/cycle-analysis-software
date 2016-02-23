@@ -58,7 +58,7 @@ namespace cycle_analysis.Web.Controllers
                         _sessionRepository.Add(hrmFileDto);
                         response = request.CreateResponse(HttpStatusCode.Created);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         response = request.CreateResponse(HttpStatusCode.BadRequest);
                     }
@@ -101,6 +101,19 @@ namespace cycle_analysis.Web.Controllers
             return CreateHttpResponse(request, () =>
             {
                 var sessionSummaryDto = _sessionRepository.GetSummary(sessionId);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
+
+                return response;
+            });
+        }
+
+        [Route("data/{sessionId:int}")]
+        public HttpResponseMessage GetSessionData(HttpRequestMessage request, int sessionId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var sessionSummaryDto = _sessionRepository.GetSessionData(sessionId);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
 

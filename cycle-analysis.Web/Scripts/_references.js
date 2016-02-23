@@ -43,3 +43,5 @@
 /// <reference path="spa/session/addsessionctrl.js" />
 /// <reference path="spa/session/sessiondetailctrl.js" />
 /// <reference path="spa/session/sessionsummaryctrl.js" />
+/// <reference path="vendors/highcharts.js" />
+/// <reference path="vendors/highcharts-ng.js" />
