@@ -37,7 +37,7 @@ namespace cycle_analysis.Domain.Helper
 
         public static DateTime CalculateSessionDataRowDate(DateTime startDate, int interval, int row)
         {
-            var seconds = interval * row - 1; // subtract 1 as rows start at 1
+            var seconds = interval * row ;
             var calculatedDate = startDate.AddSeconds(seconds);
 
             return calculatedDate;

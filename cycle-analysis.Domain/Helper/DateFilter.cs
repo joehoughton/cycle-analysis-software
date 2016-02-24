@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
     using cycle_analysis.Domain.SessionData.Dtos;
-    using cycle_analysis.Domain.SessionData.Models;
 
     public static class DateFilter
     {
@@ -32,7 +30,7 @@
 
             return filteredDates;
         }
-        // ToDo: Make method generic
+
         public static List<SessionDataDto> FilterListDates(this List<SessionDataDto> sessionDataDto, DateTime startDate, double minimumStartTime, double maximumStartTime)
         {
             var minimumDate = startDate.AddSeconds(minimumStartTime);

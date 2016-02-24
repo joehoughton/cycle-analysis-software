@@ -35,16 +35,17 @@
 
             _sessionDataList = new List<SessionData>
             {
-                new SessionData(){ Id = 1, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, SessionId = 1 },
-                new SessionData(){ Id = 2, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 477, SessionId = 1 },
-                new SessionData(){ Id = 3, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 837, SessionId = 1 },
-                new SessionData(){ Id = 4, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, SessionId = 1 },
-                new SessionData(){ Id = 5, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, SessionId = 1 }
+                new SessionData(){ Id = 0, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, Row = 1, SessionId = 1 },
+                new SessionData(){ Id = 1, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 477, Row = 2, SessionId = 1 },
+                new SessionData(){ Id = 2, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 837, Row = 3, SessionId = 1 },
+                new SessionData(){ Id = 3, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, Row = 4, SessionId = 1 },
+                new SessionData(){ Id = 4, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, Row = 5, SessionId = 1 },
+                new SessionData(){ Id = 5, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 1 }
             };
 
             _sessionList = new List<Session>()
             {
-                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(1754, 01, 01, 1, 14, 21, 100), SessionData = _sessionDataList }
+                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SessionData = _sessionDataList }
             };
 
             // convert the IEnumerable _sessionList to an IQueryable list
@@ -82,9 +83,9 @@
             var interval = 1;
             var startDate = new DateTime(2016, 10, 05, 09, 30, 5, 1); // hh:mm:s:ms - 09:30:5:100
 
-            var sessionRow1 = new SessionDataDto() { Row = 1 };
-            var sessionRow2 = new SessionDataDto() { Row = 2 };
-            var sessionRow3 = new SessionDataDto() { Row = 3 };
+            var sessionRow1 = new SessionDataDto() { Row = 0 };
+            var sessionRow2 = new SessionDataDto() { Row = 1 };
+            var sessionRow3 = new SessionDataDto() { Row = 2 };
 
             // calculate seconds for each session header row
             sessionRow1.Date = DateFormat.CalculateSessionDataRowDate(startDate, interval, sessionRow1.Row);
@@ -105,9 +106,9 @@
             var interval = 1;
             var startDate = new DateTime(2016, 10, 05, 09, 59, 59, 1); // hh:mm:s:ms - 09:30:5:100
 
-            var sessionRow1 = new SessionDataDto() { Row = 1 };
-            var sessionRow2 = new SessionDataDto() { Row = 2 };
-            var sessionRow3 = new SessionDataDto() { Row = 3 };
+            var sessionRow1 = new SessionDataDto() { Row = 0 };
+            var sessionRow2 = new SessionDataDto() { Row = 1 };
+            var sessionRow3 = new SessionDataDto() { Row = 2 };
 
             // calculate seconds for each session header row
             sessionRow1.Date = DateFormat.CalculateSessionDataRowDate(startDate, interval, sessionRow1.Row);
@@ -134,9 +135,9 @@
             var interval = 1;
             var startDate = new DateTime(2016, 10, 05, 09, 59, 59, 1); // hh:mm:s:ms - 09:30:5:100
 
-            var sessionRow1 = new SessionDataDto() { Row = 1 };
-            var sessionRow2 = new SessionDataDto() { Row = 2 };
-            var sessionRow3 = new SessionDataDto() { Row = 3 };
+            var sessionRow1 = new SessionDataDto() { Row = 0 };
+            var sessionRow2 = new SessionDataDto() { Row = 1 };
+            var sessionRow3 = new SessionDataDto() { Row = 2 };
 
             // calculate seconds for each session header row
             sessionRow1.Date = DateFormat.CalculateSessionDataRowDate(startDate, interval, sessionRow1.Row);
@@ -163,9 +164,9 @@
             var interval = 1;
             var startDate = new DateTime(2016, 05, 10, 23, 59, 59, 1); // hh:mm:s:ms - 09:30:5:100
 
-            var sessionRow1 = new SessionDataDto() { Row = 1 };
-            var sessionRow2 = new SessionDataDto() { Row = 2 };
-            var sessionRow3 = new SessionDataDto() { Row = 3 };
+            var sessionRow1 = new SessionDataDto() { Row = 0 };
+            var sessionRow2 = new SessionDataDto() { Row = 1 };
+            var sessionRow3 = new SessionDataDto() { Row = 2 };
 
             // calculate seconds for each session header row
             sessionRow1.Date = DateFormat.CalculateSessionDataRowDate(startDate, interval, sessionRow1.Row);
@@ -189,17 +190,17 @@
         [Test]
         public void CorrectAveragesAreCalculated()
         {
-            var sessionSumamry = _sessionRepository.GetSummary(1);
+            var sessionSummary = _sessionRepository.GetSummary(1);
 
-            var averageSpeed = sessionSumamry.AverageSpeed;
-            var averageHeatRate = sessionSumamry.AverageHeartRate;
-            var averageAltitude = sessionSumamry.AverageAltitude;
-            var averagePower = sessionSumamry.AveragePower;
+            var averageSpeed = sessionSummary.AverageSpeed;
+            var averageHeatRate = sessionSummary.AverageHeartRate;
+            var averageAltitude = sessionSummary.AverageAltitude;
+            var averagePower = sessionSummary.AveragePower;
 
-            Assert.AreEqual(28.74m, averageSpeed);
-            Assert.AreEqual(132, averageHeatRate);
-            Assert.AreEqual(32.2m, averageAltitude);
-            Assert.AreEqual(573.4m, averagePower);
+            Assert.AreEqual(29.58m, averageSpeed);
+            Assert.AreEqual(134.17, averageHeatRate);
+            Assert.AreEqual(32.17m, averageAltitude);
+            Assert.AreEqual(601.17m, averagePower);
         }
 
         /// <summary>
@@ -215,8 +216,8 @@
             var maximumAltitude = sessionSumamry.MaximumAltitude;
             var maximumPower = sessionSumamry.MaximumPower;
 
-            Assert.AreEqual(33.4m, maximumSpeed);
-            Assert.AreEqual(139, maximumHeatRate);
+            Assert.AreEqual(33.8m, maximumSpeed);
+            Assert.AreEqual(145, maximumHeatRate);
             Assert.AreEqual(33, maximumAltitude);
             Assert.AreEqual(837, maximumPower);
         }
@@ -245,10 +246,9 @@
             var totalDistanceKilometres =  sessionSumamry.TotalDistanceKilometres;
             var totalDistanceMiles = sessionSumamry.TotalDistanceMiles;
 
-            Assert.AreEqual(35.61, totalDistanceKilometres);
-            Assert.AreEqual(22.13, totalDistanceMiles);
+            Assert.AreEqual(36.66, totalDistanceKilometres);
+            Assert.AreEqual(22.78, totalDistanceMiles);
         }
-
 
         /// <summary>
         /// The expected results should be returned when comparing dates.
@@ -313,6 +313,33 @@
             var filteredDates = dates.FilterDates(startDate, minimumSeconds, maximumSeconds);
 
             Assert.AreEqual(4, filteredDates.Count);
+        }
+
+
+        /// <summary>
+        /// Subset of SessionData should be returned for specified seconds.
+        /// </summary>
+        [Test]
+        public void SubsetOfSessionDataShouldBeReturnedForSpecifiedSeconds()
+        {
+            var sessionDataSubsetdto = new SessionDataSubsetDto()
+            {
+                MinimumSecond = 2,
+                MaximumSecond = 4,
+                SessionId = 1
+            };
+
+            var filteredDates = _sessionRepository.GetSessionDataSubset(sessionDataSubsetdto);
+
+            var averageSpeed = filteredDates.AverageSpeed;
+            var averageHeartRate = filteredDates.AverageHeartRate;
+            var averageAltitude = filteredDates.AverageAltitude;
+            var averagePower = filteredDates.AveragePower;
+
+            Assert.AreEqual(29.63, averageSpeed);
+            Assert.AreEqual(132.0, averageHeartRate);
+            Assert.AreEqual(32, averageAltitude);
+            Assert.AreEqual(704.33, averagePower);
         }
 
     }

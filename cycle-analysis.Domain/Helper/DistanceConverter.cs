@@ -15,14 +15,14 @@ namespace cycle_analysis.Domain.Helper
 
     public static class DistanceConverter
     {
-        private const double MilesToKilometres = 0.621371192;
+        private const double KilometresToMiles = 0.621371192;
 
         /// <summary>
         /// Converts Kilometres into Miles.
         /// </summary>
         public static double ConvertToMiles(this double kilometres)
         {
-            return Math.Round(kilometres * MilesToKilometres, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(kilometres * KilometresToMiles, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

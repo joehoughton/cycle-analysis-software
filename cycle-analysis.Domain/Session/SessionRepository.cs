@@ -87,7 +87,7 @@ namespace cycle_analysis.Domain.Session
             using (var reader = new StringReader(sectionHRData))
             {
                 string line;
-                var rowCount = 1;
+                var rowCount = 0;
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -209,14 +209,14 @@ namespace cycle_analysis.Domain.Session
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 AverageAltitude = averageAltitude,
-                AverageHeartRate = averageHeartRate,
-                AveragePower = averagePower,
-                MaximumPower = maximumPower,
                 MaximumAltitude = maximumAltitude,
+                AverageHeartRate = averageHeartRate,
+                MinimumHeartRate = minimumHeartRate,
                 MaximumHeartRate = maximumHeartRate,
                 AverageSpeed = averageSpeed,
                 MaximumSpeed = maximumSpeed,
-                MinimumHeartRate = minimumHeartRate,
+                AveragePower = averagePower,
+                MaximumPower = maximumPower,
                 TotalDistanceKilometres = totalDistanceKilometres,
                 TotalDistanceMiles = totalDistanceMiles,
                 Date = session.Date,
