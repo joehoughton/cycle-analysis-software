@@ -20,6 +20,7 @@ namespace cycle_analysis.Web.Controllers
     using cycle_analysis.Domain.Infrastructure;
     using cycle_analysis.Domain.Session;
     using cycle_analysis.Domain.Session.Dto;
+    using cycle_analysis.Domain.SessionData.Dtos;
     using cycle_analysis.Web.Infrastructure.Core;
 
     [Authorize(Roles = "Admin")]
@@ -114,6 +115,20 @@ namespace cycle_analysis.Web.Controllers
             return CreateHttpResponse(request, () =>
             {
                 var sessionSummaryDto = _sessionRepository.GetSessionData(sessionId);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
+
+                return response;
+            });
+        }
+
+        [HttpPost]
+        [Route("data/subset")]
+        public HttpResponseMessage GetSessionDataSubset(HttpRequestMessage request, SessionDataSubsetDto sessionDataSubsetDto)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var sessionSummaryDto = _sessionRepository.GetSessionDataSubset(sessionDataSubsetDto);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
 

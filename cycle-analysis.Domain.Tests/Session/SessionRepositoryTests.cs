@@ -248,5 +248,72 @@
             Assert.AreEqual(35.61, totalDistanceKilometres);
             Assert.AreEqual(22.13, totalDistanceMiles);
         }
+
+
+        /// <summary>
+        /// The expected results should be returned when comparing dates.
+        /// </summary>
+        [Test]
+        public void ExpectedResultsShouldBeReturnedWhenComparingDates()
+        {
+            DateTime date1 = new DateTime(1993, 05, 10, 08, 30, 20, 2); // earlier date
+            DateTime date2 = new DateTime(1993, 05, 10, 09, 30, 20, 2);
+
+            DateTime date3 = new DateTime(1993, 05, 10, 09, 30, 20, 2); // same date
+            DateTime date4 = new DateTime(1993, 05, 10, 09, 30, 20, 2);
+
+            DateTime date5 = new DateTime(1993, 05, 10, 10, 30, 20, 2); // later date
+            DateTime date6 = new DateTime(1993, 05, 10, 09, 23, 20, 2);
+
+            int earlierThan = DateTime.Compare(date1, date2);
+            int sameDate = DateTime.Compare(date3, date4);
+            int laterThan = DateTime.Compare(date5, date6);
+
+            Assert.AreEqual(-1, earlierThan); // compare returns -1 for if first date is earlier than second
+            Assert.AreEqual(0, sameDate); // compare returns 0 for if dates are the same
+            Assert.AreEqual(1, laterThan); // compare returns 1 for if first date is later than the second
+        }
+
+        /// <summary>
+        /// Seconds should be added to date.
+        /// </summary>
+        [Test]
+        public void SecondsShouldBeAddedToDate()
+        {
+            DateTime date1 = new DateTime(1993, 05, 10, 09, 59, 20, 2); // earlier date
+            DateTime date2 = new DateTime(1993, 05, 10, 10, 01, 00, 2);
+            date1 = date1.AddSeconds(100);
+
+            var checkAreEqual = DateTime.Compare(date1, date2);
+            Assert.AreEqual(0, checkAreEqual); // compare returns 0 for if dates are the same
+        }
+
+        /// <summary>
+        /// Dates within range should be returned.
+        /// </summary>
+        [Test]
+        public void DatesWithinRangeShouldBeReturned()
+        {
+            var startDate = new DateTime(2013, 03, 05, 15, 46, 00, 0);
+            var minimumSeconds = 0;
+            var maximumSeconds = 60;
+
+            var dates = new List<DateTime>()
+            {
+                new DateTime(2013, 03, 05, 14, 46, 20, 0), // too low
+                new DateTime(2013, 03, 05, 15, 45, 59, 0), // too low
+                new DateTime(2013, 03, 05, 15, 47, 01, 0), // too high
+                new DateTime(2013, 03, 05, 15, 46, 00, 0), // minimum
+                new DateTime(2013, 03, 05, 15, 46, 01, 0),
+                new DateTime(2013, 03, 05, 15, 46, 50, 0),
+                new DateTime(2013, 03, 05, 15, 47, 00, 0), // maximum
+                new DateTime(2013, 03, 05, 16, 46, 01, 0)  // too high
+            };
+
+            var filteredDates = dates.FilterDates(startDate, minimumSeconds, maximumSeconds);
+
+            Assert.AreEqual(4, filteredDates.Count);
+        }
+
     }
 }

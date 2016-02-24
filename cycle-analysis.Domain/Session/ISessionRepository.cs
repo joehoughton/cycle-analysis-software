@@ -22,5 +22,6 @@ namespace cycle_analysis.Domain.Session
         SessionDto GetSingle(int sessionId);
         SessionSummaryDto GetSummary(int sessionId);
         SessionDataGraphDto GetSessionData(int sessionId);
+        SessionSummaryDto GetSessionDataSubset(SessionDataSubsetDto sessionDataSubsetDto);
     }
 }

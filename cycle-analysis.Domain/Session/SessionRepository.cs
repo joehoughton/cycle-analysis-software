@@ -243,7 +243,7 @@ namespace cycle_analysis.Domain.Session
             var interval = session.Interval; // amount of time record row represents
 
             var sessionData = _context.SessionData.Where(sd => sd.SessionId == sessionId).OrderBy(sd => sd.Row).ToList();
-            var heartRates = sessionData.Select(sd => new HeartRates(){ HeartRate = sd.HeartRate }).ToList();
+            var heartRates = sessionData.Select(sd => new HeartRates(){ HeartRate = sd.HeartRate }).ToList(); 
             var speeds = sessionData.Select(sd => new Speeds(){ Speed = sd.Speed }).ToList();
             var altitudes = sessionData.Select(sd => new Altitudes(){ Altitude = sd.Altitude }).ToList();
             var cadences = sessionData.Select(sd => new Cadences(){ Cadence = sd.Cadence }).ToList();
@@ -262,6 +262,76 @@ namespace cycle_analysis.Domain.Session
             };
 
             return sessionDataGraphDto;
+        }
+
+        public SessionSummaryDto GetSessionDataSubset(SessionDataSubsetDto sessionDataSubsetDto)
+        {
+            var minimumSeconds = sessionDataSubsetDto.MinimumSecond;
+            var maximumSeconds = sessionDataSubsetDto.MaximumSecond;
+
+            var session = _context.Sessions.Single(x => x.Id == sessionDataSubsetDto.SessionId);
+            var sessionData = _context.SessionData.Where(x => x.SessionId == sessionDataSubsetDto.SessionId).ToList().OrderBy(x => x.Row)
+                .Select(sd => new SessionDataDto()
+                {
+                    Id = sd.Id,
+                    HeartRate = sd.HeartRate,
+                    Speed = sd.Speed,
+                    Cadence = sd.Cadence,
+                    Altitude = sd.Altitude,
+                    Power = sd.Power,
+                    SessionId = sd.SessionId,
+                    Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row),
+                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row)
+                }).ToList();
+
+            var filteredSessionData = sessionData.FilterListDates(session.Date, minimumSeconds, maximumSeconds); // filter sessions by min and max seconds
+
+            var totalCount = filteredSessionData.Count();
+
+            // calculate speed - divided speed by 10 as speed is *10 in file
+            var totalSpeed = filteredSessionData.Sum(s => s.Speed);
+            var averageSpeed =  Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumSpeed =  Math.Round(filteredSessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+            // calculate distance
+            var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+            var totalDistanceKilometres =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+            var totalDistanceMiles = totalDistanceKilometres.ConvertToMiles();
+
+            // calculate heart rate
+            var totalHeartRate = filteredSessionData.Sum(s => s.HeartRate);
+            var averageHeartRate =  Math.Round(totalHeartRate / totalCount, 2, MidpointRounding.AwayFromZero);
+            var minimumHeartRate = filteredSessionData.MinBy(s => s.HeartRate).HeartRate;
+            var maximumHeartRate = filteredSessionData.MaxBy(s => s.HeartRate).HeartRate;
+
+            // calculate power
+            var totalPower = filteredSessionData.Sum(s => s.Power);
+            var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumPower =  Math.Round(filteredSessionData.MaxBy(s => s.Power).Power, 2, MidpointRounding.AwayFromZero);
+
+            // calculate altitiude
+            var totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+            var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+
+            var sessionSummaryDto = new SessionSummaryDto()
+            {
+                AverageAltitude = averageAltitude,
+                AverageHeartRate = averageHeartRate,
+                AveragePower = averagePower,
+                MaximumPower = maximumPower,
+                MaximumAltitude = maximumAltitude,
+                MaximumHeartRate = maximumHeartRate,
+                AverageSpeed = averageSpeed,
+                MaximumSpeed = maximumSpeed,
+                MinimumHeartRate = minimumHeartRate,
+                TotalDistanceKilometres = totalDistanceKilometres,
+                TotalDistanceMiles = totalDistanceMiles,
+                Date = session.Date,
+                SessionId = session.Id
+            };
+
+            return sessionSummaryDto;
         }
     }
 }

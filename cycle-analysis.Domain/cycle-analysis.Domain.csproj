@@ -62,6 +62,7 @@
     <Compile Include="Error\Models\Error.cs" />
     <Compile Include="Error\Mapping\ErrorMap.cs" />
     <Compile Include="Generic\IEntityBase.cs" />
+    <Compile Include="Helper\DateFilter.cs" />
     <Compile Include="Helper\DateFormat.cs" />
     <Compile Include="Helper\DistanceConverter.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Helper\MoreEnumerable.MinBy.cs" />
     <Compile Include="SessionData\Dtos\SessionDataDto.cs" />
     <Compile Include="SessionData\Dtos\SessionDataGraphDto.cs" />
+    <Compile Include="SessionData\Dtos\SessionDataSubsetDto.cs" />
     <Compile Include="SessionData\Mappings\SessionDataMap.cs" />
     <Compile Include="SessionData\Models\SessionData.cs" />
     <Compile Include="Session\Dto\SessionSummaryDto.cs" />

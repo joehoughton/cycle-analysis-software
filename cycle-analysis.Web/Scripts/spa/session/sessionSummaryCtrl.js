@@ -5,16 +5,17 @@
 
   sessionSummaryCtrl.$inject = ['$scope', '$location', '$routeParams', 'apiService', 'notificationService', '$timeout'];
 
-    function sessionSummaryCtrl($scope, $location, $routeParams, apiService, notificationService, $timeout) {
+  function sessionSummaryCtrl($scope, $location, $routeParams, apiService, notificationService, $timeout) {
+      $scope.sessionId = $routeParams.sessionId;
       $scope.pageClass = 'page-session-summary';
       $scope.session = {};
       $scope.sessionData = {};
       $scope.chartConfig = {};
+      $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
       $scope.loadingSummary = true;
       $scope.loadingGraph = true;
       $scope.isReadOnly = false;
       $scope.athleteId = $routeParams.athleteId;
-      $scope.sessionId = $routeParams.sessionId;
 
     function loadSessionSummary() {
       $scope.loadingSummary = true;
@@ -46,10 +47,11 @@
 
     function loadSessionDataCompleted(result) {
       $scope.sessionData = result.data;
-     
+      $scope.sessionDataSubsetDto.MaximumSecond = $scope.sessionData.XAxisScale;
       $timeout(function () {
         initialiseGraph(); // configure the graph
         drawGraph();
+        watchMinAndMaxTimes();
       }, 1200);
     }
 
@@ -121,6 +123,46 @@
 
       $scope.loadingGraph = false;
       $scope.chartConfig.loading = false; // disable loading text
+    }
+
+    function watchMinAndMaxTimes() {
+      $scope.$watch("chartConfig.xAxis.currentMin", function (newValue, oldValue) { // watch Minimum Time input field for changes
+        if (newValue !== oldValue) { // so it isn't called on page load
+          if (!newValue) {
+            $scope.sessionDataSubsetDto.MinimumSecond = 0;
+          } else {
+            $scope.sessionDataSubsetDto.MinimumSecond = $scope.chartConfig.xAxis.currentMin;
+          }
+          loadSessionDataSubset($scope.sessionDataSubsetDto); // get data for selected area on graph
+        }
+      });
+
+      $scope.$watch("chartConfig.xAxis.currentMax", function (newValue, oldValue) { // watch Maximum Time input field for changes
+        if (newValue !== oldValue) { // so it isn't called on page load
+          if (!newValue) {
+            $scope.sessionDataSubsetDto.MaximumSecond = 0;
+          } else {
+            $scope.sessionDataSubsetDto.MaximumSecond = $scope.chartConfig.xAxis.currentMax;
+          }
+          loadSessionDataSubset($scope.sessionDataSubsetDto);
+        }
+      });
+    }
+
+    function loadSessionDataSubset() {
+        apiService.post('/api/sessions/data/subset', $scope.sessionDataSubsetDto,
+        loadSessionDataSubsetCompleted,
+        loadSessionDataSubsetFailed);
+        console.log($scope.sessionDataSubsetDto);
+    }
+
+    function loadSessionDataSubsetCompleted(result) {
+      $scope.session = result.data; // update session using filtered results
+      notificationService.displayInfo("Updated session summary results");
+    }
+
+    function loadSessionDataSubsetFailed() {
+      notificationService.displayWarning("No search results found");
     }
 
     loadSessionSummary();
