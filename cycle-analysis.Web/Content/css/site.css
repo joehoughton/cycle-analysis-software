@@ -7,6 +7,11 @@ body {
     padding-top: 50px;
     background-color: whitesmoke;
 }
+
+.navbar-default a{
+    color: #333 !important;
+}
+
 #sidebar {
     width: inherit;
     min-width: 220px;
@@ -17,6 +22,10 @@ body {
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+#sidebar a {
+    color: #333;
 }
 #main {
     height: 100%;
