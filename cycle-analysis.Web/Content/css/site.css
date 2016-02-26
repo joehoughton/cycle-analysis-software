@@ -38,6 +38,11 @@ body {
 .panel-body {
     color: black;
 }
+
+.panel-title {
+    padding-top: 7.5px;
+    padding-right: 10px;
+}
 .red {
     color: red;
 }
@@ -86,7 +91,7 @@ ul.pagination > li {
 }
 
 .shortInputSearch {
-    width: 300px !important;
+    width: 100% !important;
     float: right !important;
 }
 
@@ -223,6 +228,9 @@ i.fa.fa-pencil-square-o.pull-right {
     padding-top: 3px;
 }
 i.fa.fa-bicycle.pull-right {
+    padding-top: 3px;
+}
+i.fa.fa-calendar.pull-right {
     padding-top: 3px;
 }
 i.fa.fa-pencil.pull-right {

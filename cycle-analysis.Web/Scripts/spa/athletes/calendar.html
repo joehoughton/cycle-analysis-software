@@ -1,0 +1,36 @@
+﻿<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <h5 class="pull-left">Session Calander</h5>
+            </div>
+            <div class="panel-body">
+                <!-- start calendar-->
+                <section id="directives-calendar">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="btn-toolbar">
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'session-calendar')">Day</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'session-calendar')">Week</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'session-calendar')">Month</button>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="calendar" ng-model="eventSources" calendar="session-calendar" ui-calendar="uiConfig.calendar"></div>
+                        </div>
+                    </div>
+                </section>
+                <!--end calendar-->
+
+                <br/>
+
+                <div class="row pull-right">
+                    <div class="col-xs-12">
+                        <a class="btn btn-danger" ng-href="#/athletes/{{athlete.Id}}">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

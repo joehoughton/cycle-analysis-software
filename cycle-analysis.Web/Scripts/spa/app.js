@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-  angular.module('cycleAnalysis', ['common.core', 'common.ui', 'highcharts-ng'])
+  angular.module('cycleAnalysis', ['common.core', 'common.ui'])
         .config(config)
         .run(run);
 
@@ -37,6 +37,10 @@
         .when("/athletes/edit/:id", {
           templateUrl: "scripts/spa/athletes/edit.html",
           controller: "athleteEditCtrl"
+        })
+        .when("/athletes/calendar/:id", {
+         templateUrl: "scripts/spa/athletes/calendar.html",
+         controller: "athleteCalendarCtrl"
         })
         .when("/athletes/:athleteId/session/summary/:sessionId", {
           templateUrl: "scripts/spa/session/summary.html",

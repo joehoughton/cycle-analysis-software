@@ -34,6 +34,7 @@ namespace cycle_analysis.Web
                 "~/Scripts/Vendors/angular-file-upload.js",
                 "~/Scripts/Vendors/angucomplete-alt.min.js",
                 "~/Scripts/Vendors/ui-bootstrap-tpls-0.13.1.js",
+                "~/Scripts/Vendors/moment.js",
                 "~/Scripts/Vendors/underscore.js",
                 "~/Scripts/Vendors/raphael.js",
                 "~/Scripts/Vendors/morris.js",
@@ -43,7 +44,10 @@ namespace cycle_analysis.Web
                 "~/Scripts/Vendors/shCore.js",
                 "~/Scripts/Vendors/shBrushCSharp.js",
                 "~/Scripts/Vendors/highcharts.js",
-                "~/Scripts/Vendors/highcharts-ng.js"));
+                "~/Scripts/Vendors/highcharts-ng.js",
+                "~/Scripts/Vendors/fullcalendar.js",
+                "~/Scripts/Vendors/gcal.js",
+                "~/Scripts/Vendors/calendar.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/spa").Include(
                 "~/Scripts/spa/modules/common.core.js",
@@ -65,6 +69,7 @@ namespace cycle_analysis.Web
                 "~/Scripts/spa/athletes/athleteAddCtrl.js",
                 "~/Scripts/spa/athletes/athleteDetailsCtrl.js",
                 "~/Scripts/spa/athletes/athleteEditCtrl.js",
+                "~/Scripts/spa/athletes/athleteCalendarCtrl.js",
                 "~/Scripts/spa/session/sessionCtrl.js",
                 "~/Scripts/spa/session/addSessionCtrl.js",
                 "~/Scripts/spa/session/sessionSummaryCtrl.js",
@@ -82,7 +87,9 @@ namespace cycle_analysis.Web
                 "~/content/css/shCore.css",
                 "~/content/css/shCoreDefault.css",
                 "~/content/css/shThemeDefault.css",
-                "~/content/css/normalize.css"));
+                "~/content/css/normalize.css",
+                "~/content/css/fullcalendar.css",
+                "~/content/css/calendar.css"));
 
             BundleTable.EnableOptimizations = false;
         }
