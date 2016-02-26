@@ -23,10 +23,9 @@
     function sessionLoadCompleted(result) {
       $scope.session = result.data;
       $scope.loadingSessions = false;
-      
     }
 
-    function sessionLoadFailed(response) {
+    function sessionLoadFailed() {
       notificationService.displayError("Failed to load session");
     }
 

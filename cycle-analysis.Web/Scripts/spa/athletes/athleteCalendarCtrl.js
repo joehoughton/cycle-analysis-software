@@ -8,97 +8,74 @@
   function athleteCalendarCtrl($scope, $location, $routeParams, apiService, notificationService, $compile, uiCalendarConfig) {
     $scope.pageClass = 'page-athletes-calendar';
     $scope.athlete = { Id: $routeParams.id };
-    $scope.loadingAthlete = true;
+    $scope.loadingCalendar = true;
     $scope.isReadOnly = false;
-
-    // calendar current date
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
-    $scope.changeTo = 'Hungarian';
-    // event source that pulls from google.com
-    $scope.eventSource = {
-      url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-      className: 'gcal-event',           // an option!
-      currentTimezone: 'America/Chicago' // an option!
-    };
-    // event source that contains custom events on the scope
-    $scope.events = [
-      { title: 'All Day Event', start: new Date(y, m, 1) },
-      { title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2) },
-      { id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false },
-      { id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false },
-      { title: 'Birthday Party', start: new Date(y, m, d + 1, 19, 0), end: new Date(y, m, d + 1, 22, 30), allDay: false },
-      { title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/' }
-    ];
-    // event source that calls a function on every view switch
-    $scope.eventsF = function (start, end, timezone, callback) {
-      var s = new Date(start).getTime() / 1000;
-      var e = new Date(end).getTime() / 1000;
-      var m = new Date(start).getMonth();
-      var events = [{ title: 'Feed Me ' + m, start: s + (50000), end: s + (100000), allDay: false, className: ['customFeed'] }];
-      callback(events);
+    $scope.eventSources = []; // array of event objects to be added here
+    $scope.events = { // to be passed into $scope.eventSources
+      color: '#b7d331',
+      textColor: 'black',
+      events: [] // calendar events to be added here
     };
 
-    $scope.calEventsExt = {
-      color: '#f00',
-      textColor: 'yellow',
-      events: [
-         { type: 'party', title: 'Lunch', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false },
-         { type: 'party', title: 'Lunch 2', start: new Date(y, m, d, 12, 0), end: new Date(y, m, d, 14, 0), allDay: false },
-         { type: 'party', title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/' }
-      ]
-    };
-    // alert on eventClick
-    $scope.alertOnEventClick = function (date, jsEvent, view) {
-      $scope.alertMessage = (date.title + ' was clicked ');
-    };
-    // alert on Drop
-    $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
-      $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
-    };
-    // alert on Resize
-    $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-      $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
-    // add and removes an event source of choice
-    $scope.addRemoveEventSource = function (sources, source) {
-      var canAdd = 0;
-      angular.forEach(sources, function (value, key) {
-        if (sources[key] === source) {
-          sources.splice(key, 1);
-          canAdd = 1;
-        }
+    function loadSessions() {
+      $scope.loadingAthlete = true;
+      apiService.get('/api/sessions/athlete/' + $routeParams.id + '/calendar', null,
+      loadSessionsCompleted,
+      loadSessionsFailed);
+    }
+
+    function loadSessionsCompleted(result) {
+      $scope.sessions = result.data;
+      notificationService.displayInfo(Object.keys($scope.sessions).length + " sessions recorded"); // display how many results found
+      $scope.loadingCalendar = false; // remove loading message
+     
+      $scope.eventSources.slice(0, $scope.events.length); // remove existing events
+      var events = convertSessionObjectsToArrayOfEvents($scope.sessions); // convert session objects to calendar events
+      $scope.eventSources.push(events); // add events to calendar
+    }
+
+    function loadSessionsFailed() {
+      notificationService.displayError("Failed to find calender events");
+    }
+
+    function convertSessionObjectsToArrayOfEvents(eventObjects) {
+      var events = [];
+      eventObjects.forEach(function (object) { // loop through each json object
+        var startDateString = object['StartDate'];
+        var startDate = new Date(Date.parse(startDateString)); // convert string to date 
+        var startYear = startDate.getFullYear();
+        var startMonth = startDate.getMonth();
+        var startDay = startDate.getUTCDate();
+        var startHour = startDate.getHours();
+        var startMinutes = startDate.getMinutes();
+
+        var endDateString = object['EndDate'];
+        var endDate = new Date(Date.parse(endDateString)); // convert string to date 
+        var endYear = endDate.getFullYear();
+        var endMonth = endDate.getMonth();
+        var endDay = endDate.getUTCDate();
+        var endHour = endDate.getHours();
+        var endMinutes = endDate.getMinutes();
+        // ToDo: Add Title to sessions
+        var event = { title: "Cool Session", start: new Date(startYear, startMonth, startDay, startHour, startMinutes), end: new Date(endYear, endMonth, endDay, endHour, endMinutes), allDay: false, sessionId: object['Id'] }; // create calendar event
+        events.push(event); // add calendar event to array
       });
-      if (canAdd === 0) {
-        sources.push(source);
-      }
-    };
-    // add custom event
-    $scope.addEvent = function () {
-      $scope.events.push({
-        title: 'Open Sesame',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
-      });
-    };
-    // remove event
-    $scope.remove = function (index) {
-      $scope.events.splice(index, 1);
-    };
+
+      return events;
+    }
+
     // change view
     $scope.changeView = function (view, calendar) {
       uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
+
     // change view
     $scope.renderCalender = function (calendar) {
       if (uiCalendarConfig.calendars[calendar]) {
         uiCalendarConfig.calendars[calendar].fullCalendar('render');
       }
     };
+
     // render tooltip
     $scope.eventRender = function (event, element, view) {
       element.attr({
@@ -107,36 +84,31 @@
       });
       $compile(element)($scope);
     };
+    
+    // event click action
+    $scope.eventClickAction = function (selectedEvent, jsEvent, view) {
+      var selectedSessionId = selectedEvent.sessionId; // get sessionId from selected event
+      $location.url('athletes/' + $scope.athlete.Id + '/session/summary/' + selectedSessionId); // redirect to summary view
+    };
+
     // config object
     $scope.uiConfig = {
       calendar: {
         height: 450,
-        editable: true,
+        editable: false, // disable dragging events
         header: {
           left: 'title',
           center: '',
           right: 'today prev,next'
         },
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
+        eventClick: $scope.eventClickAction,
+        eventDrop: null,
+        eventResize: null,
         eventRender: $scope.eventRender
       }
-    };
+    }
 
-    $scope.changeLang = function () {
-      if ($scope.changeTo === 'Hungarian') {
-        $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-        $scope.changeTo = 'English';
-      } else {
-        $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        $scope.changeTo = 'Hungarian';
-      }
-    };
-    // event sources array
-    $scope.eventSources = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+    loadSessions(); // get sessions for calendar
   }
 
 })(angular.module('cycleAnalysis'));

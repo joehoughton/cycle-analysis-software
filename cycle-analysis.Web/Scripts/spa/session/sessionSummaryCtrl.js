@@ -153,7 +153,6 @@
         apiService.post('/api/sessions/data/subset', $scope.sessionDataSubsetDto,
         loadSessionDataSubsetCompleted,
         loadSessionDataSubsetFailed);
-        console.log($scope.sessionDataSubsetDto);
     }
 
     function loadSessionDataSubsetCompleted(result) {

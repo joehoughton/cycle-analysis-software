@@ -151,7 +151,7 @@ namespace cycle_analysis.Domain.Session
                     Power = sd.Power,
                     SessionId = sd.SessionId,
                     Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row),
-                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row)
+                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row) // DELETE DON'T NEED BOTH
                 }).ToList();
 
             var sessionDto = new SessionDto
@@ -332,6 +332,19 @@ namespace cycle_analysis.Domain.Session
             };
 
             return sessionSummaryDto;
+        }
+
+        public List<SessionCalendarDto> GetCalendarData(int athleteId)
+        {
+            var sessionCalendarDtos = _context.Sessions.Where(x => x.AthleteId == athleteId).ToList().Select(s => new SessionCalendarDto()
+            {
+                Id = s.Id,
+                StartDate = s.Date,
+                EndDate = DateFormat.CalculateSessionDataRowDate(s.Date, s.SessionData.OrderByDescending(x => x.Row).First().Row, s.Interval), // gets the last row from the SessionData of the session
+                AthleteId = athleteId
+            }).ToList();
+
+            return sessionCalendarDtos;
         }
     }
 }

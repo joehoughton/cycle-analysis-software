@@ -71,7 +71,7 @@ namespace cycle_analysis.Web.Controllers
 
         [HttpGet]
         [Route("{athleteId:int}/sessionhistory")]
-        public HttpResponseMessage AuditHistory(HttpRequestMessage request, int athleteId)
+        public HttpResponseMessage SessionHistory(HttpRequestMessage request, int athleteId)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -131,6 +131,20 @@ namespace cycle_analysis.Web.Controllers
                 var sessionSummaryDto = _sessionRepository.GetSessionDataSubset(sessionDataSubsetDto);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
+
+                return response;
+            });
+        }
+
+        [HttpGet]
+        [Route("athlete/{athleteId:int}/calendar")]
+        public HttpResponseMessage GetCalendarData(HttpRequestMessage request, int athleteId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var calendarDtoList = _sessionRepository.GetCalendarData(athleteId);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, calendarDtoList);
 
                 return response;
             });

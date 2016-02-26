@@ -12,11 +12,9 @@
     $scope.isReadOnly = false;
     $scope.UpdateAthlete = updateAthlete;
     $scope.prepareFiles = prepareFiles;
-
-    var athleteImage = null;
+    $scope.athleteImage = null;
 
     function loadAthlete() {
-
       $scope.loadingAthlete = true;
 
       apiService.get('/api/athletes/details/' + $routeParams.id, null,
@@ -34,8 +32,8 @@
     }
 
     function updateAthlete() {
-      if (athleteImage) {
-        fileUploadService.uploadImage(athleteImage, $scope.athlete.Id, updateAthleteModelImage);
+      if ($scope.athleteImage) {
+        fileUploadService.uploadImage($scope.athleteImage, $scope.athlete.Id, updateAthleteModelImage);
       }
       else
         updateAthleteModel();
@@ -44,7 +42,7 @@
     function updateAthleteModelImage(result) {
       $scope.athlete.Image = result.Image;
       updateAthleteModel();
-      athleteImage = null;
+      $scope.athleteImage = null;
     }
 
     function updateAthleteModel() {
@@ -54,17 +52,16 @@
     }
 
     function prepareFiles($files) {
-      athleteImage = $files;
+      $scope.athleteImage = $files;
     }
 
     function updateAthleteSucceded(response) {
       notificationService.displaySuccess($scope.athlete.FirstName +' '+ $scope.athlete.LastName + ' has been updated');
       $scope.athlete = response.data;
-      athleteImage = null;
+      $scope.athleteImage = null;
     }
 
-    function updateAthleteFailed(response) {
-      // notificationService.displayError(response);
+    function updateAthleteFailed() {
       notificationService.displayError("Failed to update athlete, try again");
     }
 

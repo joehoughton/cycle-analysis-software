@@ -79,6 +79,7 @@
     <Compile Include="SessionData\Dtos\SessionDataSubsetDto.cs" />
     <Compile Include="SessionData\Mappings\SessionDataMap.cs" />
     <Compile Include="SessionData\Models\SessionData.cs" />
+    <Compile Include="Session\Dto\SessionCalendarDto.cs" />
     <Compile Include="Session\Dto\SessionSummaryDto.cs" />
     <Compile Include="Session\Dto\HRMFileDto.cs" />
     <Compile Include="Session\Mapping\SessionMap.cs" />

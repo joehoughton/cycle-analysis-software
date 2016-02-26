@@ -23,5 +23,6 @@ namespace cycle_analysis.Domain.Session
         SessionSummaryDto GetSummary(int sessionId);
         SessionDataGraphDto GetSessionData(int sessionId);
         SessionSummaryDto GetSessionDataSubset(SessionDataSubsetDto sessionDataSubsetDto);
+        List<SessionCalendarDto> GetCalendarData(int athleteId);
     }
 }

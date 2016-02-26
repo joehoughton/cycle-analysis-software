@@ -7,11 +7,6 @@ body {
     padding-top: 50px;
     background-color: whitesmoke;
 }
-
-.navbar-default a{
-    color: #333 !important;
-}
-
 #sidebar {
     width: inherit;
     min-width: 220px;
@@ -23,9 +18,12 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 }
-
 #sidebar a {
     color: #333;
+}
+.sign-out-icon {
+    cursor: pointer;
+    color: #c12e2a;
 }
 #main {
     height: 100%;
@@ -62,13 +60,11 @@ body {
 ul.pagination > li {
     cursor: pointer;
 }
-
 /* Fixes alignment in nav lists */
 .nav-pills [class^="fa-"],
 .nav-pills [class*=" fa-"] {
     line-height: inherit;
 }
-
 /* Off Canvas sidebar */
 @media screen and (max-width: 768px) {
     .row-offcanvas {
@@ -89,17 +85,18 @@ ul.pagination > li {
         top: 0;
     }
 }
-
 .shortInputSearch {
     width: 100% !important;
     float: right !important;
 }
-
 .fa-refresh:before {
     color: black;
 }
 
 /* Bootstrap */
+.navbar-default a{
+    color: #333 !important;
+}
 .label {
     font-size: 85% !important;
     font-weight: normal !important;
@@ -253,31 +250,26 @@ textarea {
 input#inputSearchSessions {
     margin-left: 10px;
 }
-
 #session-table td , th  {
    text-align: center;
 }
-
 #session-table th  {
    text-align: center;
 }
-
 .view-session-icon {
     cursor: pointer;
 }
+
 /* Session Detail */
 #session-data-table {
     color: black;
 }
-
 #session-data-table td , th  {
    text-align: center;
 }
-
 #session-data-table th  {
    text-align: center;
 }
-
 .custom-table td, th{
     text-align: center;
     color: black;
@@ -287,11 +279,17 @@ input#inputSearchSessions {
 .highcharts-container {
     width: 100% !important;
 }
-
 .highcharts-loading span{
     color: #707070;
 }
-
 #loading-graph.fa-refresh:before {
     color: white;
+}
+.highcharts-button tspan {
+    cursor: pointer;
+}
+
+/* Session Calendar */
+.fc-content {
+    cursor: pointer;
 }
