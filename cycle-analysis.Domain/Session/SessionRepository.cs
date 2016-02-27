@@ -210,11 +210,18 @@ namespace cycle_analysis.Domain.Session
             var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
 
+            // calculate cadence
+            var totalCadence = sessionData.Sum(s => s.Cadence);
+            var averageCadence = Math.Round(totalCadence / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumCadence = Math.Round(sessionData.MaxBy(s => s.Cadence).Cadence, 2, MidpointRounding.AwayFromZero);
+
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 Title = session.Title,
                 AverageAltitude = averageAltitude,
                 MaximumAltitude = maximumAltitude,
+                AverageCadence = averageCadence,
+                MaximumCadence = maximumCadence,
                 AverageHeartRate = averageHeartRate,
                 MinimumHeartRate = minimumHeartRate,
                 MaximumHeartRate = maximumHeartRate,
@@ -319,17 +326,24 @@ namespace cycle_analysis.Domain.Session
             var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
 
+            // calculate cadence
+            var totalCadence = filteredSessionData.Sum(s => s.Cadence);
+            var averageCadence = Math.Round(totalCadence / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumCadence = Math.Round(filteredSessionData.MaxBy(s => s.Cadence).Cadence, 2, MidpointRounding.AwayFromZero);
+
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 AverageAltitude = averageAltitude,
+                MaximumAltitude = maximumAltitude,
                 AverageHeartRate = averageHeartRate,
+                MinimumHeartRate = minimumHeartRate,
+                MaximumHeartRate = maximumHeartRate,
                 AveragePower = averagePower,
                 MaximumPower = maximumPower,
-                MaximumAltitude = maximumAltitude,
-                MaximumHeartRate = maximumHeartRate,
+                AverageCadence = averageCadence,
+                MaximumCadence = maximumCadence,
                 AverageSpeed = averageSpeed,
                 MaximumSpeed = maximumSpeed,
-                MinimumHeartRate = minimumHeartRate,
                 TotalDistanceKilometres = totalDistanceKilometres,
                 TotalDistanceMiles = totalDistanceMiles,
                 Date = session.Date,

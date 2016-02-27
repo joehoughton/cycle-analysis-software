@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h5>Session Summary</h5>
@@ -30,33 +30,38 @@
                                 </div>
                             </div>
                             <div class="row" ng-if="!loadingSummary">
-                                <div class="col-xs-12 col-sm-3">
-                                    Average Speed: <strong>{{session.AverageSpeed}} mph</strong>
-                                    <br/>
-                                    Maximum Speed: <strong>{{session.MaximumSpeed}} mph</strong>
-                                    <br/>
+                                <div class="col-xs-12 col-md-2">
                                     Total Distance: <strong>{{distance.measurement}}</strong>
-                                    <br/>
+                                    <br />
                                     <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceKilometres}} km/h">km/h</label>
                                     <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceMiles}} mph">mph</label>
-                                    <br/>
                                 </div>
-                                <div class="col-xs-12 col-sm-3">
-                                    Average Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
-                                    <br/>
-                                    Minimum Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
-                                    <br/>
-                                    Maximum Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
+                                <div class="col-xs-12 col-sm-2">
+                                    Avg Speed: <strong>{{session.AverageSpeed}} mph</strong>
+                                    <br />
+                                    Max Speed: <strong>{{session.MaximumSpeed}} mph</strong>
                                 </div>
-                                <div class="col-xs-12 col-sm-3">
-                                    Average Power: <strong>{{session.AveragePower}} watts</strong>
+                                <div class="col-xs-12 col-md-2">
+                                    Avg Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
                                     <br/>
-                                    Maximum Power: <strong>{{session.MaximumPower}} watts</strong>
+                                    Min Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
+                                    <br/>
+                                    Max Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
                                 </div>
-                                <div class="col-xs-12 col-sm-3">
-                                    Average Altitude: <strong>{{session.AverageAltitude}} feet</strong>
-                                    <br/>
-                                    Maximum Altitude: <strong>{{session.MaximumAltitude}} feet</strong>
+                                <div class="col-xs-12 col-md-2">
+                                    Avg Power: <strong>{{session.AveragePower}} watts</strong>
+                                    <br />
+                                    Max Power: <strong>{{session.MaximumPower}} watts</strong>
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    Avg Altitude: <strong>{{session.AverageAltitude}} feet</strong>
+                                    <br />
+                                    Max Altitude: <strong>{{session.MaximumAltitude}} feet</strong>
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    Avg Cadence: <strong>{{session.AverageCadence}} rpm</strong>
+                                    <br />
+                                    Max Cadence: <strong>{{session.MaximumCadence}} rpm</strong>
                                 </div>
                             </div>
                         </div>

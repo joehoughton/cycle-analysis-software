@@ -7,6 +7,9 @@ body {
     padding-top: 50px;
     background-color: whitesmoke;
 }
+#mobile-nav-button {
+    margin-top: 10px;
+}
 #sidebar {
     width: inherit;
     min-width: 220px;
