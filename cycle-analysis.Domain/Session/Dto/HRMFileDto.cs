@@ -14,6 +14,7 @@ namespace cycle_analysis.Domain.Session.Dto
     public class HRMFileDto
     {
         public int AthleteId { get; set; }
+        public string Title { get; set; }
         public string HRMFile { get; set; }
     }
 }

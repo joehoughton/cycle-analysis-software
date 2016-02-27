@@ -19,6 +19,7 @@ namespace cycle_analysis.Domain.Session.Models
     public class Session
     {
         public int Id { get; set; }
+        public string Title { get; set; }
         public double SoftwareVersion { get; set; }
         public int MonitorVersion { get; set; }
         public int SMode { get; set; }

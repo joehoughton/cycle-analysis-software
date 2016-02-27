@@ -67,6 +67,7 @@ namespace cycle_analysis.Domain.Session
 
             var session = new Session()
             {
+                Title = hrmFileDto.Title,
                 SoftwareVersion = sections.Params.SoftwareVersion,
                 MonitorVersion = sections.Params.MonitorVersion,
                 SMode = sections.Params.SMode,
@@ -112,6 +113,7 @@ namespace cycle_analysis.Domain.Session
             }
 
             sessionDataList.ForEach(s => _context.SessionData.Add(s)); // loop through each list item and save
+
             _context.SaveChanges();
         }
 
@@ -122,6 +124,7 @@ namespace cycle_analysis.Domain.Session
             .Select(s => new SessionDto
             {
                 Id = s.Id,
+                Title = s.Title,
                 SoftwareVersion = s.SoftwareVersion,
                 MonitorVersion = s.MonitorVersion,
                 SMode = s.SMode,
@@ -157,6 +160,7 @@ namespace cycle_analysis.Domain.Session
             var sessionDto = new SessionDto
             {
                 Id = session.Id,
+                Title = session.Title,
                 SoftwareVersion = session.SoftwareVersion,
                 MonitorVersion = session.MonitorVersion,
                 SMode = session.SMode,
@@ -208,6 +212,7 @@ namespace cycle_analysis.Domain.Session
 
             var sessionSummaryDto = new SessionSummaryDto()
             {
+                Title = session.Title,
                 AverageAltitude = averageAltitude,
                 MaximumAltitude = maximumAltitude,
                 AverageHeartRate = averageHeartRate,
@@ -339,6 +344,7 @@ namespace cycle_analysis.Domain.Session
             var sessionCalendarDtos = _context.Sessions.Where(x => x.AthleteId == athleteId).ToList().Select(s => new SessionCalendarDto()
             {
                 Id = s.Id,
+                Title = s.Title,
                 StartDate = s.Date,
                 EndDate = DateFormat.CalculateSessionDataRowDate(s.Date, s.SessionData.OrderByDescending(x => x.Row).First().Row, s.Interval), // gets the last row from the SessionData of the session
                 AthleteId = athleteId

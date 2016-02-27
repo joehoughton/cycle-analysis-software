@@ -16,15 +16,17 @@ namespace cycle_analysis.Domain.Session.Dto
     public class SessionCalendarDto
     {
         public SessionCalendarDto() { }
-        public SessionCalendarDto(int id, DateTime startDate, DateTime endDate, int athleteId)
+        public SessionCalendarDto(int id, string title, DateTime startDate, DateTime endDate, int athleteId)
         {
             Id = id;
+            Title = title;
             StartDate = startDate;
             EndDate = endDate;
             AthleteId = athleteId;
         }
 
         public int Id { get; set; }
+        public string Title { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int AthleteId { get; set; }

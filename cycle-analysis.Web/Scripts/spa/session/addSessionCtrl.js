@@ -30,13 +30,13 @@
     }
 
     function cancel() {
-      $scope.session.HRMFile = null;
+      $scope.session = null;
       $scope.isEnabled = false;
       $modalInstance.dismiss();
     }
 
     function checkFormIsValid() {
-      if ($scope.session.HRMFile) {
+      if ($scope.session.HRMFile && $scope.session.Title) {
         $scope.isEnabled = true;
       }
       else {

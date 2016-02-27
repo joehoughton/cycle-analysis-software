@@ -56,8 +56,8 @@
         var endDay = endDate.getUTCDate();
         var endHour = endDate.getHours();
         var endMinutes = endDate.getMinutes();
-        // ToDo: Add Title to sessions
-        var event = { title: "Cool Session", start: new Date(startYear, startMonth, startDay, startHour, startMinutes), end: new Date(endYear, endMonth, endDay, endHour, endMinutes), allDay: false, sessionId: object['Id'] }; // create calendar event
+
+        var event = { title: object['Title'], start: new Date(startYear, startMonth, startDay, startHour, startMinutes), end: new Date(endYear, endMonth, endDay, endHour, endMinutes), allDay: false, sessionId: object['Id'] }; // create calendar event
         events.push(event); // add calendar event to array
       });
 

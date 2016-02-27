@@ -18,9 +18,10 @@ namespace cycle_analysis.Domain.Session.Dto
     public class SessionDto
     {
         public SessionDto() { }
-        public SessionDto(int id, double softwareVersion, int monitorVersion, int sMode, DateTime startTime, DateTime length, DateTime date, int interval, int upper1, int lower1, int athleteId, List<SessionDataDto> sessionData)
+        public SessionDto(int id, string title, double softwareVersion, int monitorVersion, int sMode, DateTime startTime, DateTime length, DateTime date, int interval, int upper1, int lower1, int athleteId, List<SessionDataDto> sessionData)
         {
             Id = id;
+            Title = title;
             SoftwareVersion = softwareVersion;
             MonitorVersion = monitorVersion;
             SMode = sMode;
@@ -35,6 +36,7 @@ namespace cycle_analysis.Domain.Session.Dto
         }
 
         public int Id { get; set; }
+        public string Title { get; set; }
         public double SoftwareVersion { get; set; }
         public int MonitorVersion { get; set; }
         public int SMode { get; set; }

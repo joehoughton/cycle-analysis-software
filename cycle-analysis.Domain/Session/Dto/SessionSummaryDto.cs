@@ -16,11 +16,12 @@ namespace cycle_analysis.Domain.Session.Dto
     public class SessionSummaryDto
     {
         public SessionSummaryDto() { }
-        public SessionSummaryDto(int id, double totalDistanceKilometres, double totalDistanceMiles, double averageSpeed, double maximumSpeed,
+        public SessionSummaryDto(int id, string title, double totalDistanceKilometres, double totalDistanceMiles, double averageSpeed, double maximumSpeed,
                                 double averageHeartRate, double minimumHeartRate, double maximumHeartRate, double averagePower,
                                 double maximumPower, double averageAltitude, double maximumAltitude,  int sessionId)
         {
             Id = id;
+            Title = title;
             TotalDistanceKilometres = totalDistanceKilometres;
             TotalDistanceMiles = totalDistanceMiles;
             AverageSpeed = averageSpeed;
@@ -36,6 +37,7 @@ namespace cycle_analysis.Domain.Session.Dto
         }
 
         public int Id { get; set; }
+        public string Title { get; set; }
         public double TotalDistanceKilometres { get; set; }
         public double TotalDistanceMiles { get; set; }
         public double AverageSpeed { get; set; }
