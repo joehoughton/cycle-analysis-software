@@ -11,7 +11,7 @@
     $scope.session = {};
     $scope.sessionData = {};
     $scope.chartConfig = {};
-    $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
+    $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null, Unit: 0 }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
     $scope.loadingSummary = true;
     $scope.loadingGraph = true;
     $scope.isReadOnly = false;
@@ -45,8 +45,8 @@
 
     function loadSessionData() {
       apiService.get('/api/sessions/data/' + $scope.sessionId, null,
-      loadSessionDataCompleted,
-      loadSessionDataFailed);
+        loadSessionDataCompleted,
+        loadSessionDataFailed);
     }
 
     function loadSessionDataCompleted(result) {
@@ -137,7 +137,7 @@
           } else {
             $scope.sessionDataSubsetDto.MinimumSecond = $scope.chartConfig.xAxis.currentMin;
           }
-          loadSessionDataSubset($scope.sessionDataSubsetDto); // get data for selected area on graph
+          loadSessionDataSubset(); // get data for selected area on graph
         }
       });
 
@@ -148,13 +148,17 @@
           } else {
             $scope.sessionDataSubsetDto.MaximumSecond = $scope.chartConfig.xAxis.currentMax;
           }
-          loadSessionDataSubset($scope.sessionDataSubsetDto);
+          loadSessionDataSubset();
         }
       });
     }
 
     function loadSessionDataSubset() {
-        apiService.post('/api/sessions/data/subset', $scope.sessionDataSubsetDto,
+      if (undefined != $scope.selectedUnit) {
+        $scope.sessionDataSubsetDto.Unit = $scope.selectedUnit.index;
+      }
+
+      apiService.post('/api/sessions/data/subset', $scope.sessionDataSubsetDto,
         loadSessionDataSubsetCompleted,
         loadSessionDataSubsetFailed);
     }

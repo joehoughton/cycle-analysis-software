@@ -350,8 +350,11 @@ namespace cycle_analysis.Domain.Session
         {
             var minimumSeconds = sessionDataSubsetDto.MinimumSecond;
             var maximumSeconds = sessionDataSubsetDto.MaximumSecond;
+            var requestedUnitIsMetric = sessionDataSubsetDto.Unit == 0;
 
             var session = _context.Sessions.Single(x => x.Id == sessionDataSubsetDto.SessionId);
+            var sModeIsMetric = session.SMode.ToString("D9").IsMetric(); // pad int to 9 decimals if zero
+
             var sessionData = _context.SessionData.Where(x => x.SessionId == sessionDataSubsetDto.SessionId).ToList().OrderBy(x => x.Row)
                 .Select(sd => new SessionDataDto()
                 {
@@ -367,17 +370,89 @@ namespace cycle_analysis.Domain.Session
                 }).ToList();
 
             var filteredSessionData = sessionData.FilterListDates(session.Date, minimumSeconds, maximumSeconds); // filter sessions by min and max seconds
-
             var totalCount = filteredSessionData.Count();
 
-            // calculate speed - divided speed by 10 as speed is *10 in file
-            var totalSpeed = filteredSessionData.Sum(s => s.Speed);
-            var averageSpeed =  Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
-            var maximumSpeed =  Math.Round(filteredSessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+            double totalTimeInHours;
+            double maximumSpeed;
+            double averageSpeed;
+            double totalSpeed;
+            double totalDistance;
+            double averageAltitude;
+            double maximumAltitude;
+            double totalAltitude;
 
-            // calculate distance
-            var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
-            var totalDistance =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero); // Todo: change to reflect units
+            if (requestedUnitIsMetric) // return metric values
+            {
+                if (sModeIsMetric)
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file
+                    totalSpeed = filteredSessionData.Sum(s => s.Speed);
+                    averageSpeed = Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumSpeed = Math.Round(
+                    filteredSessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate distance
+                    totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate altitiude
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                }
+                else
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file - converted kilometres to miles
+                    totalSpeed = filteredSessionData.Sum(s => s.Speed);
+                    averageSpeed = ((totalSpeed / 10) / totalCount).ConvertToKilometres();
+                    maximumSpeed = (filteredSessionData.MaxBy(s => s.Speed).Speed / 10).ConvertToKilometres();
+
+                    // calculate distance
+                    totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToKilometres();
+
+                    // calculate altitiude - convert metres to feet
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    averageAltitude = (totalAltitude / totalCount).ConvertToMetres();
+                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude).ConvertToMetres();
+                }
+            }
+            else // return imperial values
+            {
+                if (sModeIsMetric)
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file - converted kilometres to miles
+                    totalSpeed = filteredSessionData.Sum(s => s.Speed);
+                    averageSpeed = ((totalSpeed / 10) / totalCount).ConvertToMiles();
+                    maximumSpeed = (filteredSessionData.MaxBy(s => s.Speed).Speed / 10).ConvertToMiles();
+
+                    // calculate distance
+                    totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToMiles();
+
+                    // calculate altitiude - convert metres to feet
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    averageAltitude = (totalAltitude / totalCount).ConvertToFeet();
+                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude).ConvertToFeet();
+                }
+                else
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file
+                    totalSpeed = filteredSessionData.Sum(s => s.Speed);
+                    averageSpeed = Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumSpeed = Math.Round(
+                    filteredSessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate distance
+                    totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate altitiude
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                }
+            }
 
             // calculate heart rate
             var totalHeartRate = filteredSessionData.Sum(s => s.HeartRate);
@@ -389,11 +464,6 @@ namespace cycle_analysis.Domain.Session
             var totalPower = filteredSessionData.Sum(s => s.Power);
             var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumPower =  Math.Round(filteredSessionData.MaxBy(s => s.Power).Power, 2, MidpointRounding.AwayFromZero);
-
-            // calculate altitiude
-            var totalAltitude = filteredSessionData.Sum(s => s.Altitude);
-            var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-            var maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
 
             // calculate cadence
             var totalCadence = filteredSessionData.Sum(s => s.Cadence);

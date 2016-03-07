@@ -16,5 +16,6 @@ namespace cycle_analysis.Domain.SessionData.Dtos
         public double MinimumSecond { get; set; }
         public double MaximumSecond { get; set; }
         public int SessionId { get; set; }
+        public int Unit { get; set; }
     }
 }
