@@ -96,12 +96,13 @@ namespace cycle_analysis.Web.Controllers
             });
         }
 
-        [Route("summary/{sessionId:int}")]
-        public HttpResponseMessage GetSummary(HttpRequestMessage request, int sessionId)
+        [HttpPost]
+        [Route("summary")]
+        public HttpResponseMessage GetSummary(HttpRequestMessage request, SessionSummaryRequestDto sessionSummaryRequestDto)
         {
             return CreateHttpResponse(request, () =>
             {
-                var sessionSummaryDto = _sessionRepository.GetSummary(sessionId);
+                var sessionSummaryDto = _sessionRepository.GetSummary(sessionSummaryRequestDto);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, sessionSummaryDto);
 

@@ -20,7 +20,7 @@ namespace cycle_analysis.Domain.Session
         void Add(HRMFileDto hrmFileDto);
         List<SessionDto> GetSessionHistory(int athleteId);
         SessionDto GetSingle(int sessionId);
-        SessionSummaryDto GetSummary(int sessionId);
+        SessionSummaryDto GetSummary(SessionSummaryRequestDto sessionSummaryRequestDto);
         SessionDataGraphDto GetSessionData(int sessionId);
         SessionSummaryDto GetSessionDataSubset(SessionDataSubsetDto sessionDataSubsetDto);
         List<SessionCalendarDto> GetCalendarData(int athleteId);

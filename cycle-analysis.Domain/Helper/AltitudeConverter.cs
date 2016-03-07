@@ -13,26 +13,26 @@ namespace cycle_analysis.Domain.Helper
 {
     using System;
 
-    public static class DistanceConverter
+    public static class AltitudeConverter
     {
-        private const double KilometresToMiles = 0.621371192;
-
+        private const double MetresToFeet = 3.28084;
+        
         /// <summary>
-        /// Converts Kilometres into Miles.
+        /// Converts Metres into Feet.
         /// </summary>
-        public static double ConvertToMiles(this double kilometres)
+        public static double ConvertToFeet(this double metres)
         {
-            return Math.Round(kilometres * KilometresToMiles, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(metres * MetresToFeet, 2, MidpointRounding.AwayFromZero);
         }
 
-        private const double MilesToKilometres = 0.621371192;
+        private const double FeetToMetres = 3.28084;
 
         /// <summary>
-        /// Converts Miles into Kilometres.
+        /// Converts Feet into Metres.
         /// </summary>
-        public static double ConvertToKilometres(this double miles)
+        public static double ConvertToMetres(this double feet)
         {
-            return Math.Round(miles / MilesToKilometres, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(feet / FeetToMetres, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

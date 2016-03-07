@@ -6,20 +6,28 @@
   sessionSummaryCtrl.$inject = ['$scope', '$location', '$routeParams', 'apiService', 'notificationService', '$timeout'];
 
   function sessionSummaryCtrl($scope, $location, $routeParams, apiService, notificationService, $timeout) {
-      $scope.sessionId = $routeParams.sessionId;
-      $scope.pageClass = 'page-session-summary';
-      $scope.session = {};
-      $scope.sessionData = {};
-      $scope.chartConfig = {};
-      $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
-      $scope.loadingSummary = true;
-      $scope.loadingGraph = true;
-      $scope.isReadOnly = false;
-      $scope.athleteId = $routeParams.athleteId;
+    $scope.sessionId = $routeParams.sessionId;
+    $scope.pageClass = 'page-session-summary';
+    $scope.session = {};
+    $scope.sessionData = {};
+    $scope.chartConfig = {};
+    $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
+    $scope.loadingSummary = true;
+    $scope.loadingGraph = true;
+    $scope.isReadOnly = false;
+    $scope.athleteId = $routeParams.athleteId;
+    $scope.loadSessionSummary = loadSessionSummary;
 
-    function loadSessionSummary() {
+    $scope.units = [{ name: 'Metric Units', index: 0 }, { name: 'Imperial Units', index: 1 }];
+    $scope.selectedUnit = $scope.units[0];
+
+    function loadSessionSummary(selected) {
+      if (undefined !=selected) {
+        $scope.selectedUnit = $scope.units[selected.index];
+      }
       $scope.loadingSummary = true;
-      apiService.get('/api/sessions/summary/' + $scope.sessionId, null,
+      $scope.sessionSummaryRequest = { SessionId: parseInt($scope.sessionId), Unit: $scope.selectedUnit.index };
+      apiService.post('/api/sessions/summary', $scope.sessionSummaryRequest,
       loadSessionSummaryCompleted,
       loadSessionSummaryFailed);
     }
@@ -34,10 +42,6 @@
     function loadSessionSummaryFailed() {
       notificationService.displayError("Failed to load session summary");
     }
-
-    $scope.distance = {
-      measurement: " - " // value before radio button selected
-    };
 
     function loadSessionData() {
       apiService.get('/api/sessions/data/' + $scope.sessionId, null,

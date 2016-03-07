@@ -1,4 +1,15 @@
-﻿namespace cycle_analysis.Domain.Tests.Session
+﻿/****************************** Cycle Analysis ******************************\
+Description: Cycle Analysis Software
+Author: Joe Houghton - C3375905
+Assignment: Advanced Software Engineering B
+
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+namespace cycle_analysis.Domain.Tests.Session
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +19,7 @@
     using cycle_analysis.Domain.Context;
     using cycle_analysis.Domain.Helper;
     using cycle_analysis.Domain.Session;
+    using cycle_analysis.Domain.Session.Dto;
     using cycle_analysis.Domain.Session.Models;
     using cycle_analysis.Domain.SessionData.Dtos;
     using cycle_analysis.Domain.SessionData.Models;
@@ -40,12 +52,19 @@
                 new SessionData(){ Id = 2, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 837, Row = 3, SessionId = 1 },
                 new SessionData(){ Id = 3, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, Row = 4, SessionId = 1 },
                 new SessionData(){ Id = 4, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, Row = 5, SessionId = 1 },
-                new SessionData(){ Id = 5, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 1 }
+                new SessionData(){ Id = 5, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 1 },
+                new SessionData(){ Id = 6, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, Row = 1, SessionId = 2 },
+                new SessionData(){ Id = 7, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 477, Row = 2, SessionId = 2 },
+                new SessionData(){ Id = 8, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 837, Row = 3, SessionId = 2 },
+                new SessionData(){ Id = 9, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, Row = 4, SessionId = 2 },
+                new SessionData(){ Id = 10, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, Row = 5, SessionId = 2 },
+                new SessionData(){ Id = 11, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 2 }
             };
 
             _sessionList = new List<Session>()
             {
-                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SessionData = _sessionDataList }
+                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000000, SessionData = _sessionDataList },
+                new Session(){ Id = 2, Date = new DateTime(2010, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000010, SessionData = _sessionDataList }
             };
 
             // convert the IEnumerable _sessionList to an IQueryable list
@@ -190,7 +209,8 @@
         [Test]
         public void CorrectAveragesAreCalculated()
         {
-            var sessionSummary = _sessionRepository.GetSummary(1);
+            var sessionSummaryRequestDto = new SessionSummaryRequestDto() { SessionId = 1, Unit = 0 };
+            var sessionSummary = _sessionRepository.GetSummary(sessionSummaryRequestDto);
 
             var averageSpeed = sessionSummary.AverageSpeed;
             var averageHeatRate = sessionSummary.AverageHeartRate;
@@ -209,12 +229,13 @@
         [Test]
         public void CorrectMaximumValuesAreFound()
         {
-            var sessionSumamry = _sessionRepository.GetSummary(1);
+            var sessionSummaryRequestDto = new SessionSummaryRequestDto() { SessionId = 1, Unit = 0 };
+            var sessionSummary = _sessionRepository.GetSummary(sessionSummaryRequestDto);
 
-            var maximumSpeed = sessionSumamry.MaximumSpeed;
-            var maximumHeatRate = sessionSumamry.MaximumHeartRate;
-            var maximumAltitude = sessionSumamry.MaximumAltitude;
-            var maximumPower = sessionSumamry.MaximumPower;
+            var maximumSpeed = sessionSummary.MaximumSpeed;
+            var maximumHeatRate = sessionSummary.MaximumHeartRate;
+            var maximumAltitude = sessionSummary.MaximumAltitude;
+            var maximumPower = sessionSummary.MaximumPower;
 
             Assert.AreEqual(33.8m, maximumSpeed);
             Assert.AreEqual(145, maximumHeatRate);
@@ -228,9 +249,10 @@
         [Test]
         public void CorrectMinimumValuesAreFound()
         {
-            var sessionSumamry = _sessionRepository.GetSummary(1);
+            var sessionSummaryRequestDto = new SessionSummaryRequestDto() { SessionId = 1, Unit = 0 };
+            var sessionSummary = _sessionRepository.GetSummary(sessionSummaryRequestDto);
 
-            var minimumHeartRate = sessionSumamry.MinimumHeartRate;
+            var minimumHeartRate = sessionSummary.MinimumHeartRate;
 
             Assert.AreEqual(125, minimumHeartRate);
         }
@@ -241,13 +263,17 @@
         [Test]
         public void CorrectDistanceIsCalculated()
         {
-            var sessionSumamry = _sessionRepository.GetSummary(1);
+            var sessionSummaryRequestDtoMetric = new SessionSummaryRequestDto() { SessionId = 1, Unit = 0 };
+            var sessionSummaryRequestDtoImperial = new SessionSummaryRequestDto() { SessionId = 2, Unit = 0 };
 
-            var totalDistanceKilometres =  sessionSumamry.TotalDistanceKilometres;
-            var totalDistanceMiles = sessionSumamry.TotalDistanceMiles;
+            var sessionSummaryMetric = _sessionRepository.GetSummary(sessionSummaryRequestDtoMetric);
+            var sessionSummaryImperial = _sessionRepository.GetSummary(sessionSummaryRequestDtoImperial);
+
+            var totalDistanceKilometres =  sessionSummaryMetric.TotalDistance;
+            var totalDistanceMiles = sessionSummaryImperial.TotalDistance;
 
             Assert.AreEqual(36.66, totalDistanceKilometres);
-            Assert.AreEqual(22.78, totalDistanceMiles);
+            Assert.AreEqual(59.0m, totalDistanceMiles);
         }
 
         /// <summary>
@@ -315,7 +341,6 @@
             Assert.AreEqual(4, filteredDates.Count);
         }
 
-
         /// <summary>
         /// Subset of SessionData should be returned for specified seconds.
         /// </summary>
@@ -342,5 +367,21 @@
             Assert.AreEqual(704.33, averagePower);
         }
 
+        /// <summary>
+        /// Units of measurement should be calculated depending on bit in SMode
+        /// </summary>
+        [Test]
+        public void UnitsOfMeasurementShouldBeCalculatedDependingOnSMode()
+        {
+            var imperialSMode = "000000010";
+            var metricSMode = "000000000";
+
+            var isImperial = imperialSMode.IsMetric();
+            var isMetric = metricSMode.IsMetric();
+
+            Assert.AreEqual(isImperial, false);
+            Assert.AreEqual(isMetric, true);
+        }
     }
+
 }

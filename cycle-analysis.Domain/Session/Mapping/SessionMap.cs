@@ -25,6 +25,7 @@ namespace cycle_analysis.Domain.Session.Mapping
             // Table & Column Mappings
             this.ToTable("Session");
             this.Property(t => t.Id).HasColumnName("Id");
+            this.Property(t => t.Unit).HasColumnName("Unit");
             this.Property(t => t.Title).HasColumnName("Title");
             this.Property(t => t.SoftwareVersion).HasColumnName("SoftwareVersion");
             this.Property(t => t.MonitorVersion).HasColumnName("MonitorVersion");

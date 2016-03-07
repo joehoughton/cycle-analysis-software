@@ -65,9 +65,13 @@ namespace cycle_analysis.Domain.Session
             // add timespan to Date
             sections.Params.Date = sections.Params.Date.Date + startTime;
 
+            // get unit from SMode - 8th digit
+            var unit = int.Parse(sections.Params.SMode.ToString().ToCharArray()[7].ToString());
+
             var session = new Session()
             {
                 Title = hrmFileDto.Title,
+                Unit = unit,
                 SoftwareVersion = sections.Params.SoftwareVersion,
                 MonitorVersion = sections.Params.MonitorVersion,
                 SMode = sections.Params.SMode,
@@ -79,7 +83,7 @@ namespace cycle_analysis.Domain.Session
                 Lower1 = sections.Params.Lower1,
                 AthleteId = hrmFileDto.AthleteId
             };
-
+       
             _context.Sessions.Add(session);
 
             // add body data
@@ -154,7 +158,7 @@ namespace cycle_analysis.Domain.Session
                     Power = sd.Power,
                     SessionId = sd.SessionId,
                     Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row),
-                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row) // DELETE DON'T NEED BOTH
+                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row) // ToDo: Remove time as it's now stored in Date
                 }).ToList();
 
             var sessionDto = new SessionDto
@@ -177,22 +181,94 @@ namespace cycle_analysis.Domain.Session
             return sessionDto;
         }
 
-        public SessionSummaryDto GetSummary(int sessionId)
+        public SessionSummaryDto GetSummary(SessionSummaryRequestDto sessionSummaryRequestDto)
         {
-            var sessionData = _context.SessionData.Where(s => s.SessionId == sessionId).ToList();
-            var session = _context.Sessions.Single(s => s.Id == sessionId);
+            var requestedUnitIsMetric = sessionSummaryRequestDto.Unit == 0;
 
+            var sessionData = _context.SessionData.Where(s => s.SessionId == sessionSummaryRequestDto.SessionId).ToList();
+            var session = _context.Sessions.Single(s => s.Id == sessionSummaryRequestDto.SessionId);
+            var sModeIsMetric = session.SMode.ToString("D9").IsMetric(); // pad int to 9 decimals if zero
             var totalCount = sessionData.Count();
 
-            // calculate speed - divided speed by 10 as speed is *10 in file
-            var totalSpeed = sessionData.Sum(s => s.Speed);
-            var averageSpeed =  Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
-            var maximumSpeed =  Math.Round(sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+            double maximumSpeed;
+            double averageSpeed;
+            double totalDistance;
+            double averageAltitude;
+            double maximumAltitude;
 
-            // calculate distance
-            var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
-            var totalDistanceKilometres =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
-            var totalDistanceMiles = totalDistanceKilometres.ConvertToMiles();
+            if (requestedUnitIsMetric) // return metric values
+            {
+                if (sModeIsMetric)
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file
+                    var totalSpeed = sessionData.Sum(s => s.Speed);
+                    averageSpeed = Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumSpeed = Math.Round(
+                    sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate distance
+                    var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate altitiude
+                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                }
+                else
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file - converted kilometres to miles
+                    var totalSpeed = sessionData.Sum(s => s.Speed);
+                    averageSpeed = ((totalSpeed / 10) / totalCount).ConvertToKilometres();
+                    maximumSpeed = (sessionData.MaxBy(s => s.Speed).Speed / 10).ConvertToKilometres();
+
+                    // calculate distance
+                    var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToKilometres();
+
+                    // calculate altitiude - convert metres to feet
+                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    averageAltitude = (totalAltitude / totalCount).ConvertToMetres();
+                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude).ConvertToMetres();
+                }
+                
+            }
+            else // return imperial values
+            {
+                if (sModeIsMetric)
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file - converted kilometres to miles
+                    var totalSpeed = sessionData.Sum(s => s.Speed);
+                    averageSpeed = ((totalSpeed / 10) / totalCount).ConvertToMiles();
+                    maximumSpeed = (sessionData.MaxBy(s => s.Speed).Speed / 10).ConvertToMiles();
+
+                    // calculate distance
+                    var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToMiles();
+
+                    // calculate altitiude - convert metres to feet
+                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    averageAltitude = (totalAltitude / totalCount).ConvertToFeet();
+                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude).ConvertToFeet();
+                }
+                else
+                {
+                    // calculate speed - divided speed by 10 as speed is *10 in file
+                    var totalSpeed = sessionData.Sum(s => s.Speed);
+                    averageSpeed = Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumSpeed = Math.Round(
+                    sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate distance
+                    var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
+                    totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
+
+                    // calculate altitiude
+                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                }
+            }
 
             // calculate heart rate
             var totalHeartRate = sessionData.Sum(s => s.HeartRate);
@@ -204,11 +280,6 @@ namespace cycle_analysis.Domain.Session
             var totalPower = sessionData.Sum(s => s.Power);
             var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumPower =  Math.Round(sessionData.MaxBy(s => s.Power).Power, 2, MidpointRounding.AwayFromZero);
-
-            // calculate altitiude
-            var totalAltitude = sessionData.Sum(s => s.Altitude);
-            var averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-            var maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
 
             // calculate cadence
             var totalCadence = sessionData.Sum(s => s.Cadence);
@@ -229,10 +300,9 @@ namespace cycle_analysis.Domain.Session
                 MaximumSpeed = maximumSpeed,
                 AveragePower = averagePower,
                 MaximumPower = maximumPower,
-                TotalDistanceKilometres = totalDistanceKilometres,
-                TotalDistanceMiles = totalDistanceMiles,
+                TotalDistance = totalDistance,
                 Date = session.Date,
-                SessionId = sessionId
+                SessionId = sessionSummaryRequestDto.SessionId
             };
 
             return sessionSummaryDto;
@@ -307,8 +377,7 @@ namespace cycle_analysis.Domain.Session
 
             // calculate distance
             var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
-            var totalDistanceKilometres =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
-            var totalDistanceMiles = totalDistanceKilometres.ConvertToMiles();
+            var totalDistance =  Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero); // Todo: change to reflect units
 
             // calculate heart rate
             var totalHeartRate = filteredSessionData.Sum(s => s.HeartRate);
@@ -344,8 +413,7 @@ namespace cycle_analysis.Domain.Session
                 MaximumCadence = maximumCadence,
                 AverageSpeed = averageSpeed,
                 MaximumSpeed = maximumSpeed,
-                TotalDistanceKilometres = totalDistanceKilometres,
-                TotalDistanceMiles = totalDistanceMiles,
+                TotalDistance = totalDistance,
                 Date = session.Date,
                 SessionId = session.Id
             };

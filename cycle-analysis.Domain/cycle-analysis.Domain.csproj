@@ -62,6 +62,8 @@
     <Compile Include="Error\Models\Error.cs" />
     <Compile Include="Error\Mapping\ErrorMap.cs" />
     <Compile Include="Generic\IEntityBase.cs" />
+    <Compile Include="Helper\AltitudeConverter.cs" />
+    <Compile Include="Helper\CheckUnitOfMeasurement.cs" />
     <Compile Include="Helper\DateFilter.cs" />
     <Compile Include="Helper\DateFormat.cs" />
     <Compile Include="Helper\DistanceConverter.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Session\Dto\SessionCalendarDto.cs" />
     <Compile Include="Session\Dto\SessionSummaryDto.cs" />
     <Compile Include="Session\Dto\HRMFileDto.cs" />
+    <Compile Include="Session\Dto\SessionSummaryRequestDto.cs" />
     <Compile Include="Session\Mapping\SessionMap.cs" />
     <Compile Include="Session\Models\Sections.cs" />
     <Compile Include="Session\Models\Session.cs" />

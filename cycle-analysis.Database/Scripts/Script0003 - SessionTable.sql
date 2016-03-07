@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Session](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+    [Unit] [int] NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[SoftwareVersion] [float] NOT NULL,
 	[MonitorVersion] [int] NOT NULL,

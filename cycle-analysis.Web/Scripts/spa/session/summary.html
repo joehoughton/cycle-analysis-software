@@ -30,38 +30,49 @@
                                 </div>
                             </div>
                             <div class="row" ng-if="!loadingSummary">
-                                <div class="col-xs-12 col-md-2">
-                                    Total Distance: <strong>{{distance.measurement}}</strong>
-                                    <br />
-                                    <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceKilometres}} km/h">km/h</label>
-                                    <label><input type="radio" ng-model="distance.measurement" value="{{session.TotalDistanceMiles}} mph">mph</label>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <select class="form-control" ng-model="selectedUnit" ng-options="unit.name for unit in units" ng-change="loadSessionSummary(selectedUnit)"></select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            Total Distance: <strong>{{session.TotalDistance}} <span ng-show="selectedUnit.index == 0">km</span><span ng-show="selectedUnit.index == 1">mi</span></strong>
+                                            <br />
+                                            Avg Speed: <strong>{{session.AverageSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
+                                            <br />
+                                            Max Speed: <strong>{{session.MaximumSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-2">
-                                    Avg Speed: <strong>{{session.AverageSpeed}} mph</strong>
-                                    <br />
-                                    Max Speed: <strong>{{session.MaximumSpeed}} mph</strong>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            Avg Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
+                                            <br />
+                                            Min Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
+                                            <br />
+                                            Max Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            Avg Power: <strong>{{session.AveragePower}} watts</strong>
+                                            <br />
+                                            Max Power: <strong>{{session.MaximumPower}} watts</strong>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-12 col-md-2">
-                                    Avg Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
-                                    <br/>
-                                    Min Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
-                                    <br/>
-                                    Max Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    Avg Power: <strong>{{session.AveragePower}} watts</strong>
-                                    <br />
-                                    Max Power: <strong>{{session.MaximumPower}} watts</strong>
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    Avg Altitude: <strong>{{session.AverageAltitude}} feet</strong>
-                                    <br />
-                                    Max Altitude: <strong>{{session.MaximumAltitude}} feet</strong>
-                                </div>
-                                <div class="col-xs-12 col-md-2">
-                                    Avg Cadence: <strong>{{session.AverageCadence}} rpm</strong>
-                                    <br />
-                                    Max Cadence: <strong>{{session.MaximumCadence}} rpm</strong>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            Avg Altitude: <strong>{{session.AverageAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                            <br />
+                                            Max Altitude: <strong>{{session.MaximumAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            Avg Cadence: <strong>{{session.AverageCadence}} rpm</strong>
+                                            <br />
+                                            Max Cadence: <strong>{{session.MaximumCadence}} rpm</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
