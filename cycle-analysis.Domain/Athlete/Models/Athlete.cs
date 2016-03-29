@@ -25,6 +25,7 @@ namespace cycle_analysis.Domain.Athlete.Models
         public DateTime RegistrationDate { get; set; }
         public string Image { get; set; }
         public double LactateThreshold { get; set; }
+        public double FunctionalThresholdPower { get; set; }
         public double Weight { get; set; }
         public Guid UniqueKey { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }

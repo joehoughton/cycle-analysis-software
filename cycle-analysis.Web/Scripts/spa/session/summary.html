@@ -33,13 +33,14 @@
                                 <div class="col-sm-4 col-md-4">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6">
+                                            Intensity Factor: <strong>{{session.IntensityFactor}}</strong>
                                             <select class="form-control" ng-model="selectedUnit" ng-options="unit.name for unit in units" ng-change="loadSessionSummary(selectedUnit)"></select>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             Total Distance: <strong>{{session.TotalDistance}} <span ng-show="selectedUnit.index == 0">km</span><span ng-show="selectedUnit.index == 1">mi</span></strong>
-                                            <br />
+                                            <br/>
                                             Avg Speed: <strong>{{session.AverageSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
-                                            <br />
+                                            <br/>
                                             Max Speed: <strong>{{session.MaximumSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
                                         </div>
                                     </div>
@@ -48,15 +49,17 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6">
                                             Avg Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
-                                            <br />
+                                            <br/>
                                             Min Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
-                                            <br />
+                                            <br/>
                                             Max Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             Avg Power: <strong>{{session.AveragePower}} watts</strong>
-                                            <br />
+                                            <br/>
                                             Max Power: <strong>{{session.MaximumPower}} watts</strong>
+                                            <br />
+                                            Normalized: <strong>{{session.NormalizedPower}} watts</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -64,12 +67,12 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6">
                                             Avg Altitude: <strong>{{session.AverageAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
-                                            <br />
+                                            <br/>
                                             Max Altitude: <strong>{{session.MaximumAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             Avg Cadence: <strong>{{session.AverageCadence}} rpm</strong>
-                                            <br />
+                                            <br/>
                                             Max Cadence: <strong>{{session.MaximumCadence}} rpm</strong>
                                         </div>
                                     </div>

@@ -19,37 +19,38 @@ namespace cycle_analysis.Domain.Athlete.Mappings
         public AthleteMap()
         {
             // Primary Key
-            this.HasKey(t => t.Id);
+            HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.Username)
+            Property(t => t.Username)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            this.Property(t => t.FirstName)
+            Property(t => t.FirstName)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            this.Property(t => t.LastName)
+            Property(t => t.LastName)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            this.Property(t => t.Email)
+            Property(t => t.Email)
                 .IsRequired()
                 .HasMaxLength(100);
 
             // Table & Column Mappings
-            this.ToTable("Athlete");
-            this.Property(t => t.Id).HasColumnName("Id");
-            this.Property(t => t.Username).HasColumnName("Username");
-            this.Property(t => t.FirstName).HasColumnName("FirstName");
-            this.Property(t => t.LastName).HasColumnName("LastName");
-            this.Property(t => t.Email).HasColumnName("Email");
-            this.Property(t => t.RegistrationDate).HasColumnName("RegistrationDate");
-            this.Property(t => t.Image).HasColumnName("Image");
-            this.Property(t => t.LactateThreshold).HasColumnName("LactateThreshold");
-            this.Property(t => t.Weight).HasColumnName("Weight");
-            this.Property(t => t.UniqueKey).HasColumnName("UniqueKey");
+            ToTable("Athlete");
+            Property(t => t.Id).HasColumnName("Id");
+            Property(t => t.Username).HasColumnName("Username");
+            Property(t => t.FirstName).HasColumnName("FirstName");
+            Property(t => t.LastName).HasColumnName("LastName");
+            Property(t => t.Email).HasColumnName("Email");
+            Property(t => t.RegistrationDate).HasColumnName("RegistrationDate");
+            Property(t => t.Image).HasColumnName("Image");
+            Property(t => t.LactateThreshold).HasColumnName("LactateThreshold");
+            Property(t => t.FunctionalThresholdPower).HasColumnName("FunctionalThresholdPower");
+            Property(t => t.Weight).HasColumnName("Weight");
+            Property(t => t.UniqueKey).HasColumnName("UniqueKey");
         }
     }
 }

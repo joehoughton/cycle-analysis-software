@@ -67,6 +67,7 @@
     <Compile Include="Helper\DateFilter.cs" />
     <Compile Include="Helper\DateFormat.cs" />
     <Compile Include="Helper\DistanceConverter.cs" />
+    <Compile Include="Helper\Metrics.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />

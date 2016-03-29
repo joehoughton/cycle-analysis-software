@@ -286,6 +286,14 @@ namespace cycle_analysis.Domain.Session
             var averageCadence = Math.Round(totalCadence / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumCadence = Math.Round(sessionData.MaxBy(s => s.Cadence).Cadence, 2, MidpointRounding.AwayFromZero);
 
+            // calculate normalized power
+            var sessionDto = GetSingle(sessionSummaryRequestDto.SessionId);
+            var normalizedPower = sessionDto.CalculateNormalizedPower();
+
+            // calculate intensity factor
+            var functionalThresholdPower = _context.Athletes.Single(a => a.Id == session.AthleteId).FunctionalThresholdPower;
+            var intensityFactor = normalizedPower.CalculateIntensityFactor(functionalThresholdPower);
+
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 Title = session.Title,
@@ -302,6 +310,8 @@ namespace cycle_analysis.Domain.Session
                 MaximumPower = maximumPower,
                 TotalDistance = totalDistance,
                 Date = session.Date,
+                NormalizedPower = normalizedPower,
+                IntensityFactor = intensityFactor,
                 SessionId = sessionSummaryRequestDto.SessionId
             };
 
@@ -417,7 +427,7 @@ namespace cycle_analysis.Domain.Session
                     maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude).ConvertToMetres();
                 }
             }
-            else // return imperial values
+            else // return imperial valuesn
             {
                 if (sModeIsMetric)
                 {
@@ -470,6 +480,18 @@ namespace cycle_analysis.Domain.Session
             var averageCadence = Math.Round(totalCadence / totalCount, 2, MidpointRounding.AwayFromZero);
             var maximumCadence = Math.Round(filteredSessionData.MaxBy(s => s.Cadence).Cadence, 2, MidpointRounding.AwayFromZero);
 
+            // calculate normalized power
+            var filteredSessionDto = new SessionDto()
+            {
+                Interval = session.Interval,
+                SessionData = filteredSessionData
+            };
+            var normalizedPower = filteredSessionDto.CalculateNormalizedPower();
+
+            // calculate intensity factor
+            var functionalThresholdPower = _context.Athletes.Single(a => a.Id == session.AthleteId).FunctionalThresholdPower;
+            var intensityFactor = normalizedPower.CalculateIntensityFactor(functionalThresholdPower);
+
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 AverageAltitude = averageAltitude,
@@ -484,6 +506,8 @@ namespace cycle_analysis.Domain.Session
                 AverageSpeed = averageSpeed,
                 MaximumSpeed = maximumSpeed,
                 TotalDistance = totalDistance,
+                NormalizedPower = normalizedPower,
+                IntensityFactor = intensityFactor,
                 Date = session.Date,
                 SessionId = session.Id
             };
@@ -504,5 +528,6 @@ namespace cycle_analysis.Domain.Session
 
             return sessionCalendarDtos;
         }
+
     }
 }

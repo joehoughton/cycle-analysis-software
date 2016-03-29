@@ -20,7 +20,6 @@
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">{{athlete.FirstName}} {{athlete.LastName}}</h4>
-                            <br/>
                             <label class="label label-danger">{{athlete.UniqueKey}}</label>
                             <br/>
                             Registered: <strong><i>{{athlete.RegistrationDate | date:'mediumDate'}}</i></strong>
@@ -28,7 +27,8 @@
                             Weight: <strong>{{athlete.Weight}} kg</strong>
                             <br/>
                             Lactate Threshold: <strong>{{athlete.LactateThreshold}} watts</strong>
-                            <br />
+                            <br/>
+                            Functional Threshold: <strong>{{athlete.FunctionalThresholdPower}} watts</strong>
                         </div>
                     </div>
                     <br/><br/>

@@ -16,7 +16,7 @@ namespace cycle_analysis.Domain.Athlete.Dto
     public class AthleteDto
     {
         public AthleteDto() { }
-        public AthleteDto(int id, string username, string firstName, string lastName, string email, DateTime registrationDate, string image, double lactateThreshold, double weight, Guid uniqueKey)
+        public AthleteDto(int id, string username, string firstName, string lastName, string email, DateTime registrationDate, string image, double lactateThreshold, double functionalThresholdPower, double weight, Guid uniqueKey)
         {
             Id = id;
             Username = username;
@@ -26,6 +26,7 @@ namespace cycle_analysis.Domain.Athlete.Dto
             RegistrationDate = registrationDate;
             Image = image;
             LactateThreshold = lactateThreshold;
+            FunctionalThresholdPower = functionalThresholdPower;
             Weight = weight;
             UniqueKey = uniqueKey;
         }
@@ -38,6 +39,7 @@ namespace cycle_analysis.Domain.Athlete.Dto
         public DateTime RegistrationDate { get; set; }
         public string Image { get; set; }
         public double LactateThreshold { get; set; }
+        public double FunctionalThresholdPower { get; set; }
         public double Weight { get; set; }
         public Guid UniqueKey { get; set; }
     }

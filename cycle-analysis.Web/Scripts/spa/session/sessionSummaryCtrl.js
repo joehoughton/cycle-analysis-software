@@ -17,6 +17,7 @@
     $scope.isReadOnly = false;
     $scope.athleteId = $routeParams.athleteId;
     $scope.loadSessionSummary = loadSessionSummary;
+    $scope.checkNormalizedPowerForNullValue = checkNormalizedPowerForNullValue;
 
     $scope.units = [{ name: 'Metric Units', index: 0 }, { name: 'Imperial Units', index: 1 }];
     $scope.selectedUnit = $scope.units[0];
@@ -34,6 +35,7 @@
 
     function loadSessionSummaryCompleted(result) {
       $scope.session = result.data;
+      checkNormalizedPowerForNullValue();
       $timeout(function () {
         $scope.loadingSummary = false;
       }, 1280);
@@ -41,6 +43,12 @@
 
     function loadSessionSummaryFailed() {
       notificationService.displayError("Failed to load session summary");
+    }
+
+    function checkNormalizedPowerForNullValue() {
+      if ($scope.session.NormalizedPower === 0) {
+        notificationService.displayWarning("IF and NP require more data");
+      }
     }
 
     function loadSessionData() {
@@ -165,10 +173,13 @@
 
     function loadSessionDataSubsetCompleted(result) {
       $scope.session = result.data; // update session using filtered results
+      notificationService.remove();
       notificationService.displayInfo("Updated session summary results");
+      checkNormalizedPowerForNullValue();
     }
 
     function loadSessionDataSubsetFailed() {
+      notificationService.remove();
       notificationService.displayWarning("No search results found");
     }
 

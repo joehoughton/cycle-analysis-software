@@ -51,8 +51,7 @@
             notificationService.displayError(response.data);
         }
 
-        function registrationFailed(response) {
-
+        function registrationFailed() {
             notificationService.displayError('Registration failed. Try again.');
         }
 

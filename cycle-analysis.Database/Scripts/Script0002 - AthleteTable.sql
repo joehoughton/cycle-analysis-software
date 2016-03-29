@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Athlete](
 	[RegistrationDate] [datetime] NOT NULL,
 	[Image] [nvarchar](max) NULL,
 	[LactateThreshold] [float] NOT NULL,
+	[FunctionalThresholdPower] [float] NOT NULL,
 	[Weight] [float] NOT NULL,
 	[UniqueKey] [uniqueidentifier] NOT NULL,
  CONSTRAINT [PK_Bug] PRIMARY KEY CLUSTERED 

@@ -16,6 +16,7 @@ namespace cycle_analysis.Domain.Tests.Session
     using System.Data.Entity;
     using System.Data.SqlClient;
     using System.Linq;
+    using cycle_analysis.Domain.Athlete.Models;
     using cycle_analysis.Domain.Context;
     using cycle_analysis.Domain.Helper;
     using cycle_analysis.Domain.Session;
@@ -32,7 +33,8 @@ namespace cycle_analysis.Domain.Tests.Session
         private CycleAnalysisContext _context;
         private readonly SessionRepository _sessionRepository;
         private readonly List<SessionData> _sessionDataList;
-        private readonly List<Session> _sessionList; 
+        private readonly List<Session> _sessionList;
+        private readonly List<Athlete> _athleteList; 
 
         /// <summary>
         /// Constructor creates a mock context class with a mocked DbSet, which is passed into the SessionRepository.
@@ -63,8 +65,13 @@ namespace cycle_analysis.Domain.Tests.Session
 
             _sessionList = new List<Session>()
             {
-                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000000, SessionData = _sessionDataList },
-                new Session(){ Id = 2, Date = new DateTime(2010, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000010, SessionData = _sessionDataList }
+                new Session(){ Id = 1, Date = new DateTime(2009, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000000, SessionData = _sessionDataList, AthleteId = 1},
+                new Session(){ Id = 2, Date = new DateTime(2010, 07, 25, 14 ,26, 18, 0), Length = new DateTime(2009, 07, 25, 1, 14, 21, 100), Interval = 1, SMode = 000000010, SessionData = _sessionDataList, AthleteId = 1 }
+            };
+
+            _athleteList = new List<Athlete>()
+            {
+                new Athlete(){ Id = 1, FunctionalThresholdPower = 320}
             };
 
             // convert the IEnumerable _sessionList to an IQueryable list
@@ -72,6 +79,9 @@ namespace cycle_analysis.Domain.Tests.Session
 
             // convert the IEnumerable _sessionDataList to an IQueryable list
             IQueryable<SessionData> queryableListSessionData = _sessionDataList.AsQueryable();
+
+            // convert the IEnumerable _athleteList to an IQueryable list
+            IQueryable<Athlete> queryableListAthlete = _athleteList.AsQueryable();
 
             // force DbSet to return the IQueryable members of converted list object as its data source
             var mockSetSession = new Mock<DbSet<Session>>();
@@ -87,9 +97,18 @@ namespace cycle_analysis.Domain.Tests.Session
             mockSetSessionData.As<IQueryable<SessionData>>().Setup(m => m.ElementType).Returns(queryableListSessionData.ElementType);
             mockSetSessionData.As<IQueryable<SessionData>>().Setup(m => m.GetEnumerator()).Returns(queryableListSessionData.GetEnumerator());
 
+            // force DbSet to return the IQueryable members of converted list object as its data source
+            var mockSetAthlete = new Mock<DbSet<Athlete>>();
+            mockSetAthlete.As<IQueryable<Athlete>>().Setup(m => m.Provider).Returns(queryableListAthlete.Provider);
+            mockSetAthlete.As<IQueryable<Athlete>>().Setup(m => m.Expression).Returns(queryableListAthlete.Expression);
+            mockSetAthlete.As<IQueryable<Athlete>>().Setup(m => m.ElementType).Returns(queryableListAthlete.ElementType);
+            mockSetAthlete.As<IQueryable<Athlete>>().Setup(m => m.GetEnumerator()).Returns(queryableListAthlete.GetEnumerator());
+
             // context class will return mocked DbSets 
             _context.Sessions = mockSetSession.Object;
             _context.SessionData = mockSetSessionData.Object;
+            _context.Athletes = mockSetAthlete.Object;
+
             // pass context to repository
             _sessionRepository = new SessionRepository(_context);
         }
@@ -382,6 +401,86 @@ namespace cycle_analysis.Domain.Tests.Session
             Assert.AreEqual(isImperial, false);
             Assert.AreEqual(isMetric, true);
         }
+
+        /// <summary>
+        /// Normalized power is calculated correctly
+        /// </summary>
+        [Test]
+        public void NormalizedPowerIsCalculatedCorrectly()
+        {
+            var interval = 1;
+
+            var powers = new List<double>() { 10, 8, 7, 6, 4, 2, 7, 5, 6, 3 };
+
+            // calculate a rolling 30 second average (of the preceding time points
+            var movingAverages = powers.CalculateMovingAverages(3 / interval);
+
+            // raise all the moving averages to the fourth power
+            var averagesToFourthPower = movingAverages.ToPower(4);
+
+            // find the average of values raised to fourth power
+            var averageOfFourthPower = averagesToFourthPower.Average();
+
+            // take the fourth root of the average values raised to the fourth power
+            var normalizedPower =  Math.Round(averageOfFourthPower.NthRoot(4), 2, MidpointRounding.AwayFromZero);
+            Assert.AreEqual(averagesToFourthPower[0], 4822.5308641975325d);
+            Assert.AreEqual(averagesToFourthPower[7], 474.27160493827171d);
+            Assert.AreEqual(normalizedPower, 6.1);
+        }
+
+        /// <summary>
+        /// First 30 seconds are ignored
+        /// </summary>
+        [Test]
+        public void First30SecondsAreIgnored()
+        {
+            var sessionData = new List<double>() {
+            3, 6, 7, 4, 2, 333, 5, 7, 9, 2,
+            99, 55, 33, 11, 44, 3, 6, 7, 4, 2,
+            4, 5, 7, 9, 2, 99, 55, 33, 11, 663,
+            54,74,88,66,55,44,777 };
+
+            var interval = 1;
+            var powers = new List<double>();
+
+            for (var x = 0; x < sessionData.Count; x++)
+            {
+                if (((x + 1) * interval) >= 30) // start rolling average at 30 seconds
+                {
+                    powers.Add(sessionData[x]);
+                }
+            }
+
+            var firstPower = powers[0];
+
+            Assert.AreEqual(663, firstPower);
+        }
+
+        /// <summary>
+        /// First 3 seconds of dates are ignored
+        /// </summary>
+        [Test]
+        public void First3SecondsOfDatesAreIgnored()
+        {
+            var sessionData = _sessionRepository.GetSingle(1);
+            var interval = sessionData.Interval;
+            var powers = new List<double>{};
+
+            for (var x = 0; x < sessionData.SessionData.Count; x++)
+            {
+                if (((x + 1) * interval) >= 3) // start rolling average at 3 seconds
+                {
+                    powers.Add(sessionData.SessionData[x].Power);
+                }
+            }
+
+            var firstPower = powers[0];
+            var lastpower =  powers[3];
+
+            Assert.AreEqual(837m, firstPower);
+            Assert.AreEqual(740m, lastpower);
+        }
+
     }
 
 }

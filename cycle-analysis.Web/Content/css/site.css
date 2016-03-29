@@ -23,6 +23,10 @@ body {
 }
 #sidebar a {
     color: #333;
+    cursor: pointer;
+}
+#sidebar ul li {
+    cursor: pointer;
 }
 .sign-out-icon {
     cursor: pointer;
@@ -291,7 +295,9 @@ input#inputSearchSessions {
 .highcharts-button tspan {
     cursor: pointer;
 }
-
+select {
+    cursor: pointer;
+}
 /* Session Calendar */
 .fc-content {
     cursor: pointer;

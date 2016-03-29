@@ -38,6 +38,7 @@ namespace cycle_analysis.Domain.Athlete
                 RegistrationDate = DateTime.Now,
                 Image = athleteDto.Image ?? "unknown.jpg",
                 LactateThreshold = Math.Round(athleteDto.LactateThreshold, 2, MidpointRounding.AwayFromZero),
+                FunctionalThresholdPower = Math.Round(athleteDto.FunctionalThresholdPower, 2, MidpointRounding.AwayFromZero),
                 Weight = Math.Round(athleteDto.Weight, 2, MidpointRounding.AwayFromZero),
                 UniqueKey = Guid.NewGuid()
             };
@@ -55,6 +56,7 @@ namespace cycle_analysis.Domain.Athlete
                 RegistrationDate = DateTime.Now,
                 Image = athleteDto.Image ?? "unknown.jpg",
                 LactateThreshold = athleteDto.LactateThreshold,
+                FunctionalThresholdPower = athleteDto.FunctionalThresholdPower,
                 Weight = athleteDto.Weight,
                 UniqueKey = Guid.NewGuid()
             };
@@ -75,6 +77,7 @@ namespace cycle_analysis.Domain.Athlete
                 RegistrationDate = DateTime.Now,
                 Image = athlete.Image ?? "unknown.jpg",
                 LactateThreshold = athlete.LactateThreshold,
+                FunctionalThresholdPower = athlete.FunctionalThresholdPower,
                 Weight = athlete.Weight,
                 UniqueKey = athlete.UniqueKey
             };
@@ -90,6 +93,7 @@ namespace cycle_analysis.Domain.Athlete
             athlete.LastName = athleteDto.LastName;
             athlete.Image = athleteDto.Image ?? "unknown.jpg";
             athlete.LactateThreshold = Math.Round(athleteDto.LactateThreshold, 2, MidpointRounding.AwayFromZero);
+            athlete.FunctionalThresholdPower = Math.Round(athleteDto.FunctionalThresholdPower, 2, MidpointRounding.AwayFromZero);
             athlete.Weight = Math.Round(athleteDto.Weight, 2, MidpointRounding.AwayFromZero);
             athlete.Email = athleteDto.Email;
 
@@ -104,6 +108,7 @@ namespace cycle_analysis.Domain.Athlete
                 RegistrationDate = DateTime.Now,
                 Image = athlete.Image ?? "unknown.jpg",
                 LactateThreshold = athlete.LactateThreshold,
+                FunctionalThresholdPower = athlete.LactateThreshold,
                 Weight = athlete.Weight,
                 UniqueKey = athlete.UniqueKey
             };
@@ -127,6 +132,7 @@ namespace cycle_analysis.Domain.Athlete
                             RegistrationDate = DateTime.Now,
                             Image = a.Image ?? "unknown.jpg",
                             LactateThreshold = a.LactateThreshold,
+                            FunctionalThresholdPower = a.FunctionalThresholdPower,
                             Weight = a.Weight,
                             UniqueKey = a.UniqueKey
                         })
@@ -154,6 +160,7 @@ namespace cycle_analysis.Domain.Athlete
                             RegistrationDate = DateTime.Now,
                             Image = a.Image ?? "unknown.jpg",
                             LactateThreshold = a.LactateThreshold,
+                            FunctionalThresholdPower = a.FunctionalThresholdPower,
                             Weight = a.Weight,
                             UniqueKey = a.UniqueKey
                         })

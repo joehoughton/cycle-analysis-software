@@ -18,7 +18,8 @@ namespace cycle_analysis.Domain.Session.Dto
         public SessionSummaryDto() { }
         public SessionSummaryDto(int id, string title, double totalDistance, double averageSpeed, double maximumSpeed,
                                 double averageHeartRate, double minimumHeartRate, double maximumHeartRate, double averagePower,
-                                double maximumPower, double averageAltitude, double maximumAltitude, double averageCadence, double maximumCadence,  int sessionId)
+                                double maximumPower, double averageAltitude, double maximumAltitude, double averageCadence,
+                                double maximumCadence, double normalizedPower, double intensityFactor, int sessionId)
         {
             Id = id;
             Title = title;
@@ -34,6 +35,8 @@ namespace cycle_analysis.Domain.Session.Dto
             MaximumAltitude = maximumAltitude;
             AverageCadence = averageCadence;
             MaximumCadence = maximumCadence;
+            NormalizedPower = normalizedPower;
+            IntensityFactor = intensityFactor;
             SessionId = sessionId;
         }
 
@@ -51,6 +54,8 @@ namespace cycle_analysis.Domain.Session.Dto
         public double MaximumAltitude { get; set; }
         public double AverageCadence { get; set; }
         public double MaximumCadence { get; set; }
+        public double NormalizedPower { get; set; }
+        public double IntensityFactor { get; set; }
         public DateTime Date { get; set; }
         public int SessionId { get; set; }
     }

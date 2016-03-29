@@ -26,7 +26,7 @@
 
     function loadSessionsCompleted(result) {
       $scope.sessions = result.data;
-      notificationService.displayInfo(Object.keys($scope.sessions).length + " sessions recorded"); // display how many results found
+      notificationService.displayInfo(Object.keys($scope.sessions).length + " session(s) recorded"); // display how many results found
       $scope.loadingCalendar = false; // remove loading message
      
       $scope.eventSources.slice(0, $scope.events.length); // remove existing events
