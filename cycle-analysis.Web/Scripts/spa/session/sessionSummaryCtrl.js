@@ -42,12 +42,13 @@
     }
 
     function loadSessionSummaryFailed() {
+      notificationService.remove();
       notificationService.displayError("Failed to load session summary");
     }
 
     function checkNormalizedPowerForNullValue() {
       if ($scope.session.NormalizedPower === 0) {
-        notificationService.displayWarning("IF and NP require more data");
+        notificationService.displayWarning("IF, NP and TSS require more data");
       }
     }
 

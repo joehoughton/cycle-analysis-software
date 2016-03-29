@@ -34,7 +34,7 @@ namespace cycle_analysis.Domain.Tests.Session
         private readonly SessionRepository _sessionRepository;
         private readonly List<SessionData> _sessionDataList;
         private readonly List<Session> _sessionList;
-        private readonly List<Athlete> _athleteList; 
+        private readonly List<Athlete> _athleteList;
 
         /// <summary>
         /// Constructor creates a mock context class with a mocked DbSet, which is passed into the SessionRepository.
@@ -238,7 +238,7 @@ namespace cycle_analysis.Domain.Tests.Session
 
             Assert.AreEqual(29.58m, averageSpeed);
             Assert.AreEqual(134.17, averageHeatRate);
-            Assert.AreEqual(32.17m, averageAltitude);
+            Assert.AreEqual(3.22d, averageAltitude);
             Assert.AreEqual(601.17m, averagePower);
         }
 
@@ -258,7 +258,7 @@ namespace cycle_analysis.Domain.Tests.Session
 
             Assert.AreEqual(33.8m, maximumSpeed);
             Assert.AreEqual(145, maximumHeatRate);
-            Assert.AreEqual(33, maximumAltitude);
+            Assert.AreEqual(3.3, maximumAltitude);
             Assert.AreEqual(837, maximumPower);
         }
 
@@ -382,7 +382,7 @@ namespace cycle_analysis.Domain.Tests.Session
 
             Assert.AreEqual(29.63, averageSpeed);
             Assert.AreEqual(132.0, averageHeartRate);
-            Assert.AreEqual(32, averageAltitude);
+            Assert.AreEqual(3.2, averageAltitude);
             Assert.AreEqual(704.33, averagePower);
         }
 
@@ -481,6 +481,22 @@ namespace cycle_analysis.Domain.Tests.Session
             Assert.AreEqual(740m, lastpower);
         }
 
+
+        /// <summary>
+        /// Training Stress Score Is Calculated
+        /// </summary>
+        [Test]
+        public void TrainingStressScoreIsCalculated()
+        {
+            var seconds = 3978.8999999999996;
+            var intensityFactor = 0.72;
+            var normalizedPower = 231.95;
+            var functionalThresholdPower = 320;
+
+            var trainingStressScore = Metrics.CalculateTrainingStressScore(seconds, normalizedPower, intensityFactor, functionalThresholdPower);
+
+            Assert.AreEqual(58.0d, trainingStressScore);
+        }
     }
 
 }

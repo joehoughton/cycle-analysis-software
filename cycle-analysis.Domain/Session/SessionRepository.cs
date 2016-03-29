@@ -211,9 +211,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
 
                     // calculate altitiude
-                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    var totalAltitude = sessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude / 10, 2, MidpointRounding.AwayFromZero);
                 }
                 else
                 {
@@ -227,9 +227,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToKilometres();
 
                     // calculate altitiude - convert metres to feet
-                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    var totalAltitude = sessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = (totalAltitude / totalCount).ConvertToMetres();
-                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude).ConvertToMetres();
+                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude / 10).ConvertToMetres();
                 }
                 
             }
@@ -247,9 +247,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToMiles();
 
                     // calculate altitiude - convert metres to feet
-                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    var totalAltitude = sessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = (totalAltitude / totalCount).ConvertToFeet();
-                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude).ConvertToFeet();
+                    maximumAltitude = (sessionData.MaxBy(s => s.Altitude).Altitude / 10).ConvertToFeet();
                 }
                 else
                 {
@@ -264,9 +264,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
 
                     // calculate altitiude
-                    var totalAltitude = sessionData.Sum(s => s.Altitude);
+                    var totalAltitude = sessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(sessionData.MaxBy(s => s.Altitude).Altitude / 10, 2, MidpointRounding.AwayFromZero);
                 }
             }
 
@@ -294,6 +294,17 @@ namespace cycle_analysis.Domain.Session
             var functionalThresholdPower = _context.Athletes.Single(a => a.Id == session.AthleteId).FunctionalThresholdPower;
             var intensityFactor = normalizedPower.CalculateIntensityFactor(functionalThresholdPower);
 
+            // calculate training stress score
+            var sessionTimeInSeconds = session.Length.TimeOfDay.TotalSeconds;
+            double trainingStressScore = 0;
+            string trainingStressScoreStatus = "";
+
+            if (normalizedPower != 0)
+            {
+                trainingStressScore = Metrics.CalculateTrainingStressScore(sessionTimeInSeconds, normalizedPower, intensityFactor, functionalThresholdPower);
+                trainingStressScoreStatus = Metrics.TrainingStressScoreStatus(trainingStressScore);
+            }
+           
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 Title = session.Title,
@@ -312,6 +323,8 @@ namespace cycle_analysis.Domain.Session
                 Date = session.Date,
                 NormalizedPower = normalizedPower,
                 IntensityFactor = intensityFactor,
+                TrainingStressScore = trainingStressScore,
+                TrainingStressScoreStatus = trainingStressScoreStatus,
                 SessionId = sessionSummaryRequestDto.SessionId
             };
 
@@ -406,9 +419,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
 
                     // calculate altitiude
-                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude / 10, 2, MidpointRounding.AwayFromZero);
                 }
                 else
                 {
@@ -422,9 +435,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToKilometres();
 
                     // calculate altitiude - convert metres to feet
-                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = (totalAltitude / totalCount).ConvertToMetres();
-                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude).ConvertToMetres();
+                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude / 10).ConvertToMetres();
                 }
             }
             else // return imperial valuesn
@@ -441,9 +454,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = ((totalSpeed / 10) / totalCount * totalTimeInHours).ConvertToMiles();
 
                     // calculate altitiude - convert metres to feet
-                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = (totalAltitude / totalCount).ConvertToFeet();
-                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude).ConvertToFeet();
+                    maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude / 10).ConvertToFeet();
                 }
                 else
                 {
@@ -458,9 +471,9 @@ namespace cycle_analysis.Domain.Session
                     totalDistance = Math.Round(averageSpeed * totalTimeInHours, 2, MidpointRounding.AwayFromZero);
 
                     // calculate altitiude
-                    totalAltitude = filteredSessionData.Sum(s => s.Altitude);
+                    totalAltitude = filteredSessionData.Sum(s => s.Altitude / 10);
                     averageAltitude = Math.Round(totalAltitude / totalCount, 2, MidpointRounding.AwayFromZero);
-                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude, 2, MidpointRounding.AwayFromZero);
+                    maximumAltitude = Math.Round(filteredSessionData.MaxBy(s => s.Altitude).Altitude / 10, 2, MidpointRounding.AwayFromZero);
                 }
             }
 
@@ -492,6 +505,17 @@ namespace cycle_analysis.Domain.Session
             var functionalThresholdPower = _context.Athletes.Single(a => a.Id == session.AthleteId).FunctionalThresholdPower;
             var intensityFactor = normalizedPower.CalculateIntensityFactor(functionalThresholdPower);
 
+            // calculate training stress score
+            var sessionTimeInSeconds = filteredSessionData.Count * filteredSessionDto.Interval; //session.Length.TimeOfDay.TotalSeconds;
+            double trainingStressScore = 0;
+            string trainingStressScoreStatus = "";
+
+            if (normalizedPower != 0)
+            {
+                trainingStressScore = Metrics.CalculateTrainingStressScore(sessionTimeInSeconds, normalizedPower, intensityFactor, functionalThresholdPower);
+                trainingStressScoreStatus = Metrics.TrainingStressScoreStatus(trainingStressScore);
+            }
+
             var sessionSummaryDto = new SessionSummaryDto()
             {
                 AverageAltitude = averageAltitude,
@@ -508,6 +532,8 @@ namespace cycle_analysis.Domain.Session
                 TotalDistance = totalDistance,
                 NormalizedPower = normalizedPower,
                 IntensityFactor = intensityFactor,
+                TrainingStressScore = trainingStressScore,
+                TrainingStressScoreStatus = trainingStressScoreStatus,
                 Date = session.Date,
                 SessionId = session.Id
             };

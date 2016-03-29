@@ -42,7 +42,7 @@ namespace cycle_analysis.Domain.Helper
                 array[x] = Math.Pow(array[x], p);
             }
 
-        return array;
+            return array;
         }
 
         /// <summary>
@@ -95,6 +95,40 @@ namespace cycle_analysis.Domain.Helper
         public static double CalculateIntensityFactor(this double normalizedPower, double functionalThresholdPower)
         {
             return Math.Round(normalizedPower / functionalThresholdPower, 2, MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// Training Stress Score = (s x NP x IF) / (FTP x 3,600) x 100
+        /// </summary>
+        public static double CalculateTrainingStressScore(double seconds, double normalizedPower, double intensityFactor, double functionalThresholdPower)
+        {
+            return Math.Round(((seconds * normalizedPower * intensityFactor) / (functionalThresholdPower * 3600)) * 100, MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// Generate TSS Status
+        /// </summary>
+        public static string TrainingStressScoreStatus(double trainingStressScore)
+        {
+            var status = "";
+
+            if (trainingStressScore < 150)
+            {
+                status = "Recovery generally complete by the following day";
+            }
+            else if (trainingStressScore >= 150 && trainingStressScore <= 300)
+            {
+                status = "Some residual fatigue may be present the next day, but gone by the second day";
+            }
+            else if (trainingStressScore >= 150 && trainingStressScore <= 300)
+            {
+                status = "Some residual fatigue may be present even after 2 days";
+            }
+            else
+            {
+                status = "Residual fatigue lasting several days is likely";
+            }
+            return status;
         }
 
     }
