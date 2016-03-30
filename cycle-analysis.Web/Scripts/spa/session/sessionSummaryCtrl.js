@@ -17,6 +17,8 @@
     $scope.isReadOnly = false;
     $scope.athleteId = $routeParams.athleteId;
     $scope.loadSessionSummary = loadSessionSummary;
+    $scope.loadSessionDataSubset = loadSessionDataSubset;
+
     $scope.checkNormalizedPowerForNullValue = checkNormalizedPowerForNullValue;
 
     $scope.units = [{ name: 'Metric Units', index: 0 }, { name: 'Imperial Units', index: 1 }];
@@ -162,7 +164,10 @@
       });
     }
 
-    function loadSessionDataSubset() {
+    function loadSessionDataSubset(selected) {
+      if (undefined != selected) {
+        $scope.selectedUnit = $scope.units[selected.index];
+      }
       if (undefined != $scope.selectedUnit) {
         $scope.sessionDataSubsetDto.Unit = $scope.selectedUnit.index;
       }
