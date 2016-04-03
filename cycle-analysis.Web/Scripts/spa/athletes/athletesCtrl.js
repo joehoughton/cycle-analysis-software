@@ -42,7 +42,7 @@
       $scope.loadingAthletes = false;
 
       if ($scope.filterAthletes && $scope.filterAthletes.length) {
-        notificationService.displayInfo(result.data.Items.length + ' athletes found');
+        notificationService.displayInfo(result.data.Items.length + ' athlete(s) found');
       }
 
     }

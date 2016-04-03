@@ -55,12 +55,95 @@ namespace cycle_analysis.Domain.Tests.Session
                 new SessionData(){ Id = 3, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, Row = 4, SessionId = 1 },
                 new SessionData(){ Id = 4, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, Row = 5, SessionId = 1 },
                 new SessionData(){ Id = 5, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 1 },
-                new SessionData(){ Id = 6, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, Row = 1, SessionId = 2 },
-                new SessionData(){ Id = 7, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 477, Row = 2, SessionId = 2 },
-                new SessionData(){ Id = 8, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 837, Row = 3, SessionId = 2 },
-                new SessionData(){ Id = 9, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 799, Row = 4, SessionId = 2 },
-                new SessionData(){ Id = 10, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 735, Row = 5, SessionId = 2 },
-                new SessionData(){ Id = 11, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 740, Row = 6, SessionId = 2 }
+
+                // session used for interval detection
+                // first interval to detect
+                new SessionData(){ Id = 1, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, Row = 1, SessionId = 2},
+                new SessionData(){ Id = 2, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 20, Row = 2, SessionId = 2 },
+                new SessionData(){ Id = 3, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 18, Row = 3, SessionId = 2 },
+                new SessionData(){ Id = 4, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 20, Row = 4, SessionId = 2 }, // potential interval
+                new SessionData(){ Id = 5, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 23, Row = 5, SessionId = 2 },
+                new SessionData(){ Id = 6, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 27, Row = 6, SessionId = 2 },
+                new SessionData(){ Id = 7, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 30, Row = 7, SessionId = 2 },
+                new SessionData(){ Id = 8, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 35, Row = 8, SessionId = 2 },
+                new SessionData(){ Id = 9, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 40, Row = 9, SessionId = 2 }, // potential interval start
+                new SessionData(){ Id = 10, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 10, SessionId = 2 },
+                new SessionData(){ Id = 11, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 11, SessionId = 2 },
+                new SessionData(){ Id = 12, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 12, SessionId = 2 },
+                new SessionData(){ Id = 13, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 13, SessionId = 2 },
+                new SessionData(){ Id = 14, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 14, SessionId = 2 },
+                new SessionData(){ Id = 15, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 15, SessionId = 2 },
+                new SessionData(){ Id = 16, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 16, SessionId = 2 },
+                new SessionData(){ Id = 17, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 17, SessionId = 2 },
+                new SessionData(){ Id = 18, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 18, SessionId = 2 },
+                new SessionData(){ Id = 19, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 19, SessionId = 2 },
+                new SessionData(){ Id = 20, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 20, SessionId = 2 },
+                new SessionData(){ Id = 21, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 21, SessionId = 2 },
+                new SessionData(){ Id = 22, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 22, SessionId = 2 },
+                new SessionData(){ Id = 23, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 23, SessionId = 2 },
+                new SessionData(){ Id = 24, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 24, SessionId = 2 },
+                new SessionData(){ Id = 25, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 25, SessionId = 2 },
+                new SessionData(){ Id = 26, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 26, SessionId = 2 },
+                new SessionData(){ Id = 27, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 27, SessionId = 2 },
+                new SessionData(){ Id = 28, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 28, SessionId = 2 },
+                new SessionData(){ Id = 29, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 29, SessionId = 2 },
+                new SessionData(){ Id = 30, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 30, SessionId = 2 },
+                new SessionData(){ Id = 31, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 31, SessionId = 2 },
+                new SessionData(){ Id = 32, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 32, SessionId = 2 },
+                new SessionData(){ Id = 33, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 33, SessionId = 2 },
+                new SessionData(){ Id = 34, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 34, SessionId = 2 },
+                new SessionData(){ Id = 35, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 35, SessionId = 2 },
+                new SessionData(){ Id = 36, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 36, SessionId = 2 },
+                new SessionData(){ Id = 37, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 37, SessionId = 2 },
+                new SessionData(){ Id = 38, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 38, SessionId = 2 },
+                new SessionData(){ Id = 39, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 39, SessionId = 2 },
+                new SessionData(){ Id = 40, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 6, Row = 40, SessionId = 2 }, // interval end
+                new SessionData(){ Id = 41, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 3, Row = 41, SessionId = 2 },
+                new SessionData(){ Id = 42, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 0, Row = 42, SessionId = 2 },
+
+                // second interval to detect
+                new SessionData(){ Id = 43, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 19, Row = 43, SessionId = 2}, // potential interval
+                new SessionData(){ Id = 44, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 20, Row = 44, SessionId = 2 },
+                new SessionData(){ Id = 45, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 18, Row = 45, SessionId = 2 },
+                new SessionData(){ Id = 46, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 20, Row = 46, SessionId = 2 },
+                new SessionData(){ Id = 47, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 23, Row = 47, SessionId = 2 },
+                new SessionData(){ Id = 48, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 27, Row = 48, SessionId = 2 },
+                new SessionData(){ Id = 49, HeartRate = 125, Speed = 214, Cadence = 55, Altitude = 33, Power = 30, Row = 49, SessionId = 2 },
+                new SessionData(){ Id = 50, HeartRate = 129, Speed = 259, Cadence = 60, Altitude = 32, Power = 35, Row = 50, SessionId = 2 },
+                new SessionData(){ Id = 51, HeartRate = 132, Speed = 308, Cadence = 70, Altitude = 32, Power = 40, Row = 51, SessionId = 2 }, // potential interval start
+                new SessionData(){ Id = 52, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 52, SessionId = 2 },
+                new SessionData(){ Id = 53, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 53, SessionId = 2 },
+                new SessionData(){ Id = 54, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 54, SessionId = 2 },
+                new SessionData(){ Id = 55, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 55, SessionId = 2 },
+                new SessionData(){ Id = 56, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 56, SessionId = 2 },
+                new SessionData(){ Id = 57, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 57, SessionId = 2 },
+                new SessionData(){ Id = 58, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 58, SessionId = 2 },
+                new SessionData(){ Id = 59, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 59, SessionId = 2 },
+                new SessionData(){ Id = 60, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 60, SessionId = 2 },
+                new SessionData(){ Id = 61, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 61, SessionId = 2 },
+                new SessionData(){ Id = 62, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 62, SessionId = 2 },
+                new SessionData(){ Id = 63, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 39, Row = 63, SessionId = 2 },
+                new SessionData(){ Id = 64, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 64, SessionId = 2 },
+                new SessionData(){ Id = 65, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 65, SessionId = 2 },
+                new SessionData(){ Id = 66, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 66, SessionId = 2 },
+                new SessionData(){ Id = 67, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 67, SessionId = 2 },
+                new SessionData(){ Id = 68, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 68, SessionId = 2 },
+                new SessionData(){ Id = 69, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 69, SessionId = 2 },
+                new SessionData(){ Id = 70, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 70, SessionId = 2 },
+                new SessionData(){ Id = 71, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 71, SessionId = 2 },
+                new SessionData(){ Id = 72, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 72, SessionId = 2 },
+                new SessionData(){ Id = 73, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 73, SessionId = 2 },
+                new SessionData(){ Id = 74, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 74, SessionId = 2 },
+                new SessionData(){ Id = 75, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 75, SessionId = 2 },
+                new SessionData(){ Id = 76, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 76, SessionId = 2 },
+                new SessionData(){ Id = 77, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 39, Row = 77, SessionId = 2 },
+                new SessionData(){ Id = 78, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 40, Row = 78, SessionId = 2 },
+                new SessionData(){ Id = 79, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 79, SessionId = 2 },
+                new SessionData(){ Id = 80, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 80, SessionId = 2 },
+                new SessionData(){ Id = 81, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 39, Row = 81, SessionId = 2 },
+                new SessionData(){ Id = 82, HeartRate = 135, Speed = 322, Cadence = 79, Altitude = 32, Power = 6, Row = 82, SessionId = 2 }, // interval end
+                new SessionData(){ Id = 83, HeartRate = 139, Speed = 334, Cadence = 90, Altitude = 32, Power = 3, Row = 83, SessionId = 2 },
+                new SessionData(){ Id = 84, HeartRate = 145, Speed = 338, Cadence = 92, Altitude = 32, Power = 0, Row = 84, SessionId = 2 }
             };
 
             _sessionList = new List<Session>()
@@ -292,7 +375,7 @@ namespace cycle_analysis.Domain.Tests.Session
             var totalDistanceMiles = sessionSummaryImperial.TotalDistance;
 
             Assert.AreEqual(36.66, totalDistanceKilometres);
-            Assert.AreEqual(59.0m, totalDistanceMiles);
+            Assert.AreEqual(64.43m, totalDistanceMiles);
         }
 
         /// <summary>
@@ -496,6 +579,25 @@ namespace cycle_analysis.Domain.Tests.Session
             var trainingStressScore = Metrics.CalculateTrainingStressScore(seconds, normalizedPower, intensityFactor, functionalThresholdPower);
 
             Assert.AreEqual(58.0d, trainingStressScore);
+        }
+
+        /// <summary>
+        /// The start and end of the first two intervals are detected
+        /// </summary>
+        [Test]
+        public void DetectFirstAndSecondIntervals()
+        {
+            var session = _sessionRepository.GetSingle(2);
+            var detectedIntervals = session.DetectIntervals();
+
+            var detectedInterval1 = detectedIntervals[0];
+            var detectedInterval2 = detectedIntervals[1];
+
+            Assert.AreEqual(1, detectedInterval1.StartTime);
+            Assert.AreEqual(40, detectedInterval1.FinishTime);
+
+            Assert.AreEqual(43, detectedInterval2.StartTime);
+            Assert.AreEqual(82, detectedInterval2.FinishTime);
         }
     }
 

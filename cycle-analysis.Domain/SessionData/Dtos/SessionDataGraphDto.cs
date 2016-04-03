@@ -33,6 +33,7 @@ namespace cycle_analysis.Domain.SessionData.Dtos
         public List<Altitudes> Altitudes;
         public List<Powers> Powers;
         public List<Cadences> Cadences;
+        public List<DetectedInterval> DetectedIntervals;
     }
 
     public class HeartRates

@@ -298,6 +298,9 @@ input#inputSearchSessions {
 select {
     cursor: pointer;
 }
+.session-summary-chart {
+    height: 500px !important;
+}
 /* Session Calendar */
 .fc-content {
     cursor: pointer;
