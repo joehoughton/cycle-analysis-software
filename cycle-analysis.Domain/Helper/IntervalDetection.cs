@@ -72,10 +72,10 @@ namespace cycle_analysis.Domain.Helper
                     {
                         var potentialIntervalPowerToMaintain = sessionData[p].Power;
 
-                        var percentage = ((potentialIntervalPowerToMaintain * 5) / 100);
+                        var percentage = ((potentialIntervalPowerToMaintain * 40) / 100);
                         var minimumPowerRange = potentialIntervalPowerToMaintain - percentage;
                         var maximumPowerRange = potentialIntervalPowerToMaintain + percentage;
-                        var minimumIntervalDuration = 7.5; // interval power must be maintained for atleast 7.5 seconds
+                        var minimumIntervalDuration = 10; // interval power must be maintained for atleast 10 seconds
 
                         var timer = 0;
                         var counter = 1;
@@ -100,7 +100,8 @@ namespace cycle_analysis.Domain.Helper
 
                     if (intervalDetected)
                     {
-                        x = detectedIntervalEnd.Row; // start detecting new interval at the end of the detected interval
+                        x = detectedIntervalEnd.Row * interval; // start detecting new interval at the end of the detected interval
+                        potentialIntervalStart = sessionData[detectedIntervalEnd.Row * interval];
                         break;
                     }
                 }
