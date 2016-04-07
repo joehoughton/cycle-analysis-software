@@ -356,7 +356,7 @@ namespace cycle_analysis.Domain.Session
             var power = sessionData.Select(sd => new Powers(){ Power = sd.Power }).ToList();
 
             var sessionToDetectIntervals = GetSingle(sessionId);
-            var detectedIntervals = sessionToDetectIntervals.DetectIntervals();
+            var detectedIntervals = DetectIntervals(sessionToDetectIntervals); // ToDo: Update chart with unit
 
             var sessionDataGraphDto = new SessionDataGraphDto()
             {
@@ -555,5 +555,125 @@ namespace cycle_analysis.Domain.Session
             return sessionCalendarDtos;
         }
 
+        public List<DetectedInterval> DetectIntervals(SessionDto session)
+        {
+            var sessionData = session.SessionData;
+            var interval = session.Interval;
+            var potentialIntervalStart = new SessionDataDto();
+            var detectedIntervalEnd = new SessionDataDto();
+            var detectedIntervals = new List<DetectedInterval>();
+
+            for (var x = 0; x < sessionData.Count; x++)
+            {
+                bool potentialIntervalDetected = false;
+                bool intervalDetected = false;
+
+                for (var p = x; p < sessionData.Count; p++)
+                {
+                    // get average of proceeding 14 seconds of powers - time taken for rider to reach maximum power
+                    var currentPowers = new List<double>();
+                    var proceedingPowers = new List<double>();
+
+                    for (var i = 0; i < 14; i++)
+                    {
+                        if (p + (i + 1) < sessionData.Count)
+                        {
+                            if (sessionData[p + i].Power == 0) // rider must be applying power for next 14 seconds
+                            {
+                                break;
+                            }
+                            currentPowers.Add(sessionData[p + i].Power); // get power for the next 14 seconds
+                            proceedingPowers.Add(sessionData[(p + 1) + i].Power); // get power for the next 14 seconds starting at current power +1
+                        }
+                    }
+
+                    if (currentPowers.Count == 0) // no powers added to the last - last detected power was 0
+                    {
+                        break;
+                    }
+
+                    var currentPowersAverage = currentPowers.Average();
+                    var proceedingPowersAverage = proceedingPowers.Average();
+
+                    // check for potential interval
+                    if (currentPowersAverage < proceedingPowersAverage)
+                    {
+                        if (!potentialIntervalDetected)
+                        {
+                            potentialIntervalStart = sessionData[p];
+                            potentialIntervalDetected = true;
+                        }
+                    }
+                    else // possible that cyclist built up speed and reached interval speed to maintain
+                    {
+                        var potentialIntervalPowerToMaintain = sessionData[p].Power;
+
+                        var percentage = ((potentialIntervalPowerToMaintain * 40) / 100);
+                        var minimumPowerRange = potentialIntervalPowerToMaintain - percentage;
+                        var maximumPowerRange = potentialIntervalPowerToMaintain + percentage;
+                        var minimumIntervalDuration = 10; // interval power must be maintained for atleast 10 seconds
+
+                        var timer = 0;
+                        var counter = 1;
+                        for (var q = p; q < sessionData.Count; q++)
+                        {
+                            if (sessionData[q].Power > minimumPowerRange && sessionData[q].Power < maximumPowerRange)
+                            {
+                                timer += interval * counter;
+                            }
+                            else
+                            {
+                                if (timer > minimumIntervalDuration)
+                                {
+                                    intervalDetected = true;
+                                    detectedIntervalEnd = sessionData[q];
+
+                                    var startTime = potentialIntervalStart.Row * interval;
+                                    var finishTime = detectedIntervalEnd.Row * interval;
+
+                                    var intervalData = GetSessionDataSubset(new SessionDataSubsetDto() // get interval summary
+                                    {
+                                        MinimumSecond = startTime,
+                                        MaximumSecond = finishTime,
+                                        Unit = 0,
+                                        SessionId = session.Id
+                                    });
+                                    
+                                    detectedIntervals.Add(new DetectedInterval(startTime, finishTime, intervalData.AveragePower, true));
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    if (intervalDetected)
+                    {
+                        x = detectedIntervalEnd.Row * interval; // start detecting new interval at the end of the detected interval
+                        potentialIntervalStart = sessionData[detectedIntervalEnd.Row * interval];
+                        break;
+                    }
+                }
+            }
+
+            // detect intervals and rest breaks
+            var totalCount = sessionData.Count();
+            var totalPower = sessionData.Sum(s => s.Power);
+            var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
+            var minimumIntervalPower = ((averagePower * 80) / 100); // intervals must be greater than 30% of average session power
+
+            for (var f = 0; f < detectedIntervals.Count; f ++)
+            {
+                if (detectedIntervals[f].AveragePower < minimumIntervalPower)
+                {
+                    detectedIntervals[f].IsRest = true;
+                }
+                else
+                {
+                    detectedIntervals[f].IsRest = false;
+                }
+         
+            }
+            return detectedIntervals;
+        }
     }
 }

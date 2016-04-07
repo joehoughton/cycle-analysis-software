@@ -588,7 +588,7 @@ namespace cycle_analysis.Domain.Tests.Session
         public void DetectFirstAndSecondIntervals()
         {
             var session = _sessionRepository.GetSingle(2);
-            var detectedIntervals = session.DetectIntervals();
+            var detectedIntervals = _sessionRepository.DetectIntervals(session);
 
             var detectedInterval1 = detectedIntervals[0];
             var detectedInterval2 = detectedIntervals[1];

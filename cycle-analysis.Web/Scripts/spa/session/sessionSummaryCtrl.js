@@ -93,16 +93,29 @@
        object.forEach(function (object) {
          var startTime = object['StartTime'];
          var finishTime = object['FinishTime'];
-
+         var isRest = object['IsRest'];
          $scope.chartConfig.series.push({ // plot detected intervals
            type: 'area',
-           name: 'Detected Interval ' + counter,
+           name: isRest ? false : 'Interval ' + counter,
+           states: {
+             hover: {
+               enabled: false,
+               halo: {
+                 size: 0
+               }
+             }
+           },
+           enableMouseTracking: isRest ? false : true, // disable tooltip for rests
+           showInLegend: isRest ? false : true, // disable labels for rests
            marker: { enabled: false },
            lineWidth: 0,
-           color: 'rgba(156,156,156,.5)',
+           color: isRest ? 'rgba(255,140,140,.5)' : 'rgba(126,202,0,.5)',
            data: [[startTime, 0], [startTime, 700], [finishTime, 700], [finishTime, 0]] // 700 is height
          });
-        counter ++; // increment label
+
+         if (!isRest) { // increment counter for label after plotting interval
+          counter++;
+        }
       });
     }
 
@@ -142,6 +155,16 @@
       });
     }
 
+    function addSeriesRest()
+    {
+      $scope.chartConfig.series.push({
+        data: null,
+        type: 'area',
+        name: 'Rest',
+        color: '#ffc5c5'
+      });
+    }
+
     function drawGraph() { // draws the lines and labels
       var heartRates = collectionOfObjectsToArray($scope.sessionData.HeartRates, "HeartRate"); // convert json response objects to array
       var speeds = collectionOfObjectsToArray($scope.sessionData.Speeds, "Speed");
@@ -151,10 +174,11 @@
       var detectedIntervals = $scope.sessionData.DetectedIntervals;
 
       addSeries(heartRates, "Heart Rate", "#DC143C"); // plot points on the graph
-      addSeries(speeds, "Speed", "#40e0d0");
+      addSeries(speeds, "Speed", "#0066CC");
       addSeries(altitudes, "Altitude", "#f58902");
       addSeries(powers, "Power", "#a500ff");
       addSeries(cadences, "Cadence", "#00008B");
+      addSeriesRest();
 
       addDetectedIntervals(detectedIntervals); // plot detected intervals on the graph
 
