@@ -158,8 +158,7 @@ namespace cycle_analysis.Domain.Session
                     Power = sd.Power,
                     SessionId = sd.SessionId,
                     Row = sd.Row,
-                    Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row),
-                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row) // ToDo: Remove time as it's now stored in Date
+                    Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row)
                 }).ToList();
 
             var sessionDto = new SessionDto
@@ -394,8 +393,7 @@ namespace cycle_analysis.Domain.Session
                     Altitude = sd.Altitude,
                     Power = sd.Power,
                     SessionId = sd.SessionId,
-                    Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row),
-                    Time = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row)
+                    Date = DateFormat.CalculateSessionDataRowDate(session.Date, session.Interval, sd.Row)
                 }).ToList();
 
             var filteredSessionData = sessionData.FilterListDates(session.Date, minimumSeconds, maximumSeconds); // filter sessions by min and max seconds

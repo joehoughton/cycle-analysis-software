@@ -111,7 +111,7 @@
            marker: {enabled: false},
            lineWidth: 0,
            color: isRest ? 'rgba(255,140,140,.5)' : 'rgba(126,202,0,.5)',
-           data: [[startTime, 0], [startTime, 700], [finishTime, 700], [finishTime, 0]], // ToDo: change height
+           data: [[startTime, 0], [startTime, $scope.sessionData.YAxisScale], [finishTime, $scope.sessionData.YAxisScale], [finishTime, 0]],
            events: {
              click: function (e) {
                $scope.selectedIntervalStart = e.point.series.data[0].category;

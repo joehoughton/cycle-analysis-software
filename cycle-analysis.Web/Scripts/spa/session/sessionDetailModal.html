@@ -31,7 +31,7 @@
                         <tbody>
                         <tr ng-repeat="session in session.SessionData | filter:filterSessions">
                             <td>{{session.Date | date:'fullDate'}}</td>
-                            <td>{{session.Time | date:'HH:mm:ss:sss'}}</td>
+                            <td>{{session.Date | date:'HH:mm:ss:sss'}}</td>
                             <td>{{session.HeartRate}}</td>
                             <td>{{session.Speed}}</td>
                             <td>{{session.Cadence}}</td>

@@ -17,7 +17,6 @@ namespace cycle_analysis.Domain.SessionData.Dtos
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
         public int Row { get; set; }
         public double HeartRate { get; set; }
         public double Speed { get; set; }

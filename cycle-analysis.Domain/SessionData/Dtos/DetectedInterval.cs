@@ -13,11 +13,6 @@ namespace cycle_analysis.Domain.SessionData.Dtos
 {
     public class DetectedInterval
     {
-        public DetectedInterval(decimal startTime, decimal finishTime) // ToDo: Delete and update unit test data
-        {
-            StartTime = startTime;
-            FinishTime = finishTime;
-        }
         public DetectedInterval(decimal startTime, decimal finishTime, double averagePower, bool isRest)
         {
             StartTime = startTime;
