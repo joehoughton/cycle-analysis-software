@@ -73,7 +73,8 @@ namespace cycle_analysis.Web
                 "~/Scripts/spa/session/sessionCtrl.js",
                 "~/Scripts/spa/session/addSessionCtrl.js",
                 "~/Scripts/spa/session/sessionSummaryCtrl.js",
-                "~/Scripts/spa/session/sessionDetailCtrl.js"));
+                "~/Scripts/spa/session/sessionDetailCtrl.js",
+                "~/Scripts/spa/session/intervalSummaryCtrl.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/content/css/site.css",

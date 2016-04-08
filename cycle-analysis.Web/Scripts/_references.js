@@ -50,3 +50,4 @@
 /// <reference path="vendors/gcal.js" />
 /// <reference path="vendors/calendar.js" />
 /// <reference path="spa/athletes/athletecalendarctrl.js" />
+/// <reference path="spa/session/intervalsummaryctrl.js" />

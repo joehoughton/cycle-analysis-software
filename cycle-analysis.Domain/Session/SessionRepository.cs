@@ -655,25 +655,25 @@ namespace cycle_analysis.Domain.Session
                 }
             }
 
-            // detect intervals and rest breaks
+            // detect workout and rest periods
             var totalCount = sessionData.Count();
             var totalPower = sessionData.Sum(s => s.Power);
             var averagePower =  Math.Round(totalPower / totalCount, 2, MidpointRounding.AwayFromZero);
-            var minimumIntervalPower = ((averagePower * 80) / 100); // intervals must be greater than 30% of average session power
+            var minimumIntervalPower = ((averagePower * 80) / 100); // workout periods must be greater than 30% of average session power
 
             for (var f = 0; f < detectedIntervals.Count; f ++)
             {
-                if (detectedIntervals[f].AveragePower < minimumIntervalPower)
-                {
-                    detectedIntervals[f].IsRest = true;
-                }
-                else
-                {
-                    detectedIntervals[f].IsRest = false;
-                }
-         
+                detectedIntervals[f].IsRest = detectedIntervals[f].AveragePower < minimumIntervalPower;
             }
+
             return detectedIntervals;
+        }
+
+        public SessionSummaryDto GetIntervalSummary(SessionDataSubsetDto sessionDataSubsetDto)
+        {
+            var intervalSummary = GetSessionDataSubset(sessionDataSubsetDto);
+
+            return intervalSummary;
         }
     }
 }

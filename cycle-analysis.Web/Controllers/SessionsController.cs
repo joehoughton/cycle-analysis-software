@@ -150,5 +150,19 @@ namespace cycle_analysis.Web.Controllers
                 return response;
             });
         }
+
+        [HttpPost]
+        [Route("intervalsummary")]
+        public HttpResponseMessage GetIntervalSummary(HttpRequestMessage request, SessionDataSubsetDto sessionDataSubsetDto)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var intervalSummary = _sessionRepository.GetIntervalSummary(sessionDataSubsetDto);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, intervalSummary);
+
+                return response;
+            });
+        }
     }
 }

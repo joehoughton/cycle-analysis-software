@@ -3,33 +3,34 @@
 
   app.controller('sessionSummaryCtrl', sessionSummaryCtrl);
 
-  sessionSummaryCtrl.$inject = ['$scope', '$location', '$routeParams', 'apiService', 'notificationService', '$timeout'];
+  sessionSummaryCtrl.$inject = ['$scope', '$location', '$routeParams', 'apiService', 'notificationService', '$timeout', '$modal'];
 
-  function sessionSummaryCtrl($scope, $location, $routeParams, apiService, notificationService, $timeout) {
+  function sessionSummaryCtrl($scope, $location, $routeParams, apiService, notificationService, $timeout, $modal) {
     $scope.sessionId = $routeParams.sessionId;
     $scope.pageClass = 'page-session-summary';
     $scope.session = {};
     $scope.sessionData = {};
     $scope.chartConfig = {};
-    $scope.sessionDataSubsetDto = { SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null, Unit: 0 }; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
+    $scope.sessionDataSubsetDto = {SessionId: $scope.sessionId, MinimumSecond: 0, MaximumSecond: null, Unit: 0}; // set to $scope.sessionData.XAxisScale when loadSessionDataCompleted called
     $scope.loadingSummary = true;
     $scope.loadingGraph = true;
     $scope.isReadOnly = false;
     $scope.athleteId = $routeParams.athleteId;
     $scope.loadSessionSummary = loadSessionSummary;
     $scope.loadSessionDataSubset = loadSessionDataSubset;
-
     $scope.checkNormalizedPowerForNullValue = checkNormalizedPowerForNullValue;
-
-    $scope.units = [{ name: 'Metric Units', index: 0 }, { name: 'Imperial Units', index: 1 }];
+    $scope.units = [{name: 'Metric Units', index: 0}, {name: 'Imperial Units', index: 1}];
     $scope.selectedUnit = $scope.units[0];
+    $scope.openIntervalDialog = openIntervalDialog;
+    $scope.selectedIntervalStart = 0;
+    $scope.selectedIntervalFinish = 0;
 
     function loadSessionSummary(selected) {
-      if (undefined !=selected) {
+      if (undefined != selected) {
         $scope.selectedUnit = $scope.units[selected.index];
       }
       $scope.loadingSummary = true;
-      $scope.sessionSummaryRequest = { SessionId: parseInt($scope.sessionId), Unit: $scope.selectedUnit.index };
+      $scope.sessionSummaryRequest = {SessionId: parseInt($scope.sessionId), Unit: $scope.selectedUnit.index};
       apiService.post('/api/sessions/summary', $scope.sessionSummaryRequest,
       loadSessionSummaryCompleted,
       loadSessionSummaryFailed);
@@ -107,10 +108,18 @@
            },
            enableMouseTracking: isRest ? false : true, // disable tooltip for rests
            showInLegend: isRest ? false : true, // disable labels for rests
-           marker: { enabled: false },
+           marker: {enabled: false},
            lineWidth: 0,
            color: isRest ? 'rgba(255,140,140,.5)' : 'rgba(126,202,0,.5)',
-           data: [[startTime, 0], [startTime, 700], [finishTime, 700], [finishTime, 0]] // 700 is height
+           data: [[startTime, 0], [startTime, 700], [finishTime, 700], [finishTime, 0]], // ToDo: change height
+           events: {
+             click: function (e) {
+               $scope.selectedIntervalStart = e.point.series.data[0].category;
+               $scope.selectedIntervalFinish = e.point.series.data[2].category;
+               openIntervalDialog();
+             }
+           },
+           cursor: 'pointer'
          });
 
          if (!isRest) { // increment counter for label after plotting interval
@@ -155,8 +164,7 @@
       });
     }
 
-    function addSeriesRest()
-    {
+    function addSeriesRest() {
       $scope.chartConfig.series.push({
         data: null,
         type: 'area',
@@ -233,6 +241,16 @@
     function loadSessionDataSubsetFailed() {
       notificationService.remove();
       notificationService.displayWarning("No search results found");
+    }
+
+    function openIntervalDialog() {
+      $modal.open({
+        templateUrl: 'scripts/spa/session/intervalSummaryModal.html',
+        controller: 'intervalSummaryCtrl',
+        scope: $scope,
+        windowClass: 'interval-summary-modal'
+      }).result.then(function() {}, function () {
+      });
     }
 
     loadSessionSummary();

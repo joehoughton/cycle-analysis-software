@@ -250,6 +250,24 @@ i.fa.fa-pencil.pull-right {
         width: 95%;
     }
 }
+
+/* Interval Summary Modal */
+.interval-summary-modal .modal-dialog {
+    width: 80%;
+}
+@media (max-width: 766px) {
+    .interval-summary-modal .modal-dialog {
+        width: 95%;
+    }
+}
+@media (min-width: 766px) {
+    .interval-summary-modal .modal-dialog {
+        margin-left: 255px;
+        margin-right: 52px;
+        width: auto;
+    }
+}
+
 textarea {
     resize: vertical;
 }

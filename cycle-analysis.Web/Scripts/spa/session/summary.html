@@ -16,7 +16,7 @@
                     <h4 class="panel-title pull-left"><strong>Session Summary</strong> <i class="ng-binding"> {{session.TrainingStressScoreStatus}}</i></h4>
                     <div class="row">
                         <div class="col-xs-12 col-sm-8 col-md-3 pull-right">
-                            <select class="form-control" ng-model="selectedUnit" ng-options="unit.name for unit in units" ng-change="loadSessionDataSubset(selectedUnit)"></select>
+                            <select class="form-control" ng-model="selectedUnit" ng-options="unit.name for unit in units" ng-change="loadSessionDataSubset(selectedUnit); loadIntervalSummary(selectedUnit);"></select>
                         </div>
                     </div>
                 </div>
