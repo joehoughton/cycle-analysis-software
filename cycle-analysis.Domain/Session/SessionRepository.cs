@@ -340,7 +340,7 @@ namespace cycle_analysis.Domain.Session
             var maximumSpeed = session.SessionData.MaxBy(s => s.Speed).Speed;
             var maximumCadence = session.SessionData.MaxBy(s => s.Cadence).Cadence;
             var maximumAltitude = session.SessionData.MaxBy(s => s.Altitude).Altitude;
-            var maxiumList = new [] { maximumHeartRate, maximumPower, maximumSpeed, maximumCadence, maximumAltitude };
+            var maxiumList = new [] {maximumHeartRate, maximumPower, maximumSpeed, maximumCadence, maximumAltitude};
             var highestMaximumValue =  maxiumList.OrderByDescending(x => x).ToArray()[0];
 
             var yAxisScale = highestMaximumValue; // amount of y axis scales - maximum value recorded
@@ -348,14 +348,14 @@ namespace cycle_analysis.Domain.Session
             var interval = session.Interval; // amount of time record row represents
 
             var sessionData = _context.SessionData.Where(sd => sd.SessionId == sessionId).OrderBy(sd => sd.Row).ToList();
-            var heartRates = sessionData.Select(sd => new HeartRates(){ HeartRate = sd.HeartRate }).ToList(); 
-            var speeds = sessionData.Select(sd => new Speeds(){ Speed = sd.Speed }).ToList();
-            var altitudes = sessionData.Select(sd => new Altitudes(){ Altitude = sd.Altitude }).ToList();
-            var cadences = sessionData.Select(sd => new Cadences(){ Cadence = sd.Cadence }).ToList();
-            var power = sessionData.Select(sd => new Powers(){ Power = sd.Power }).ToList();
+            var heartRates = sessionData.Select(sd => new HeartRates(){HeartRate = sd.HeartRate}).ToList(); 
+            var speeds = sessionData.Select(sd => new Speeds(){Speed = sd.Speed}).ToList();
+            var altitudes = sessionData.Select(sd => new Altitudes(){Altitude = sd.Altitude}).ToList();
+            var cadences = sessionData.Select(sd => new Cadences(){Cadence = sd.Cadence}).ToList();
+            var power = sessionData.Select(sd => new Powers(){Power = sd.Power}).ToList();
 
             var sessionToDetectIntervals = GetSingle(sessionId);
-            var detectedIntervals = DetectIntervals(sessionToDetectIntervals); // ToDo: Update chart with unit
+            var detectedIntervals = DetectIntervals(sessionToDetectIntervals);
 
             var sessionDataGraphDto = new SessionDataGraphDto()
             {

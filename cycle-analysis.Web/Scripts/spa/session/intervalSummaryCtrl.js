@@ -9,11 +9,11 @@
     $scope.intervalSummary = {};
     $scope.loadingIntervalSummary = true;
     $scope.sessionId = $scope.$parent.sessionId;
-    console.log($scope.$parent);
     $scope.units = $scope.$parent.units;
     $scope.selectedUnit = $scope.$parent.selectedUnit;
     $scope.selectedIntervalStart = $scope.$parent.selectedIntervalStart;
     $scope.selectedIntervalFinish = $scope.$parent.selectedIntervalFinish;
+    $scope.selectedIntervalName = $scope.$parent.selectedIntervalName;
     $scope.loadIntervalSummary = loadIntervalSummary;
     $scope.cancel = cancel;
 

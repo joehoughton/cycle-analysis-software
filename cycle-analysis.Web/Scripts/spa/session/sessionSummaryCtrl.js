@@ -116,6 +116,7 @@
              click: function (e) {
                $scope.selectedIntervalStart = e.point.series.data[0].category;
                $scope.selectedIntervalFinish = e.point.series.data[2].category;
+               $scope.selectedIntervalName = e.point.series.name;
                openIntervalDialog();
              }
            },
