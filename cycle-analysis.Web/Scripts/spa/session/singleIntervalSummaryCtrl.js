@@ -1,11 +1,11 @@
 ﻿(function(app) {
   'use strict';
 
-  app.controller('intervalSummaryCtrl', intervalSummaryCtrl);
+  app.controller('singleIntervalSummaryCtrl', singleIntervalSummaryCtrl);
 
-  intervalSummaryCtrl.$inject = ['$scope', '$modalInstance', '$location', '$routeParams', 'apiService', 'notificationService'];
+  singleIntervalSummaryCtrl.$inject = ['$scope', '$modalInstance', '$location', '$routeParams', 'apiService', 'notificationService'];
 
-  function intervalSummaryCtrl($scope, $modalInstance, $location, $routeParams, apiService, notificationService) {
+  function singleIntervalSummaryCtrl($scope, $modalInstance, $location, $routeParams, apiService, notificationService) {
     $scope.intervalSummary = {};
     $scope.loadingIntervalSummary = true;
     $scope.sessionId = $scope.$parent.sessionId;
@@ -27,16 +27,15 @@
         $scope.sessionDataSubsetDto.Unit = $scope.selectedUnit.index;
       }
 
-      var intervalSummary = { 'SessionId': $scope.sessionId, 'Unit': $scope.selectedUnit.index }
+      var intervalSummary = {'SessionId': $scope.sessionId, 'MinimumSecond': $scope.selectedIntervalStart, 'MaximumSecond': $scope.selectedIntervalFinish, 'Unit': $scope.selectedUnit.index}
 
-      apiService.post('/api/sessions/intervalsummary', intervalSummary,
+      apiService.post('/api/sessions/singleintervalsummary', intervalSummary,
         loadIntervalSummaryCompleted,
         loadIntervalSummaryFailed);
     }
 
     function loadIntervalSummaryCompleted(result) {
-      $scope.workoutSummary = result.data[0];
-      $scope.restSummary = result.data[1];
+      $scope.intervalSummary = result.data;
       $scope.loadingIntervalSummary = false;
       checkNormalizedPowerForNullValue();
     }

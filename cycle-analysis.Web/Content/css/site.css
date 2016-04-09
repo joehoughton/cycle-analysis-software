@@ -319,6 +319,23 @@ select {
 .session-summary-chart {
     height: 500px !important;
 }
+
+.btn-interval-summary,
+.btn-interval-summary,
+.btn-interval-summary:active,
+.btn-interval-summary:visited,
+.btn-interval-summary:hover,
+.btn-interval-summary:focus {
+    background-color: #B7D388;
+    border-color: #B7D388;
+    color: black !important;
+}
+.btn-interval-summary:hover,
+.btn-interval-summary:focus {
+    background-color: #accc75 !important;
+    border-color: #accc75 !important;
+}
+
 /* Session Calendar */
 .fc-content {
     cursor: pointer;

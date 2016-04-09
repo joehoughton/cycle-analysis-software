@@ -22,6 +22,7 @@
     $scope.units = [{name: 'Metric Units', index: 0}, {name: 'Imperial Units', index: 1}];
     $scope.selectedUnit = $scope.units[0];
     $scope.openIntervalDialog = openIntervalDialog;
+    $scope.openIntervalSummaryDialog = openIntervalSummaryDialog;
     $scope.selectedIntervalStart = 0;
     $scope.selectedIntervalFinish = 0;
 
@@ -246,11 +247,21 @@
 
     function openIntervalDialog() {
       $modal.open({
+        templateUrl: 'scripts/spa/session/singleIntervalSummaryModal.html',
+        controller: 'singleIntervalSummaryCtrl',
+        scope: $scope,
+        windowClass: 'interval-summary-modal'
+      }).result.then(function() {}, function () {
+      });
+    }
+
+    function openIntervalSummaryDialog() {
+      $modal.open({
         templateUrl: 'scripts/spa/session/intervalSummaryModal.html',
         controller: 'intervalSummaryCtrl',
         scope: $scope,
         windowClass: 'interval-summary-modal'
-      }).result.then(function() {}, function () {
+      }).result.then(function () { }, function () {
       });
     }
 

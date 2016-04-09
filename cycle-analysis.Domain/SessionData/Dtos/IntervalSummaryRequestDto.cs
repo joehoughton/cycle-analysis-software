@@ -3,7 +3,6 @@
     public class IntervalSummaryRequestDto
     {
         public int SessionId { get; set; }
-        public decimal StartTime { get; set; }
-        public decimal FinishTime { get; set; }
+        public int Unit { get; set; }
     }
 }

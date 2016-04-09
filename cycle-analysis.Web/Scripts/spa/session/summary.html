@@ -54,11 +54,11 @@
                                 <div class="col-sm-4 col-md-4">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6">
-                                            Avg Heart Rate: <strong>{{session.AverageHeartRate}} bpm</strong>
+                                            Avg HR: <strong>{{session.AverageHeartRate}} bpm</strong>
                                             <br/>
-                                            Min Heart Rate: <strong>{{session.MinimumHeartRate}} bpm</strong>
+                                            Min HR: <strong>{{session.MinimumHeartRate}} bpm</strong>
                                             <br/>
-                                            Max Heart Rate: <strong>{{session.MaximumHeartRate}} bpm</strong>
+                                            Max HR: <strong>{{session.MaximumHeartRate}} bpm</strong>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             Avg Power: <strong>{{session.AveragePower}} watts</strong>
@@ -115,9 +115,14 @@
                             <label for="maximum-time">Maximum Time (seconds)</label>
                             <input type="number" class="form-control" ng-model="chartConfig.xAxis.currentMax" id="maximum-time" placeholder="Maximum Time">
                         </div>
+
+                        <div class="col-xs-12 col-sm-4 col-md-2">
+                            <br/><label for="maximum-time">Interval Summary </label>
+                            <button type="button" ng-click="openIntervalSummaryDialog();" class="btn btn-sm btn-interval-summary"> <i class="fa fa-bar-chart"></i></button>
+                        </div>
                     </div>
                 </form>
-                <p>Select an area on the graph...</p>
+                <p>Highlight an area on the graph or select an interval...</p>
                 <!-- Summary Chart -->
                 <highchart id="session-summary-chart" config="chartConfig"></highchart>
             </div>

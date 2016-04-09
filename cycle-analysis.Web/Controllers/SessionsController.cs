@@ -152,12 +152,26 @@ namespace cycle_analysis.Web.Controllers
         }
 
         [HttpPost]
-        [Route("intervalsummary")]
-        public HttpResponseMessage GetIntervalSummary(HttpRequestMessage request, SessionDataSubsetDto sessionDataSubsetDto)
+        [Route("singleintervalsummary")]
+        public HttpResponseMessage GetSingleIntervalSummary(HttpRequestMessage request, SessionDataSubsetDto sessionDataSubsetDto)
         {
             return CreateHttpResponse(request, () =>
             {
-                var intervalSummary = _sessionRepository.GetIntervalSummary(sessionDataSubsetDto);
+                var intervalSummary = _sessionRepository.GetSingleIntervalSummary(sessionDataSubsetDto);
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, intervalSummary);
+
+                return response;
+            });
+        }
+
+        [HttpPost]
+        [Route("intervalsummary")]
+        public HttpResponseMessage GetIntervalSummary(HttpRequestMessage request, IntervalSummaryRequestDto intervalSummaryRequestDto)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var intervalSummary = _sessionRepository.GetIntervalSummary(intervalSummaryRequestDto);
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, intervalSummary);
 

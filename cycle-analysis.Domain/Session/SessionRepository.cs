@@ -203,8 +203,7 @@ namespace cycle_analysis.Domain.Session
                     // calculate speed - divided speed by 10 as speed is *10 in file
                     var totalSpeed = sessionData.Sum(s => s.Speed);
                     averageSpeed = Math.Round((totalSpeed / 10) / totalCount, 2, MidpointRounding.AwayFromZero);
-                    maximumSpeed = Math.Round(
-                    sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
+                    maximumSpeed = Math.Round(sessionData.MaxBy(s => s.Speed).Speed / 10, 2, MidpointRounding.AwayFromZero);
 
                     // calculate distance
                     var totalTimeInHours = session.Length.TimeOfDay.TotalSeconds / 3600;
@@ -440,7 +439,7 @@ namespace cycle_analysis.Domain.Session
                     maximumAltitude = (filteredSessionData.MaxBy(s => s.Altitude).Altitude / 10).ConvertToMetres();
                 }
             }
-            else // return imperial valuesn
+            else // return imperial values
             {
                 if (sModeIsMetric)
                 {
@@ -667,11 +666,91 @@ namespace cycle_analysis.Domain.Session
             return detectedIntervals;
         }
 
-        public SessionSummaryDto GetIntervalSummary(SessionDataSubsetDto sessionDataSubsetDto)
+        public SessionSummaryDto GetSingleIntervalSummary(SessionDataSubsetDto sessionDataSubsetDto)
         {
-            var intervalSummary = GetSessionDataSubset(sessionDataSubsetDto);
+            var singleIntervalSummary = GetSessionDataSubset(sessionDataSubsetDto);
 
-            return intervalSummary;
+            return singleIntervalSummary;
+        }
+
+        public List<SessionSummaryDto> GetIntervalSummary(IntervalSummaryRequestDto intervalSummaryRequestDto)
+        {
+            var session = GetSingle(intervalSummaryRequestDto.SessionId);
+            var detectedIntervals = DetectIntervals(session);
+            var workoutIntervals = detectedIntervals.Where(x => !x.IsRest).ToList();
+            var restIntervals = detectedIntervals.Where(x => x.IsRest).ToList();
+
+            var workoutSummary = CalculateWorkoutSummary(session, workoutIntervals, intervalSummaryRequestDto.Unit);
+            var restSummary = CalculateWorkoutSummary(session, restIntervals, intervalSummaryRequestDto.Unit);
+
+            var intervalSummaries = new List<SessionSummaryDto> { workoutSummary, restSummary };
+            
+            return intervalSummaries;
+        }
+
+        public SessionSummaryDto CalculateWorkoutSummary(SessionDto session, List<DetectedInterval> detectedIntervals, int unit)
+        {
+            var sessionSummaryDtoList = new List<SessionSummaryDto>();
+
+            for (var w = 0; w < detectedIntervals.Count; w++)
+            {
+                var sessionDataSubsetDto = new SessionDataSubsetDto()
+                {
+                    MinimumSecond = (double)detectedIntervals[w].StartTime,
+                    MaximumSecond = (double)detectedIntervals[w].FinishTime,
+                    SessionId = session.Id,
+                    Unit = unit
+                };
+
+                var sessionSummaryDto = GetSessionDataSubset(sessionDataSubsetDto);
+                sessionSummaryDtoList.Add(sessionSummaryDto);
+            }
+
+            var totalCount = sessionSummaryDtoList.Count();
+
+            // calculate speed
+            var averageSpeed = Math.Round(sessionSummaryDtoList.Sum(x => x.AverageSpeed) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumSpeed = sessionSummaryDtoList.MaxBy(s => s.MaximumSpeed).MaximumSpeed;
+
+            // calculate distance
+            var totalDistance = Math.Round(sessionSummaryDtoList.Sum(x => x.TotalDistance), 2, MidpointRounding.AwayFromZero);
+
+            // calculate altitiude
+            var averageAltitude = Math.Round(sessionSummaryDtoList.Sum(x => x.AverageAltitude) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumAltitude = sessionSummaryDtoList.MaxBy(s => s.MaximumAltitude).MaximumAltitude;
+
+            // calculate heart rate
+            var averageHeartRate =  Math.Round(sessionSummaryDtoList.Sum(x => x.AverageHeartRate / totalCount), 2, MidpointRounding.AwayFromZero);
+            var minimumHeartRate = sessionSummaryDtoList.MinBy(s => s.MinimumHeartRate).MinimumHeartRate;
+            var maximumHeartRate = sessionSummaryDtoList.MinBy(s => s.MaximumHeartRate).MaximumHeartRate;
+
+            // calculate power
+            var averagePower =  Math.Round(sessionSummaryDtoList.Sum(x => x.AveragePower) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumPower = sessionSummaryDtoList.MaxBy(s => s.MaximumPower).MaximumPower;
+
+            // calculate cadence
+            var averageCadence =  Math.Round(sessionSummaryDtoList.Sum(x => x.AverageCadence) / totalCount, 2, MidpointRounding.AwayFromZero);
+            var maximumCadence = sessionSummaryDtoList.MaxBy(s => s.MaximumCadence).MaximumCadence;
+
+            var workoutSummary = new SessionSummaryDto()
+            {
+                AverageAltitude = averageAltitude,
+                MaximumAltitude = maximumAltitude,
+                AverageHeartRate = averageHeartRate,
+                MinimumHeartRate = minimumHeartRate,
+                MaximumHeartRate = maximumHeartRate,
+                AveragePower = averagePower,
+                MaximumPower = maximumPower,
+                AverageCadence = averageCadence,
+                MaximumCadence = maximumCadence,
+                AverageSpeed = averageSpeed,
+                MaximumSpeed = maximumSpeed,
+                TotalDistance = totalDistance,
+                Date = session.Date,
+                SessionId = session.Id
+            };
+
+            return workoutSummary;
         }
     }
 }

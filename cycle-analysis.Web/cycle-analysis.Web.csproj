@@ -188,8 +188,10 @@
     <Content Include="Scripts\spa\services\notificationService.js" />
     <Content Include="Scripts\spa\services\apiService.js" />
     <Content Include="Content\css\jquery.fancybox.css" />
-    <Content Include="Scripts\spa\session\intervalSummaryModal.html" />
     <Content Include="Scripts\spa\session\intervalSummaryCtrl.js" />
+    <Content Include="Scripts\spa\session\intervalSummaryModal.html" />
+    <Content Include="Scripts\spa\session\singleIntervalSummaryModal.html" />
+    <Content Include="Scripts\spa\session\singleIntervalSummaryCtrl.js" />
     <Content Include="Scripts\spa\session\sessionSummaryCtrl.js" />
     <Content Include="Scripts\spa\session\summary.html" />
     <Content Include="Scripts\spa\session\sessionDetailCtrl.js" />

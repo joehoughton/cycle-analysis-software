@@ -2,7 +2,7 @@
     <div class="col-xs-12">
         <div class="panel-primary">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title pull-left"><strong>{{selectedIntervalName}}</strong> <i class="ng-binding"> {{intervalSummary.TrainingStressScoreStatus}}</i></h4>
+                <h4 class="panel-title pull-left"><strong>Interval Summary</strong> <i class="ng-binding"> {{intervalSummary.TrainingStressScoreStatus}}</i></h4>
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-md-3 pull-right">
                         <select class="form-control" ng-model="selectedUnit" ng-options="unit.name for unit in units" ng-change="loadSessionDataSubset(selectedUnit); loadIntervalSummary(selectedUnit);"></select>
@@ -24,51 +24,100 @@
                             </div>
                         </div>
                         <div class="row" ng-if="!loadingIntervalSummary">
+                            <div class="col-sm-12 col-md-6">
+                                <h4 class="media-heading">Workout Summary</h4>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!loadingIntervalSummary">
                             <div class="col-sm-4 col-md-4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
-                                        Intensity Factor: <strong>{{intervalSummary.IntensityFactor}}</strong>
-                                        <br />
-                                        Training Stress Score: <strong>{{intervalSummary.TrainingStressScore}}</strong>
+                                        Total Distance: <strong>{{workoutSummary.TotalDistance}} <span ng-show="selectedUnit.index == 0">km</span><span ng-show="selectedUnit.index == 1">mi</span></strong>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        Total Distance: <strong>{{intervalSummary.TotalDistance}} <span ng-show="selectedUnit.index == 0">km</span><span ng-show="selectedUnit.index == 1">mi</span></strong>
-                                        <br />
-                                        Avg Speed: <strong>{{intervalSummary.AverageSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
-                                        <br />
-                                        Max Speed: <strong>{{intervalSummary.MaximumSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
+                                        Avg Speed: <strong>{{workoutSummary.AverageSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
+                                        <br/>
+                                        Max Speed: <strong>{{workoutSummary.MaximumSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
-                                        Avg Heart Rate: <strong>{{intervalSummary.AverageHeartRate}} bpm</strong>
-                                        <br />
-                                        Min Heart Rate: <strong>{{intervalSummary.MinimumHeartRate}} bpm</strong>
-                                        <br />
-                                        Max Heart Rate: <strong>{{intervalSummary.MaximumHeartRate}} bpm</strong>
+                                        Avg HR: <strong>{{workoutSummary.AverageHeartRate}} bpm</strong>
+                                        <br/>
+                                        Min HR: <strong>{{workoutSummary.MinimumHeartRate}} bpm</strong>
+                                        <br/>
+                                        Max HR: <strong>{{workoutSummary.MaximumHeartRate}} bpm</strong>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        Avg Power: <strong>{{intervalSummary.AveragePower}} watts</strong>
-                                        <br />
-                                        Max Power: <strong>{{intervalSummary.MaximumPower}} watts</strong>
-                                        <br />
-                                        Normalized: <strong>{{intervalSummary.NormalizedPower}} watts</strong>
+                                        Avg Power: <strong>{{workoutSummary.AveragePower}} watts</strong>
+                                        <br/>
+                                        Max Power: <strong>{{workoutSummary.MaximumPower}} watts</strong>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
-                                        Avg Altitude: <strong>{{intervalSummary.AverageAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
-                                        <br />
-                                        Max Altitude: <strong>{{intervalSummary.MaximumAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                        Avg Altitude: <strong>{{workoutSummary.AverageAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                        <br/>
+                                        Max Altitude: <strong>{{workoutSummary.MaximumAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        Avg Cadence: <strong>{{intervalSummary.AverageCadence}} rpm</strong>
+                                        Avg Cadence: <strong>{{workoutSummary.AverageCadence}} rpm</strong>
+                                        <br/>
+                                        Max Cadence: <strong>{{workoutSummary.MaximumCadence}} rpm</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="!loadingIntervalSummary">
+                            <div class="col-sm-12 col-md-6">
+                                <h4 class="media-heading">Rest Summary</h4>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!loadingIntervalSummary">
+                            <div class="col-sm-4 col-md-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        Total Distance: <strong>{{restSummary.TotalDistance}} <span ng-show="selectedUnit.index == 0">km</span><span ng-show="selectedUnit.index == 1">mi</span></strong>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        Avg Speed: <strong>{{restSummary.AverageSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
                                         <br />
-                                        Max Cadence: <strong>{{intervalSummary.MaximumCadence}} rpm</strong>
+                                        Max Speed: <strong>{{restSummary.MaximumSpeed}} <span ng-show="selectedUnit.index == 0">km/h</span><span ng-show="selectedUnit.index == 1">mph</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        Avg HR: <strong>{{restSummary.AverageHeartRate}} bpm</strong>
+                                        <br />
+                                        Min HR: <strong>{{restSummary.MinimumHeartRate}} bpm</strong>
+                                        <br />
+                                        Max HR: <strong>{{restSummary.MaximumHeartRate}} bpm</strong>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        Avg Power: <strong>{{restSummary.AveragePower}} watts</strong>
+                                        <br />
+                                        Max Power: <strong>{{restSummary.MaximumPower}} watts</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        Avg Altitude: <strong>{{restSummary.AverageAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                        <br />
+                                        Max Altitude: <strong>{{restSummary.MaximumAltitude}} <span ng-show="selectedUnit.index == 0">m</span><span ng-show="selectedUnit.index == 1">ft</span></strong>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        Avg Cadence: <strong>{{restSummary.AverageCadence}} rpm</strong>
+                                        <br />
+                                        Max Cadence: <strong>{{restSummary.MaximumCadence}} rpm</strong>
                                     </div>
                                 </div>
                             </div>
