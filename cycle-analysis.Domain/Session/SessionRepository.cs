@@ -646,7 +646,7 @@ namespace cycle_analysis.Domain.Session
                     if (intervalDetected)
                     {
                         x = detectedIntervalEnd.Row * interval; // start detecting new interval at the end of the detected interval
-                        potentialIntervalStart = sessionData[detectedIntervalEnd.Row * interval];
+                        potentialIntervalStart = sessionData[detectedIntervalEnd.Row];
                         break;
                     }
                 }
