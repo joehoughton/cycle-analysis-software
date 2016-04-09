@@ -17,7 +17,7 @@
                         success(result);
                     }, function (error) {
                         if (error.status == '401') {
-                            notificationService.displayError('Authentication required.');
+                            notificationService.displayError('Authentication required');
                             $rootScope.previousState = $location.path();
                             $location.path('/login');
                         }
@@ -33,7 +33,7 @@
                         success(result);
                     }, function (error) {
                         if (error.status == '401') {
-                            notificationService.displayError('Authentication required.');
+                            notificationService.displayError('Authentication required');
                             $rootScope.previousState = $location.path();
                             $location.path('/login');
                         }

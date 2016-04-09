@@ -43,7 +43,6 @@ body {
 .panel-body {
     color: black;
 }
-
 .panel-title {
     padding-top: 7.5px;
     padding-right: 10px;
@@ -98,6 +97,16 @@ ul.pagination > li {
 }
 .fa-refresh:before {
     color: black;
+}
+
+/* Home */
+.about h4{
+    color: #8a6d3b;
+    padding-top: 5px;
+}
+.about a, a:hover{
+    color: #000000 !important;
+    text-decoration: underline;
 }
 
 /* Bootstrap */
@@ -160,7 +169,7 @@ ul.pagination > li {
     background-color: white;
 }
 
-/*Validation Errors*/
+/* Validation Errors */
 .has-error .control-label {
     color: #FFB658 !important;
 }
@@ -227,7 +236,7 @@ ul.pagination > li {
     color: red;
 }
 
-/* Edit Pencil button*/
+/* Edit Pencil button */
 i.fa.fa-pencil-square-o.pull-right {
     padding-top: 3px;
 }
@@ -271,6 +280,7 @@ i.fa.fa-pencil.pull-right {
 textarea {
     resize: vertical;
 }
+
 /* Athlete Detail */
 input#inputSearchSessions {
     margin-left: 10px;

@@ -175,6 +175,7 @@
     <Content Include="Scripts\spa\athletes\athletesCtrl.js" />
     <Content Include="Scripts\spa\athletes\details.html" />
     <Content Include="Scripts\spa\athletes\edit.html" />
+    <Content Include="Scripts\spa\home\metrics.html" />
     <Content Include="Scripts\spa\session\addSessionCtrl.js" />
     <Content Include="Scripts\spa\session\addSessionModal.html" />
     <Content Include="Scripts\spa\modules\common.ui.js" />

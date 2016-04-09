@@ -12,6 +12,9 @@
           templateUrl: "scripts/spa/home/index.html",
           controller: "indexCtrl"
         })
+        .when("/metrics", {
+          templateUrl: "scripts/spa/home/metrics.html"
+        })
         .when("/login", {
           templateUrl: "scripts/spa/account/login.html",
           controller: "loginCtrl"

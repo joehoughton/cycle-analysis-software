@@ -1,7 +1,7 @@
 ﻿<div class="editWrapper">
     <hr>
-    <div class="row" ng-if="!loadingAudit">
-        <div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12" ng-if="!loadingSummary">
             <div class="alert alert-warning alert-dismissable">
                 <a class="panel-close close" data-dismiss="alert">×</a>
                 <i class="fa fa-bar-chart"></i>
@@ -65,7 +65,7 @@
                                             <br/>
                                             Max Power: <strong>{{session.MaximumPower}} watts</strong>
                                             <br />
-                                            Normalized: <strong>{{session.NormalizedPower}} watts</strong>
+                                            NP: <strong>{{session.NormalizedPower}} watts</strong>
                                         </div>
                                     </div>
                                 </div>
